@@ -1,0 +1,6 @@
+Feature Ideas
+=============
+
+-Custom messages
+-Toolbar save when quit/join
+-Cross-Server support
