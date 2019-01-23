@@ -3,6 +3,7 @@ package com.polypenguin.crayon.core;
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.command.CrayonCommand;
 import com.polypenguin.crayon.engine.CrayonPlayer;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

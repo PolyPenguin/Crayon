@@ -1,7 +1,10 @@
 package com.polypenguin.crayon.core.service;
 
+import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.engine.CrayonPlayer;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -34,6 +37,24 @@ public class PlayerService {
         for (Player player : Bukkit.getOnlinePlayers()) {
             players.put(player.getUniqueId(), new CrayonPlayer(player));
         }
+    }
+
+    public void addPlayer(Player player) {
+        if (getPlayer(player) != null) {
+            //TODO: Make this notification-possible
+
+            player.kickPlayer(Crayon.getPrefix() + ChatColor.RED + "Oops! Please join again.");
+        }
+
+        players.put(player.getUniqueId(), new CrayonPlayer(player));
+    }
+
+    public void removePlayer(Player player) {
+        if (getPlayer(player) == null) {
+            throw new IllegalStateException("[Crayon] Console Notification: Illegal State of " + player.getName() + ", no Crayon ID found!");
+        }
+
+        players.remove(player.getUniqueId());
     }
 
     /**

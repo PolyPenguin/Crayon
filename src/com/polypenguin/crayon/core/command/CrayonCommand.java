@@ -1,6 +1,7 @@
 package com.polypenguin.crayon.core.command;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
+
 import org.bukkit.permissions.Permission;
 
 /**
