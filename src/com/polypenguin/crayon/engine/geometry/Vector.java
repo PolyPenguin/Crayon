@@ -1,6 +1,7 @@
 package com.polypenguin.crayon.engine.geometry;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 /**
  * @author Matthias Kovacic
@@ -8,7 +9,7 @@ import org.bukkit.Location;
  * 3D-Vector on which actions can be executed
  * directly and indirectly.
  */
-public class Vector implements Comparable, Cloneable {
+public class Vector {
 
     public static final Vector ZERO = new Vector();
     public static final Vector UNIT_X = new Vector(1, 0, 0);
@@ -49,6 +50,12 @@ public class Vector implements Comparable, Cloneable {
         this.z = unit;
     }
 
+    public Vector(Vector vector) {
+        this.x = vector.x;
+        this.y = vector.y;
+        this.z = vector.z;
+    }
+
     public Vector(Location location, boolean round) {
         if (round) {
             this.x = location.getBlockX();
@@ -63,242 +70,393 @@ public class Vector implements Comparable, Cloneable {
     }
 
     /**
-     * @return The X value of the Vector.
+     * @return The X value of the vector.
      */
     public double getX() {
         return x;
     }
 
     /**
-     * @return The Y value of the Vector.
+     * @return The rounded X value of the vector.
+     */
+    public int getBlockX() {
+        return (int) Math.round(this.x);
+    }
+
+    /**
+     * @return The Y value of the vector.
      */
     public double getY() {
         return y;
     }
 
     /**
-     * @return The Z value of the Vector.
+     * @return The rounded Y value of the vector.
+     */
+    public int getBlockY() {
+        return (int) Math.round(this.y);
+    }
+
+    /**
+     * @return The Z value of the vector.
      */
     public double getZ() {
         return z;
     }
 
     /**
-     * @param x Set the X value of the Vector.
+     * @return The rounded Z value of the vector.
+     */
+    public int getBlockZ() {
+        return (int) Math.round(this.z);
+    }
+
+    /**
+     * @param x Set the X value of the vector.
      */
     public void setX(double x) {
         this.x = x;
     }
 
     /**
-     * @param y Set the Y value of the Vector.
+     * @param y Set the Y value of the vector.
      */
     public void setY(double y) {
         this.y = y;
     }
 
     /**
-     * @param z Set the Z value of the Vector.
+     * @param z Set the Z value of the vector.
      */
     public void setZ(double z) {
         this.z = z;
     }
 
     /**
-     * @// FIXME: 23/01/2019 Finish this class!
-     */
-    
-    /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Add the given X, Y and Z values.
      *
-     * @param x The X value that should be added to the vectors X value.
-     * @param y The Y value that should be added to the vectors Y value.
-     * @param z The Z value that should be added to the vectors Z value.
+     * @param x The X value to be added to the current X value.
+     * @param y The Y value to be added to the current Y value.
+     * @param z The Z value to be added to the current Z value.
+     * @return Vector with added X, Y and Z values.
      */
-    public void add(int x, int y, int z) {
-       
+    public Vector add(double x, double y, double z) {
+        return new Vector(
+                this.x += x,
+                this.y += y,
+                this.z += z
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Add the given unit value.
      *
-     * @param x The X value that should be added to the vectors X value.
-     * @param y The Y value that should be added to the vectors Y value.
-     * @param z The Z value that should be added to the vectors Z value.
+     * @param unit The value to be added to current X, Y and Z values.
+     * @return Vector with added unit values.
      */
-    public void add(double x, double y, double z) {
-       
+    public Vector add(double unit) {
+        return new Vector(
+                this.x += unit,
+                this.y += unit,
+                this.z += unit
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Add the X, Y and Z values of the given vectors.
      *
-     * @param x The X value that should be added to the vectors X value.
-     * @param y The Y value that should be added to the vectors Y value.
-     * @param z The Z value that should be added to the vectors Z value.
+     * @param vectors The vectors which X, Y and Z values have to be added to current X, Y and Z values.
+     * @return Vector with all added X, Y and Z values.
      */
-    public void add(float x, float y, float z) {
-       
+    public Vector add(Vector... vectors) {
+        for (Vector v : vectors) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+        }
+
+        return new Vector(x, y, z);
     }
 
     /**
-     * Add X, Y and Z values from all the given vectors
-     * to the X, Y and Z values of the vector respectively.
+     * Subtract the given X, Y and Z values.
      *
-     * @param vectors The vectors that have to be added.
+     * @param x The X value to be subtracted from the current X value.
+     * @param y The Y value to be subtracted from the current Y value.
+     * @param z The Z value to be subtracted from the current Z value.
+     * @return Vector with subtracted X, Y and Z values.
      */
-    public void add(Vector... vectors) {
-        
+    public Vector subtract(double x, double y, double z) {
+        return new Vector(
+                this.x += x,
+                this.y += y,
+                this.z += z
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Subtract the given unit value.
      *
-     * @param x The X value that should be subtracted to the vectors X value.
-     * @param y The Y value that should be subtracted to the vectors Y value.
-     * @param z The Z value that should be subtracted to the vectors Z value.
+     * @param unit The value to be subtracted from current X, Y and Z values.
+     * @return Vector with subtracted unit values.
      */
-    public void subtract(int x, int y, int z) {
-        
+    public Vector subtract(double unit) {
+        return new Vector(
+                this.x += unit,
+                this.y += unit,
+                this.z += unit
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Subtract the X, Y and Z values of the given vectors.
      *
-     * @param x The X value that should be subtracted to the vectors X value.
-     * @param y The Y value that should be subtracted to the vectors Y value.
-     * @param z The Z value that should be subtracted to the vectors Z value.
+     * @param vectors The vectors which X, Y and Z values have to be subtracted from current X, Y and Z values.
+     * @return Vector with all subtracted X, Y and Z values.
      */
-    public void subtract(double x, double y, double z) {
-        
+    public Vector subtract(Vector... vectors) {
+        for (Vector v : vectors) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+        }
+
+        return new Vector(x, y, z);
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Multiply the given X, Y and Z values.
      *
-     * @param x The X value that should be subtracted to the vectors X value.
-     * @param y The Y value that should be subtracted to the vectors Y value.
-     * @param z The Z value that should be subtracted to the vectors Z value.
+     * @param x The X value to be multiplied by the current X value.
+     * @param y The Y value to be multiplied by the current Y value.
+     * @param z The Z value to be multiplied by the current Z value.
+     * @return Vector with multiplied X, Y and Z values.
      */
-    public void subtract(float x, float y, float z) {
-        
+    public Vector multiply(double x, double y, double z) {
+        return new Vector(
+                this.x += x,
+                this.y += y,
+                this.z += z
+        );
     }
 
     /**
-     * Add X, Y and Z values from all the given vectors
-     * to the X, Y and Z values of the vector respectively.
+     * Multiply the given unit value.
      *
-     * @param vectors The vectors that have to be subtracted.
+     * @param unit The value to be multiplied by current X, Y and Z values.
+     * @return Vector with multiplied unit values.
      */
-    public void subtract(Vector... vectors) {
-       
+    public Vector multiply(double unit) {
+        return new Vector(
+                this.x += unit,
+                this.y += unit,
+                this.z += unit
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Multiply the X, Y and Z values of the given vectors.
      *
-     * @param x The X value that should be multiplied to the vectors X value.
-     * @param y The Y value that should be multiplied to the vectors Y value.
-     * @param z The Z value that should be multiplied to the vectors Z value.
+     * @param vectors The vectors which X, Y and Z values have to be multiplied by current X, Y and Z values.
+     * @return Vector with all multiplied X, Y and Z values.
      */
-    public void multiply(int x, int y, int z) {
-        
+    public Vector multiply(Vector... vectors) {
+        for (Vector v : vectors) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+        }
+
+        return new Vector(x, y, z);
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Divide the given X, Y and Z values.
      *
-     * @param x The X value that should be multiplied to the vectors X value.
-     * @param y The Y value that should be multiplied to the vectors Y value.
-     * @param z The Z value that should be multiplied to the vectors Z value.
+     * @param x The X value to be divided by the current X value.
+     * @param y The Y value to be divided by the current Y value.
+     * @param z The Z value to be divided by the current Z value.
+     * @return Vector with divided X, Y and Z values.
      */
-    public void multiply(double x, double y, double z) {
-       
+    public Vector divide(double x, double y, double z) {
+        return new Vector(
+                this.x += x,
+                this.y += y,
+                this.z += z
+        );
     }
 
     /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
+     * Divide the given unit value.
      *
-     * @param x The X value that should be multiplied to the vectors X value.
-     * @param y The Y value that should be multiplied to the vectors Y value.
-     * @param z The Z value that should be multiplied to the vectors Z value.
+     * @param unit The value to be divided by current X, Y and Z values.
+     * @return Vector with divided unit values.
      */
-    public void multiply(float x, float y, float z) {
-        
+    public Vector divide(double unit) {
+        return new Vector(
+                this.x += unit,
+                this.y += unit,
+                this.z += unit
+        );
     }
 
     /**
-     * Add X, Y and Z values from all the given vectors
-     * to the X, Y and Z values of the vector respectively.
+     * Divide the X, Y and Z values of the given vectors.
      *
-     * @param vectors The vectors that have to be multiplied.
-     */
-    public void multiply(Vector... vectors) {
-        
-    }
-
-    /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
-     *
-     * @param x The X value that should be divided to the vectors X value.
-     * @param y The Y value that should be divided to the vectors Y value.
-     * @param z The Z value that should be divided to the vectors Z value.
-     */
-    public void divide(int x, int y, int z) {
-        
-    }
-
-    /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
-     *
-     * @param x The X value that should be divided to the vectors X value.
-     * @param y The Y value that should be divided to the vectors Y value.
-     * @param z The Z value that should be divided to the vectors Z value.
-     */
-    public void divide(double x, double y, double z) {
-       
-    }
-
-    /**
-     * Add X, Y and Z values to the X, Y and Z values of
-     * the vector respectively.
-     *
-     * @param x The X value that should be divided to the vectors X value.
-     * @param y The Y value that should be divided to the vectors Y value.
-     * @param z The Z value that should be divided to the vectors Z value.
-     */
-    public void divide(float x, float y, float z) {
-        
-    }
-
-    /**
-     * Add X, Y and Z values from all the given vectors
-     * to the X, Y and Z values of the vector respectively.
-     *
-     * @param vectors The vectors that have to be divided.
+     * @param vectors The vectors which X, Y and Z values have to be divided by current X, Y and Z values.
+     * @return Vector with all divided X, Y and Z values.
      */
     public Vector divide(Vector... vectors) {
-        
+        for (Vector v : vectors) {
+            this.x += v.x;
+            this.y += v.y;
+            this.z += v.z;
+        }
+
+        return new Vector(x, y, z);
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
+    public double length() {
+        return Math.sqrt(x * x + y * y + z * z);
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public double lengthSq() {
+        return x * x + y * y + z * z;
     }
+
+    public double distance(Vector other) {
+        return Math.sqrt(Math.pow(other.x - this.x, 2.0D) +
+                Math.pow(other.y - this.y, 2.0D) +
+                Math.pow(other.z - this.z, 2.0D));
+    }
+
+    public double distanceSq(Vector other) {
+        return Math.pow(other.x - this.x, 2.0D) + Math.pow(other.y - this.y, 2.0D) + Math.pow(other.z - this.z, 2.0D);
+    }
+
+    public Vector normalize() {
+        return new Vector(divide(length()));
+    }
+
+    public double dot(Vector other) {
+        return this.x * other.x + this.y * other.y + this.z * other.z;
+    }
+
+    public Vector cross(Vector other) {
+        return new Vector(y * other.z - z * other.y, z * x - x * other.z, x * other.y - y * other.x);
+    }
+
+    public boolean containedWithin(Vector min, Vector max) {
+        return (x >= min.x) && (x <= max.x) && (y >= min.y) && (y <= max.y) && (z >= min.z) && (z <= max.z);
+    }
+
+    public boolean containedWithinBlock(Vector min, Vector max) {
+        return (getBlockX() >= min.getBlockX()) && (getBlockX() <= max.getBlockX()) &&
+                (getBlockY() >= min.getBlockY()) && (getBlockY() <= max.getBlockY()) &&
+                (getBlockZ() >= min.getBlockZ()) && (getBlockZ() <= max.getBlockZ());
+    }
+
+    /**
+     * Clamp the Y component.
+     *
+     * @param min the minimum value
+     * @param max the maximum value
+     * @return a new vector with the clamped Y value.
+     */
+    public Vector clampY(int min, int max) {
+        return new Vector(x, Math.max(min, Math.min(max, y)), z);
+    }
+
+    /**
+     * Floors the values of all components.
+     *
+     * @return a new vector with floored X, Y and Z values.
+     */
+    public Vector floor() {
+        return new Vector(Math.floor(x), Math.floor(y), Math.floor(z));
+    }
+
+    /**
+     * Rounds all components up.
+     *
+     * @return a new vector with ceiled X, Y and Z values.
+     */
+    public Vector ceil() {
+        return new Vector(Math.ceil(x), Math.ceil(y), Math.ceil(z));
+    }
+
+    /**
+     * Rounds all components to the closest integer.
+     * Components < 0.5 are rounded down, otherwise up.
+     *
+     * @return a new vector with rounded X, Y and Z values.
+     */
+    public Vector round() {
+        return new Vector(Math.floor(x + 0.5D), Math.floor(y + 0.5D), Math.floor(z + 0.5D));
+    }
+
+    /**
+     * Returns a vector with the absolute values of the components of
+     * this vector.
+     *
+     * @return a new vector with absolute X, Y and Z values.
+     */
+    public Vector positive() {
+        return new Vector(Math.abs(this.x), Math.abs(this.y), Math.abs(this.z));
+    }
+
+    /**
+     * Perform a 2D transformation on this vector and return a new one.
+     *
+     * @param angle Angle in degrees.
+     * @param aboutX About which x coordinate to rotate.
+     * @param aboutZ About which z coordinate to rotate.
+     * @param translateX What to add after rotation.
+     * @param translateZ What to add after rotation.
+     * @return a new vector that has been transformed.
+     */
+    public Vector transform2D(double angle, double aboutX, double aboutZ, double translateX, double translateZ)
+    {
+        angle = Math.toRadians(angle);
+        double x = this.x - aboutX;
+        double z = this.z - aboutZ;
+        double x2 = x * Math.cos(angle) - z * Math.sin(angle);
+        double z2 = x * Math.sin(angle) + z * Math.cos(angle);
+
+        return new Vector(x2 + aboutX + translateX, this.y, z2 + aboutZ + translateZ);
+    }
+
+    /**
+     * Get this vector's pitch as used within the game.
+     *
+     * @return Pitch in radians.
+     */
+    public float toPitch() {
+        if ((x == 0.0D) && (z == 0.0D)) {
+            return getY() > 0.0D ? -90.0F : 90.0F;
+        }
+
+        double x2 = x * x;
+        double z2 = z * z;
+        double xz = Math.sqrt(x2 + z2);
+
+        return (float) Math.toDegrees(Math.atan(-getY() / xz));
+    }
+
+    /**
+     * Get this vector's yaw as used within the game.
+     *
+     * @return Yaw in radians.
+     */
+    public float toYaw() {
+        double theta = Math.atan2(-x, z);
+        double _2pi = 6.283185307179586D;
+
+        return (float)Math.toDegrees((theta + _2pi) % _2pi);
+    }
+
+    public Location toLocation(World world) {
+        return new Location(world, x, y, z);
+    }
+
 }
