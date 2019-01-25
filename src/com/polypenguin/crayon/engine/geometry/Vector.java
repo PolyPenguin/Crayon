@@ -133,6 +133,27 @@ public class Vector {
     }
 
     /**
+     * @param x Set the X value of the vector.
+     */
+    public Vector setVectorX(double x) {
+        return new Vector((this.x += x), y, z);
+    }
+
+    /**
+     * @param y Set the Y value of the vector.
+     */
+    public Vector setVectorY(double y) {
+        return new Vector(x, (this.y += y), z);
+    }
+
+    /**
+     * @param z Set the Z value of the vector.
+     */
+    public Vector setVectorZ(double z) {
+        return new Vector(x, y, (this.z += z));
+    }
+
+    /**
      * Add the given X, Y and Z values.
      *
      * @param x The X value to be added to the current X value.
@@ -316,40 +337,94 @@ public class Vector {
         return new Vector(x, y, z);
     }
 
+    /**
+     * Get the length of the vector.
+     *
+     * @return The length of the vector.
+     */
     public double length() {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
+    /**
+     * Get the length, squared, of the vector.
+     *
+     * @return The length, squared of the vector.
+     */
     public double lengthSq() {
         return x * x + y * y + z * z;
     }
 
+    /**
+     * Get the distance between this vector and another vector.
+     *
+     * @param other The other vector.
+     * @return The distance between the vectors.
+     */
     public double distance(Vector other) {
         return Math.sqrt(Math.pow(other.x - this.x, 2.0D) +
                 Math.pow(other.y - this.y, 2.0D) +
                 Math.pow(other.z - this.z, 2.0D));
     }
 
+    /**
+     * Get the distance, squared, between this vector and another vector.
+     *
+     * @param other The other vector.
+     * @return The distance, squared, between the vectors.
+     */
     public double distanceSq(Vector other) {
         return Math.pow(other.x - this.x, 2.0D) + Math.pow(other.y - this.y, 2.0D) + Math.pow(other.z - this.z, 2.0D);
     }
 
+    /**
+     * Get the normalized vector, which is the vector divided by its
+     * length, as a new vector.
+     *
+     * @return The normalized vector.
+     */
     public Vector normalize() {
         return new Vector(divide(length()));
     }
 
+    /**
+     * Gets the dot product of this vector and another vector.
+     *
+     * @param other The other vector.
+     * @return The dot product of the vectors.
+     */
     public double dot(Vector other) {
         return this.x * other.x + this.y * other.y + this.z * other.z;
     }
 
+    /**
+     * Gets the cross product of this vector and another vector.
+     *
+     * @param other The other vector.
+     * @return The cross product of this vector and the other vector
+     */
     public Vector cross(Vector other) {
         return new Vector(y * other.z - z * other.y, z * x - x * other.z, x * other.y - y * other.x);
     }
 
+    /**
+     * Checks to see if a vector is contained with another.
+     *
+     * @param min The minimum point (X, Y, and Z are the lowest).
+     * @param max The maximum point (X, Y, and Z are the lowest).
+     * @return True if the vector is contained within.
+     */
     public boolean containedWithin(Vector min, Vector max) {
         return (x >= min.x) && (x <= max.x) && (y >= min.y) && (y <= max.y) && (z >= min.z) && (z <= max.z);
     }
 
+    /**
+     * Checks to see if a vector is contained with another.
+     *
+     * @param min The minimum point (X, Y, and Z are the lowest).
+     * @param max The maximum point (X, Y, and Z are the lowest).
+     * @return True if the vector is contained within.
+     */
     public boolean containedWithinBlock(Vector min, Vector max) {
         return (getBlockX() >= min.getBlockX()) && (getBlockX() <= max.getBlockX()) &&
                 (getBlockY() >= min.getBlockY()) && (getBlockY() <= max.getBlockY()) &&
