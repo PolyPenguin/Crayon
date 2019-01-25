@@ -14,6 +14,8 @@ public class CrayonPlayer {
     private Player player;
     private UUID playerID;
 
+    private ActionService actionService;
+
     /**
      * Constructor that retrieves basic info to be used by Crayon.
      *
@@ -22,6 +24,8 @@ public class CrayonPlayer {
     public CrayonPlayer(Player player) {
         this.player = player;
         this.playerID = player.getUniqueId();
+
+        this.actionService = new ActionService();
     }
 
     /**
@@ -40,5 +44,14 @@ public class CrayonPlayer {
      */
     public UUID getPlayerID() {
         return playerID;
+    }
+
+    /**
+     * Return the player's history service.
+     *
+     * @return The player's Action Service.
+     */
+    public ActionService getActionService() {
+        return actionService;
     }
 }
