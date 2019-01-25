@@ -1,6 +1,7 @@
 package com.polypenguin.crayon.core.service;
 
 import com.polypenguin.crayon.Crayon;
+import com.polypenguin.crayon.core.BaseListener;
 import com.polypenguin.crayon.core.UtilityListener;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ public class ListenerService {
      * for Crayon to work.
      */
     public ListenerService() {
+        Bukkit.getServer().getPluginManager().registerEvents(new BaseListener(), Crayon.getCrayon());
         Bukkit.getServer().getPluginManager().registerEvents(new UtilityListener(), Crayon.getCrayon());
     }
 

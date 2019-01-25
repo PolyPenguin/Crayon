@@ -2,6 +2,7 @@ package com.polypenguin.crayon.core;
 
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.command.CrayonCommand;
+import com.polypenguin.crayon.core.command.MenuCommand;
 import com.polypenguin.crayon.engine.CrayonPlayer;
 
 import org.bukkit.ChatColor;
@@ -24,6 +25,8 @@ public class CommandService implements CommandExecutor {
 
     public CommandService() {
         commands = new ArrayList<>();
+
+        commands.add(new MenuCommand());
     }
 
     /**

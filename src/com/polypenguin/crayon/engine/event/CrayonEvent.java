@@ -17,6 +17,6 @@ public abstract class CrayonEvent extends Event {
      *
      * @return The CrayonPlayer;
      */
-    abstract CrayonPlayer getPlayer();
+    public abstract CrayonPlayer getPlayer();
 
 }
