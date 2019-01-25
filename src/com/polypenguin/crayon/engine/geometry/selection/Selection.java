@@ -36,7 +36,7 @@ public abstract interface Selection {
 
     boolean contains(Vector vector);
 
-    ArrayList<Vector> getVectors();
+    ArrayList<Vector> getVectors(boolean filled);
 
     /*
     ArrayList<CuboidSelection> getWalls();

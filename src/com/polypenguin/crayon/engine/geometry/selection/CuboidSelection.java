@@ -1,16 +1,22 @@
 package com.polypenguin.crayon.engine.geometry.selection;
 
 import com.polypenguin.crayon.engine.geometry.Vector;
+import com.polypenguin.crayon.engine.utils.VectorUtils;
 
 import java.util.ArrayList;
 
 public class CuboidSelection implements Selection {
 
     private Vector min, max;
+    private ArrayList<Vector> filled, unfilled;
 
     public CuboidSelection(Vector min, Vector max) {
         this.min = min;
         this.max = max;
+
+        //Get the vectors for the cuboid to keep down memory usage as much as possible.
+        this.filled = VectorUtils.getCuboid(this, true);
+        this.unfilled = VectorUtils.getCuboid(this, false);
     }
 
     @Override
@@ -59,8 +65,8 @@ public class CuboidSelection implements Selection {
     }
 
     @Override
-    public ArrayList<Vector> getVectors() {
-        return null;
+    public ArrayList<Vector> getVectors(boolean filled) {
+        return (filled) ? this.filled : unfilled;
     }
 
     @Override

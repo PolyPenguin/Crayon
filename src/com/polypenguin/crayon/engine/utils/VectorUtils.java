@@ -16,10 +16,23 @@ public class VectorUtils {
                 vector.getBlockZ() + ChatColor.DARK_GRAY + "]";
     }
 
+    /**
+     * Get the vectors for a cuboid created by two given vectors.
+     *
+     * @param selection Contains the two vectors which should be used.
+     * @param isFilled Whether or not the cuboid should be filled or not.
+     * @return An ArrayList of vectors that make up the cuboid.
+     */
     public static ArrayList<Vector> getCuboid(CuboidSelection selection, boolean isFilled) {
         return isFilled ? getCuboidFilled(selection) : getCuboidUnfilled(selection);
     }
 
+    /**
+     * Algorithm for a filled cuboid.
+     *
+     * @param selection Contains the two vectors which should be used as a reference.
+     * @return An ArrayList of vectors that make up the cuboid.
+     */
     private static ArrayList<Vector> getCuboidFilled(CuboidSelection selection) {
         Vector min = selection.getNativeMinimum();
         Vector max = selection.getNativeMaximum();
@@ -38,18 +51,43 @@ public class VectorUtils {
     }
 
     /**
-     * @// FIXME: 25/01/2019 
-     * 
-     * @param selection
-     * @return
+     * Algorithm for an unfilled cuboid.
+     *
+     * @param selection Contains the two vectors which should be used as a reference.
+     * @return An ArrayList of vectors that make up the cuboid.
      */
     private static ArrayList<Vector> getCuboidUnfilled(CuboidSelection selection) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+
+        for (Selection sub : getCuboidWalls(selection)) {
+            for (Vector vector : sub.getVectors()) {
+                vectors.add(vector);
+            }
+        }
+
+        return vectors;
+    }
+
+    /**
+     * Get the walls of a cuboid selection in different selections.
+     *
+     * @param selection The cuboid selection walls need to be made for.
+     * @return The walls in an ArrayList.
+     */
+    private static ArrayList<Selection> getCuboidWalls(CuboidSelection selection) {
         Vector min = selection.getNativeMinimum();
         Vector max = selection.getNativeMaximum();
 
-        ArrayList<Selection> vectors = new ArrayList<>();
+        ArrayList<Selection> selections = new ArrayList<>();
 
-        new CuboidSelection(min.setVectorX(min.getX()), max.setVectorX(min.getX()));
+        selections.add(new CuboidSelection(min.setVectorX(min.getX()), max.setVectorX(min.getX())));
+        selections.add(new CuboidSelection(min.setVectorX(max.getX()), max.setVectorX(max.getX())));
+        selections.add(new CuboidSelection(min.setVectorZ(min.getZ()), max.setVectorZ(min.getZ())));
+        selections.add(new CuboidSelection(min.setVectorZ(max.getZ()), max.setVectorZ(max.getZ())));
+        selections.add(new CuboidSelection(min.setVectorY(min.getY()), max.setVectorY(min.getY())));
+        selections.add(new CuboidSelection(min.setVectorY(max.getY()), max.setVectorY(max.getY())));
+
+        return selections;
     }
 
 }
