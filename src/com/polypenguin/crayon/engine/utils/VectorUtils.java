@@ -3,17 +3,48 @@ package com.polypenguin.crayon.engine.utils;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
+
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Miscellaneous utilities that handle vectors related stuff.
+ */
 public class VectorUtils {
 
-    public String toString(Vector vector) {
+    /**
+     * Create a custom String version of a vector.
+     *
+     * @param vector The used vector.
+     * @return A string which contains X, Y and Z values of the vector.
+     */
+    public static String toString(Vector vector) {
         return ChatColor.DARK_GRAY + "[" + ChatColor.RED +
                 vector.getBlockX() + ChatColor.WHITE + ", " + ChatColor.GREEN +
                 vector.getBlockY() + ChatColor.WHITE + ", " + ChatColor.BLUE +
                 vector.getBlockZ() + ChatColor.DARK_GRAY + "]";
+    }
+
+    /**
+     * Get the vectors of a list of selections.
+     * This would be extremely helpful when doing multiple operations
+     *
+     * @param selections The selections which vectors should be added.
+     * @return An ArrayList of vectors that make up the selections.
+     */
+    public static ArrayList<Vector> getTrueVectors(ArrayList<Selection> selections) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+
+        for (Selection selection : selections) {
+            for (Vector vector : selection.getVectors(true)) {
+                vectors.add(vector);
+            }
+        }
+
+        return vectors;
     }
 
     /**
@@ -60,7 +91,7 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
 
         for (Selection sub : getCuboidWalls(selection)) {
-            for (Vector vector : sub.getVectors()) {
+            for (Vector vector : sub.getVectors(false)) {
                 vectors.add(vector);
             }
         }
@@ -74,7 +105,7 @@ public class VectorUtils {
      * @param selection The cuboid selection walls need to be made for.
      * @return The walls in an ArrayList.
      */
-    private static ArrayList<Selection> getCuboidWalls(CuboidSelection selection) {
+    public static ArrayList<Selection> getCuboidWalls(CuboidSelection selection) {
         Vector min = selection.getNativeMinimum();
         Vector max = selection.getNativeMaximum();
 

@@ -1,8 +1,6 @@
 package com.polypenguin.crayon.engine.geometry.selection;
 
 import com.polypenguin.crayon.engine.geometry.Vector;
-import org.bukkit.Location;
-import org.bukkit.World;
 
 import java.util.ArrayList;
 

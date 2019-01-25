@@ -4,3 +4,4 @@ Feature Ideas
 -Custom messages
 -Toolbar save when quit/join
 -Cross-Server support
+-Multi-Selection set-operation (Fill multiple selections at once for efficiency);
