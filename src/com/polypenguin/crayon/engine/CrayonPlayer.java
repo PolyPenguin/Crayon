@@ -14,7 +14,7 @@ public class CrayonPlayer {
     private Player player;
     private UUID playerID;
 
-    private ActionService actionService;
+    private ActionManager actionManager;
 
     /**
      * Constructor that retrieves basic info to be used by Crayon.
@@ -25,7 +25,7 @@ public class CrayonPlayer {
         this.player = player;
         this.playerID = player.getUniqueId();
 
-        this.actionService = new ActionService();
+        this.actionManager = new ActionManager(this);
     }
 
     /**
@@ -51,7 +51,7 @@ public class CrayonPlayer {
      *
      * @return The player's Action Service.
      */
-    public ActionService getActionService() {
-        return actionService;
+    public ActionManager getActionManager() {
+        return actionManager;
     }
 }

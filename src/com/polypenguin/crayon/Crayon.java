@@ -6,6 +6,7 @@ import com.polypenguin.crayon.core.service.PermissionService;
 import com.polypenguin.crayon.core.service.PlayerService;
 
 import com.polypenguin.crayon.engine.CrayonListener;
+import com.polypenguin.crayon.engine.render.Renderer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -21,6 +22,8 @@ public class Crayon extends JavaPlugin {
     private static ListenerService listenerService;
     private static PermissionService permissionService;
     private static PlayerService playerService;
+
+    private static Renderer renderer;
 
     private static Metrics metrics;
 
@@ -42,6 +45,8 @@ public class Crayon extends JavaPlugin {
         getCommand("crayon").setExecutor(new CommandService());
 
         listenerService.registerEvents(new CrayonListener());
+
+        renderer = new Renderer();
 
         metrics = new Metrics(getCrayon());
     }
@@ -82,4 +87,11 @@ public class Crayon extends JavaPlugin {
         return playerService;
     }
 
+    public static Renderer getRenderer() {
+        return renderer;
+    }
+
+    public static Metrics getMetrics() {
+        return metrics;
+    }
 }
