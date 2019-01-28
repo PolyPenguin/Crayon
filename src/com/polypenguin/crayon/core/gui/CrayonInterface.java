@@ -17,17 +17,15 @@ public class CrayonInterface {
      * Supported UI sizes for Crayon GUIs.
      */
     public static enum SupportedInterfaceSize {
-        SMALL(9),  MEDIUM(27),  LARGE(45),  HUGE(56);
+        SMALL(9),  MEDIUM(27),  LARGE(45),  HUGE(54);
 
-        private int size;
+        int size;
 
-        private SupportedInterfaceSize(int size) {
+        SupportedInterfaceSize(int size) {
             this.size = size;
         }
 
-        public int getSize() {
-            return this.size;
-        }
+        public int getSize() { return size; }
     }
 
     /**
@@ -40,7 +38,8 @@ public class CrayonInterface {
      * @return A newly generated Crayon UI.
      */
     public static Inventory createCrayonInterface(String name, SupportedInterfaceSize size, boolean isFilled, boolean isCloseable) {
-        Inventory gui = Bukkit.createInventory(null, size.getSize(), Crayon.getPrefix() + name);
+        Inventory gui = Bukkit.createInventory(null, size.getSize(), name);
+
         if (isFilled) {
             while (gui.firstEmpty() != -1) {
                 gui.setItem(gui.firstEmpty(), ItemUtils.getFillItem());
@@ -48,17 +47,17 @@ public class CrayonInterface {
         }
 
         if (isCloseable) {
-            switch (size) {
-                case SMALL:
-                    gui.setItem(8, ItemUtils.getExitItem());
-                case MEDIUM:
-                    gui.setItem(16, ItemUtils.getExitItem());
-                case LARGE:
-                    gui.setItem(41, ItemUtils.getExitItem());
-                case HUGE:
-                    gui.setItem(52, ItemUtils.getExitItem());
+            if (size == SupportedInterfaceSize.SMALL) {
+                gui.setItem(8, ItemUtils.getExitItem());
+            } else if (size == SupportedInterfaceSize.MEDIUM) {
+                gui.setItem(16, ItemUtils.getExitItem());
+            } else if (size == SupportedInterfaceSize.LARGE) {
+                gui.setItem(41, ItemUtils.getExitItem());
+            } else if (size == SupportedInterfaceSize.HUGE) {
+                gui.setItem(49, ItemUtils.getExitItem());
             }
         }
+
         return gui;
     }
 
@@ -69,7 +68,7 @@ public class CrayonInterface {
     }
 
     public static boolean isCrayonInventory(Inventory inventory) {
-        return inventory.getName().contains(Crayon.getPrefix());
+        return inventory.getName().contains("Crayon");
     }
 
 }

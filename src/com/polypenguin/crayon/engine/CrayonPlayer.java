@@ -1,5 +1,7 @@
 package com.polypenguin.crayon.engine;
 
+import com.polypenguin.crayon.engine.manager.ActionManager;
+import com.polypenguin.crayon.engine.manager.SelectionManager;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -11,10 +13,19 @@ import java.util.UUID;
  */
 public class CrayonPlayer {
 
+    public enum SelectionMode {
+        NA,
+        SINGLE,
+        DOUBLE,
+        MULTI
+    }
+
     private Player player;
     private UUID playerID;
+    private SelectionMode selectionMode;
 
     private ActionManager actionManager;
+    private SelectionManager selectionManager;
 
     /**
      * Constructor that retrieves basic info to be used by Crayon.
@@ -24,8 +35,10 @@ public class CrayonPlayer {
     public CrayonPlayer(Player player) {
         this.player = player;
         this.playerID = player.getUniqueId();
+        this.selectionMode = SelectionMode.NA;
 
         this.actionManager = new ActionManager(this);
+        this.selectionManager = new SelectionManager(this);
     }
 
     /**
@@ -47,11 +60,36 @@ public class CrayonPlayer {
     }
 
     /**
-     * Return the player's history service.
+     * Return the players' selection mode.
      *
-     * @return The player's Action Service.
+     * @return The players' selection mode.
+     */
+    public SelectionMode getSelectionMode() {
+        return selectionMode;
+    }
+
+    /**
+     * Set the players' selection mode.
+     */
+    public void setSelectionMode(SelectionMode selectionMode) {
+        this.selectionMode = selectionMode;
+    }
+
+    /**
+     * Return the player's history manager.
+     *
+     * @return The player's Action manager.
      */
     public ActionManager getActionManager() {
         return actionManager;
+    }
+
+    /**
+     * Return the player's selection manager.
+     *
+     * @return The player's Selection manager.
+     */
+    public SelectionManager getSelectionManager() {
+        return selectionManager;
     }
 }

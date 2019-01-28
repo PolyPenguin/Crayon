@@ -48,11 +48,13 @@ public class CommandService implements CommandExecutor {
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "/" + command.getName() + " " + command.getArguments() +
                                 ChatColor.WHITE + " - " + ChatColor.YELLOW + command.getDescription());
                     }
+
+                    return true;
                 }
 
                 for (CrayonCommand command : commands) {
-                    if (command.getName().equalsIgnoreCase(cmd.getName())) {
-                        if (Crayon.getPermissionService().hasPermission(player, command.getPermission())) {
+                    if (command.getName().equals(arguments[0])) {
+                        if (Crayon.getPermissionService().hasPermission(player, command.getPermission()) || player.getPlayer().isOp()) {
                             String[] args = Arrays.copyOfRange(arguments, 1, arguments.length);
 
                             command.onCommand(player, args);

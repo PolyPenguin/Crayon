@@ -41,7 +41,7 @@ public class CuboidSelection implements Selection {
 
     @Override
     public int getBlocks() {
-        return 0;
+        return getVectors(true).size();
     }
 
     @Override

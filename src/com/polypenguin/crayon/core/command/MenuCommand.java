@@ -11,13 +11,11 @@ public class MenuCommand extends CrayonCommand {
 
     @Override
     public void onCommand(CrayonPlayer player, String[] args) {
-        if (Crayon.getPermissionService().hasPermission(player, getPermission())) {
-            if (player.getPlayer().getInventory().firstEmpty() != -1) {
-                 player.getPlayer().getInventory().addItem(ItemUtils.getMenuItem());
-                 player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon menu.");
-            } else {
-                player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full!");
-            }
+        if (player.getPlayer().getInventory().firstEmpty() != -1) {
+            player.getPlayer().getInventory().addItem(ItemUtils.getMenuItem());
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon menu.");
+        } else {
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full!");
         }
     }
 
