@@ -25,8 +25,18 @@ public class CuboidSelection implements Selection {
     }
 
     @Override
+    public void setNativeMinimum(Vector min) {
+        this.min = min;
+    }
+
+    @Override
     public Vector getNativeMaximum() {
         return max;
+    }
+
+    @Override
+    public void setNativeMaximum(Vector max) {
+        this.max = max;
     }
 
     @Override

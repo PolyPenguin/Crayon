@@ -18,7 +18,11 @@ public abstract interface Selection {
 
     Vector getNativeMinimum();
 
+    void setNativeMinimum(Vector min);
+
     Vector getNativeMaximum();
+
+    void setNativeMaximum(Vector max);
 
     org.bukkit.util.Vector getBukkitMinimum();
 

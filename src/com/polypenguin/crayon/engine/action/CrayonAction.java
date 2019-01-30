@@ -6,8 +6,6 @@ public abstract interface CrayonAction {
 
     int getID();
 
-    void execute();
-
     void undo();
 
     void redo();

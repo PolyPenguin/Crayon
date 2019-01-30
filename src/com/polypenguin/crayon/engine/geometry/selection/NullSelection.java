@@ -22,8 +22,18 @@ public class NullSelection implements Selection {
     }
 
     @Override
+    public void setNativeMinimum(Vector min) {
+        return;
+    }
+
+    @Override
     public org.bukkit.util.Vector getBukkitMaximum() {
         return null;
+    }
+
+    @Override
+    public void setNativeMaximum(Vector min) {
+        return;
     }
 
     @Override

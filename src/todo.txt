@@ -10,3 +10,7 @@ Feature Ideas
 |-> Add an automation feature for this!
 -Analytics
 -Comment Code (pre-Release)
+-Multiple actions at once - This would require another interface implementation!
+-Sequenced actions through scripting
+
+IMPORTANT: Recode the whole operations thing...

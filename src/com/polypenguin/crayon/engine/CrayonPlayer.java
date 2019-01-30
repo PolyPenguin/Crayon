@@ -22,10 +22,13 @@ public class CrayonPlayer {
 
     private Player player;
     private UUID playerID;
+
     private SelectionMode selectionMode;
+    private Clipboard clipboard;
 
     private ActionManager actionManager;
     private SelectionManager selectionManager;
+
 
     /**
      * Constructor that retrieves basic info to be used by Crayon.
@@ -35,7 +38,9 @@ public class CrayonPlayer {
     public CrayonPlayer(Player player) {
         this.player = player;
         this.playerID = player.getUniqueId();
+
         this.selectionMode = SelectionMode.NA;
+        this.clipboard = new Clipboard(this);
 
         this.actionManager = new ActionManager(this);
         this.selectionManager = new SelectionManager(this);
@@ -69,6 +74,15 @@ public class CrayonPlayer {
     }
 
     /**
+     * Return the players' clipboard.
+     *
+     * @return The players' clipboard.
+     */
+    public Clipboard getClipboard() {
+        return clipboard;
+    }
+
+    /**
      * Set the players' selection mode.
      */
     public void setSelectionMode(SelectionMode selectionMode) {
@@ -76,9 +90,9 @@ public class CrayonPlayer {
     }
 
     /**
-     * Return the player's history manager.
+     * Return the player's action manager.
      *
-     * @return The player's Action manager.
+     * @return The player's action manager.
      */
     public ActionManager getActionManager() {
         return actionManager;

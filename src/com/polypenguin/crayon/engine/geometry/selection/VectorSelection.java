@@ -19,8 +19,18 @@ public class VectorSelection implements Selection {
     }
 
     @Override
+    public void setNativeMinimum(Vector min) {
+        this.min = min;
+    }
+
+    @Override
     public Vector getNativeMaximum() {
         return min;
+    }
+
+    @Override
+    public void setNativeMaximum(Vector max) {
+        this.min = max;
     }
 
     @Override

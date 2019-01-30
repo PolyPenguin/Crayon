@@ -24,6 +24,24 @@ public class SelectionManager {
         return selection;
     }
 
+    public boolean hasSelection() {
+        return selection != null;
+    }
+
+    public Selection.SelectionType getCurrentType() {
+        if (hasSelection()) {
+            if (selection instanceof VectorSelection) {
+                return Selection.SelectionType.SINGLE;
+            } else if (selection instanceof CuboidSelection) {
+                return Selection.SelectionType.DOUBLE;
+            } else {
+                return Selection.SelectionType.MULTI;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Updates the selection.
      * 
@@ -43,11 +61,10 @@ public class SelectionManager {
         if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.SINGLE) {
             selection = new VectorSelection(vector);
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.DOUBLE) {
-            if (selection instanceof VectorSelection) {
-                Vector min = selection.getNativeMaximum();
-                selection = new CuboidSelection(min, vector);
+            if (selection.getNativeMaximum() != null) {
+                selection.setNativeMaximum(vector);
             } else {
-                selection = new VectorSelection(vector);
+                selection = new CuboidSelection(vector, null);
             }
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.MULTI) {
             /**

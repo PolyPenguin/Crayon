@@ -21,7 +21,13 @@ public class BaseListener implements Listener {
 
     @EventHandler (priority = EventPriority.LOW)
     public void onBasicInteraction(PlayerInteractEvent event) {
+        if (event.getItem() == null) {
+            return;
+        }
+
         if (ItemUtils.isCrayonItem(event.getItem())) {
+            event.setCancelled(true);
+
             Vector target = Vector.ZERO;
 
             if (event.getClickedBlock() != null) {
@@ -35,6 +41,8 @@ public class BaseListener implements Listener {
                     target,
                     event.getItem()
             ));
+        } else {
+            return;
         }
     }
 

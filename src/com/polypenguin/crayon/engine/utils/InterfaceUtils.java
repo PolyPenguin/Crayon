@@ -3,6 +3,7 @@ package com.polypenguin.crayon.engine.utils;
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.gui.CrayonInterface;
 
+import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -79,7 +80,6 @@ public class InterfaceUtils {
 
         stone.setItem(45, ItemUtils.getPreviousPageItem());
         stone.setItem(53, ItemUtils.getNextPageItem());
-        stone.setItem(49, ItemUtils.getExitItem());
         stone.setItem(0, ItemUtils.getItem(Material.STONE, 1, ChatColor.AQUA + "Stone", new String[0]));
         stone.setItem(1, ItemUtils.getItem(Material.GRANITE, 1, ChatColor.AQUA + "Granite", new String[0]));
         stone.setItem(2, ItemUtils.getItem(Material.DIORITE, 1, ChatColor.AQUA + "Diorite", new String[0]));
@@ -131,7 +131,6 @@ public class InterfaceUtils {
 
         natural.setItem(45, ItemUtils.getPreviousPageItem());
         natural.setItem(53, ItemUtils.getNextPageItem());
-        natural.setItem(49, ItemUtils.getExitItem());
         natural.setItem(0, ItemUtils.getItem(Material.SAND, 1, ChatColor.AQUA + "Sand", new String[0]));
         natural.setItem(1, ItemUtils.getItem(Material.SANDSTONE, 1, ChatColor.AQUA + "Sandstone", new String[0]));
         natural.setItem(2, ItemUtils.getItem(Material.SMOOTH_SANDSTONE, 1, ChatColor.AQUA + "Smooth Sandstone", new String[0]));
@@ -180,7 +179,6 @@ public class InterfaceUtils {
 
         wood.setItem(45, ItemUtils.getPreviousPageItem());
         wood.setItem(53, ItemUtils.getNextPageItem());
-        wood.setItem(49, ItemUtils.getExitItem());
         wood.setItem(0, ItemUtils.getItem(Material.ACACIA_LOG, 1, ChatColor.AQUA + "Acacia Log", new String[0]));
         wood.setItem(1, ItemUtils.getItem(Material.BIRCH_LOG, 1, ChatColor.AQUA + "Birch Log", new String[0]));
         wood.setItem(2, ItemUtils.getItem(Material.DARK_OAK_LOG, 1, ChatColor.AQUA + "Dark Oak Log", new String[0]));
@@ -221,7 +219,6 @@ public class InterfaceUtils {
 
         slab.setItem(45, ItemUtils.getPreviousPageItem());
         slab.setItem(53, ItemUtils.getNextPageItem());
-        slab.setItem(49, ItemUtils.getExitItem());
         slab.setItem(0, ItemUtils.getItem(Material.STONE_SLAB, 1, ChatColor.AQUA + "Stone Slab", new String[0]));
         slab.setItem(1, ItemUtils.getItem(Material.COBBLESTONE_SLAB, 1, ChatColor.AQUA + "Cobblestone Slab", new String[0]));
         slab.setItem(2, ItemUtils.getItem(Material.STONE_BRICK_SLAB, 1, ChatColor.AQUA + "Stone Brick Slab", new String[0]));
@@ -260,7 +257,6 @@ public class InterfaceUtils {
 
         coloredItemsOne.setItem(45, ItemUtils.getPreviousPageItem());
         coloredItemsOne.setItem(53, ItemUtils.getNextPageItem());
-        coloredItemsOne.setItem(49, ItemUtils.getExitItem());
         coloredItemsOne.setItem(0, ItemUtils.getItem(Material.BLACK_STAINED_GLASS, 1, ChatColor.AQUA + "Black Stained Glass", new String[0]));
         coloredItemsOne.setItem(1, ItemUtils.getItem(Material.BLACK_STAINED_GLASS_PANE, 1, ChatColor.AQUA + "Black Stained Glass Pane", new String[0]));
         coloredItemsOne.setItem(2, ItemUtils.getItem(Material.BLACK_WOOL, 1, ChatColor.AQUA + "Black Wool", new String[0]));
@@ -306,7 +302,6 @@ public class InterfaceUtils {
 
         coloredItemsTwo.setItem(45, ItemUtils.getPreviousPageItem());
         coloredItemsTwo.setItem(53, ItemUtils.getNextPageItem());
-        coloredItemsTwo.setItem(49, ItemUtils.getExitItem());
         coloredItemsTwo.setItem(0, ItemUtils.getItem(Material.LIME_STAINED_GLASS, 1, ChatColor.AQUA + "Lime Stained Glass", new String[0]));
         coloredItemsTwo.setItem(1, ItemUtils.getItem(Material.LIME_STAINED_GLASS_PANE, 1, ChatColor.AQUA + "Lime Stained Glass Pane", new String[0]));
         coloredItemsTwo.setItem(2, ItemUtils.getItem(Material.LIME_WOOL, 1, ChatColor.AQUA + "Lime Wool", new String[0]));
@@ -352,7 +347,6 @@ public class InterfaceUtils {
 
         coloredItemsThree.setItem(45, ItemUtils.getPreviousPageItem());
         coloredItemsThree.setItem(53, ItemUtils.getNextPageItem());
-        coloredItemsThree.setItem(49, ItemUtils.getExitItem());
         coloredItemsThree.setItem(0, ItemUtils.getItem(Material.MAGENTA_STAINED_GLASS, 1, ChatColor.AQUA + "Magenta Stained Glass", new String[0]));
         coloredItemsThree.setItem(1, ItemUtils.getItem(Material.MAGENTA_STAINED_GLASS_PANE, 1, ChatColor.AQUA + "Magenta Stained Glass Pane", new String[0]));
         coloredItemsThree.setItem(2, ItemUtils.getItem(Material.MAGENTA_WOOL, 1, ChatColor.AQUA + "Magenta Wool", new String[0]));
@@ -398,7 +392,6 @@ public class InterfaceUtils {
 
         sea.setItem(45, ItemUtils.getPreviousPageItem());
         sea.setItem(53, ItemUtils.getNextPageItem());
-        sea.setItem(49, ItemUtils.getExitItem());
         sea.setItem(0, ItemUtils.getItem(Material.BRAIN_CORAL_BLOCK, 1, ChatColor.AQUA + "Brain Coral", new String[0]));
         sea.setItem(1, ItemUtils.getItem(Material.BUBBLE_CORAL_BLOCK, 1, ChatColor.AQUA + "Bubble Coral", new String[0]));
         sea.setItem(2, ItemUtils.getItem(Material.FIRE_CORAL_BLOCK, 1, ChatColor.AQUA + "Fire Coral", new String[0]));

@@ -4,7 +4,10 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 
+import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 
@@ -28,9 +31,34 @@ public class VectorUtils {
                 vector.getBlockZ() + ChatColor.DARK_GRAY + "]";
     }
 
+    public static Vector getOffset(Vector vector, Vector target) {
+        return new Vector(
+                target.getX() - vector.getX(),
+                target.getY() - vector.getY(),
+                target.getZ() - vector.getZ()
+        );
+    }
+
+    public static ArrayList<CrayonState> getConstantStates(Selection selection, World world, Material constant, boolean isFilled) {
+        if (selection == null) {
+            return null;
+        }
+
+        ArrayList<CrayonState> states = new ArrayList<>();
+
+        for (Vector vector : selection.getVectors(isFilled)) {
+            states.add(new CrayonState(
+                    vector,
+                    world.getBlockAt(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).getType(),
+                    constant));
+        }
+
+        return states;
+    }
+
     /**
      * Get the vectors of a list of selections.
-     * This would be extremely helpful when doing multiple operations
+     * TODO: This would be extremely helpful when doing multiple operations at once!
      *
      * @param selections The selections which vectors should be added.
      * @return An ArrayList of vectors that make up the selections.
