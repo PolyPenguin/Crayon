@@ -2,19 +2,19 @@ package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.geometry.Vector;
+import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
 
 public class PasteOperation implements StateOperation {
 
     private CrayonPlayer player;
-    private ArrayList<Vector> transformations;
-    private Vector origin, target;
+    private ArrayList<CrayonPreState> transformations;
+    private Vector target;
 
-    public PasteOperation(CrayonPlayer player, ArrayList<Vector> transformations, Vector origin, Vector target) {
+    public PasteOperation(CrayonPlayer player, ArrayList<CrayonPreState> transformations, Vector target) {
         this.player = player;
         this.transformations = transformations;
-        this.origin = origin;
         this.target = target;
     }
 
@@ -22,11 +22,7 @@ public class PasteOperation implements StateOperation {
         return target;
     }
 
-    public Vector getOrigin() {
-        return origin;
-    }
-
-    public ArrayList<Vector> getTransformations() {
+    public ArrayList<CrayonPreState> getTransformations() {
         return transformations;
     }
 

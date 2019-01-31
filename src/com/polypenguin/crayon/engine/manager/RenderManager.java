@@ -5,6 +5,7 @@ import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.operation.*;
+import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import org.bukkit.World;
@@ -44,19 +45,16 @@ public class RenderManager {
             render(shapeOperation.getOperation());
         } else if (operation instanceof PasteOperation) {
             PasteOperation pasteOperation = (PasteOperation) operation;
-            Vector origin = pasteOperation.getOrigin();
             Vector target = pasteOperation.getTarget();
 
             ArrayList<CrayonState> states = new ArrayList<>();
 
-            for (Vector vector : pasteOperation.getTransformations()) {
-                Vector outdated = origin.add(vector);
-                Vector updated = target.add(vector);
+            for (CrayonPreState state : pasteOperation.getTransformations()) {
+                Vector offset = target.add(state.getOffset());
 
-                states.add(new CrayonState(
-                        target.add(vector),
-                        world.getBlockAt(updated.getBlockX(), updated.getBlockY(), updated.getBlockZ()).getType(),
-                        world.getBlockAt(outdated.getBlockX(), outdated.getBlockY(), outdated.getBlockZ()).getType())
+                states.add(new CrayonState(offset,
+                        world.getBlockAt(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ()).getType(),
+                        state.getMaterial())
                 );
             }
 
@@ -72,8 +70,16 @@ public class RenderManager {
 
         if (operation instanceof CopyOperation) {
             CopyOperation copyOperation = (CopyOperation) operation;
+            ArrayList<CrayonPreState> preStates = new ArrayList<>();
 
-            player.getClipboard().update(copyOperation.getTransformations());
+            for (Vector vector : copyOperation.getTransformations()) {
+                Vector target = copyOperation.getOrigin().add(vector);
+
+                preStates.add(new CrayonPreState(
+                        vector, world.getBlockAt(target.getBlockX(), target.getBlockY(), target.getBlockZ()).getType()));
+            }
+
+            player.getClipboard().update(preStates);
 
             return new PassiveChangeAction(
                     player,

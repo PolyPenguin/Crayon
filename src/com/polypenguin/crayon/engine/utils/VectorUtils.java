@@ -2,8 +2,10 @@ package com.polypenguin.crayon.engine.utils;
 
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
+import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 
+import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,21 +41,15 @@ public class VectorUtils {
         );
     }
 
-    public static ArrayList<CrayonState> getConstantStates(Selection selection, World world, Material constant, boolean isFilled) {
-        if (selection == null) {
-            return null;
-        }
-
-        ArrayList<CrayonState> states = new ArrayList<>();
-
-        for (Vector vector : selection.getVectors(isFilled)) {
-            states.add(new CrayonState(
-                    vector,
-                    world.getBlockAt(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).getType(),
-                    constant));
-        }
-
-        return states;
+    /**
+     * Get the vectors for a cuboid created by two given vectors.
+     *
+     * @param selection Contains the two vectors which should be used.
+     * @param isFilled Whether or not the cuboid should be filled or not.
+     * @return An ArrayList of vectors that make up the cuboid.
+     */
+    public static ArrayList<Vector> getCuboid(CuboidSelection selection, boolean isFilled) {
+        return isFilled ? getCuboidFilled(selection) : getCuboidUnfilled(selection);
     }
 
     /**
@@ -67,23 +63,10 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
 
         for (Selection selection : selections) {
-            for (Vector vector : selection.getVectors(true)) {
-                vectors.add(vector);
-            }
+            vectors.addAll(selection.getVectors(true));
         }
 
         return vectors;
-    }
-
-    /**
-     * Get the vectors for a cuboid created by two given vectors.
-     *
-     * @param selection Contains the two vectors which should be used.
-     * @param isFilled Whether or not the cuboid should be filled or not.
-     * @return An ArrayList of vectors that make up the cuboid.
-     */
-    public static ArrayList<Vector> getCuboid(CuboidSelection selection, boolean isFilled) {
-        return isFilled ? getCuboidFilled(selection) : getCuboidUnfilled(selection);
     }
 
     /**
@@ -96,7 +79,7 @@ public class VectorUtils {
         Vector min = selection.getNativeMinimum();
         Vector max = selection.getNativeMaximum();
 
-        ArrayList<Vector> vectors = new ArrayList();
+        ArrayList<Vector> vectors = new ArrayList<>();
 
         for(int x = Math.max(max.getBlockX(), min.getBlockX()); x >= Math.min(min.getBlockX(), max.getBlockX()); --x) {
             for(int y = Math.max(max.getBlockY(), min.getBlockY()); y >= Math.min(min.getBlockY(), max.getBlockY()); --y) {
@@ -119,9 +102,7 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
 
         for (Selection sub : getCuboidWalls(selection)) {
-            for (Vector vector : sub.getVectors(false)) {
-                vectors.add(vector);
-            }
+            vectors.addAll(sub.getVectors(false));
         }
 
         return vectors;
@@ -158,5 +139,95 @@ public class VectorUtils {
 
     }
     */
+
+    public static Vector getCenter(CuboidSelection selection) {
+        Vector min = selection.getNativeMinimum();
+        Vector max = selection.getNativeMaximum();
+
+        return new Vector(
+                (min.getX() + max.getX()) / 2,
+                (min.getY() + max.getY()) / 2,
+                (min.getZ() + max.getZ()) / 2
+        );
+    }
+
+    public static CuboidSelection rotate(CuboidSelection selection, double rotX, double rotY, double rotZ) {
+        Vector center = getCenter(selection);
+
+        for (Vector vector : selection.getVectors(true)) {
+            vector = rotate(vector, center, rotX, rotY, rotZ);
+        }
+
+        //TODO: Return an array selection!
+        return null;
+    }
+
+    private static Vector rotate(Vector vector, Vector origin, double rotX, double rotY, double rotZ) {
+        vector = getRotatedVectorX(vector, origin, rotX);
+        vector = getRotatedVectorY(vector, origin, rotY);
+        vector = getRotatedVectorZ(vector, origin, rotZ);
+
+        return vector;
+    }
+
+    //TODO: Optimize & Shorten
+    private static Vector getRotatedVectorX(Vector vector, Vector origin, double theta) {
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+
+        //translate point back to origin
+        vector.setY(vector.getY() - origin.getY());
+        vector.setZ(vector.getZ() - origin.getZ());
+
+        // rotate point
+        double yNew = vector.getY() * cos - vector.getZ() * sin;
+        double zNew = vector.getY() * sin + vector.getZ() * cos;
+
+        //translate point back
+        vector.setY(yNew + origin.getY());
+        vector.setZ(zNew + origin.getZ());
+
+        return vector;
+    }
+
+    //TODO: Optimize & Shorten
+    private static Vector getRotatedVectorY(Vector vector, Vector origin, double theta) {
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+
+        //translate point back to origin
+        vector.setX(vector.getX() - origin.getX());
+        vector.setZ(vector.getZ() - origin.getZ());
+
+        // rotate point
+        double xNew = vector.getX() * cos - vector.getZ() * sin;
+        double zNew = vector.getX() * sin + vector.getZ() * cos;
+
+        //translate point back
+        vector.setX(xNew + origin.getX());
+        vector.setZ(zNew + origin.getZ());
+
+        return vector;
+    }
+
+    //TODO: Optimize & Shorten
+    private static Vector getRotatedVectorZ(Vector vector, Vector origin, double theta) {
+        double cos = Math.cos(theta);
+        double sin = Math.sin(theta);
+
+        //translate point back to origin
+        vector.setX(vector.getX() - origin.getX());
+        vector.setY(vector.getY() - origin.getY());
+
+        // rotate point
+        double xNew = vector.getX() * cos - vector.getY() * sin;
+        double yNew = vector.getX() * sin + vector.getY() * cos;
+
+        //translate point back
+        vector.setX(xNew + origin.getX());
+        vector.setY(yNew + origin.getY());
+
+        return vector;
+    }
 
 }

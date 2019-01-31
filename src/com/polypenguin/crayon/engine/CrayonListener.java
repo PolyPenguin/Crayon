@@ -2,13 +2,17 @@ package com.polypenguin.crayon.engine;
 
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.gui.CrayonInterface;
+import com.polypenguin.crayon.engine.action.BlockChangeAction;
+import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import com.polypenguin.crayon.engine.event.CrayonInventoryEvent;
 import com.polypenguin.crayon.engine.event.CrayonItemEvent;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
+import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
 import com.polypenguin.crayon.engine.manager.RenderManager;
 import com.polypenguin.crayon.engine.operation.CopyOperation;
+import com.polypenguin.crayon.engine.operation.PasteOperation;
 import com.polypenguin.crayon.engine.utils.InterfaceUtils;
 import com.polypenguin.crayon.engine.utils.ItemUtils;
 import com.polypenguin.crayon.engine.utils.VectorUtils;
@@ -106,21 +110,41 @@ public class CrayonListener implements Listener {
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please make a selection first");
                     }
 
+                    //The origin will always be the minimum of the selection!
                     ArrayList<Vector> offsets = new ArrayList<>();
+                    Vector origin = selection.getNativeMinimum();
 
-                    try {
-                        for (Vector vector : selection.getVectors(true)) {
-                            offsets.add(VectorUtils.getOffset(selection.getNativeMinimum(), vector));
-                        }
-
-                        RenderManager.handle(new CopyOperation(player, offsets));
-
-                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
-                    } catch (NullPointerException ex) {
-                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Something has gone wrong");
+                    for (Vector vector : selection.getVectors(true)) {
+                        offsets.add(VectorUtils.getOffset(selection.getNativeMinimum(), vector));
                     }
-                } else if (slot == 11) {
 
+                    PassiveChangeAction action = RenderManager.handle(new CopyOperation(player, offsets, origin));
+
+                    player.getActionManager().add(action);
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
+                } else if (slot == 11) {
+                    if (player.getClipboard().getPreStates() == null) {
+                        player.getPlayer().closeInventory();
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please copy a selection first");
+                    }
+
+                    Selection selection = player.getSelectionManager().getSelection();
+
+                    if (selection == null) {
+                        player.getPlayer().closeInventory();
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please make a selection first");
+                    } else if (!(selection instanceof VectorSelection)) {
+                        player.getPlayer().closeInventory();
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please make a single-point selection first");
+                    }
+
+                    VectorSelection vectorSelection = (VectorSelection) selection;
+                    BlockChangeAction action = RenderManager.render(
+                            new PasteOperation(player, player.getClipboard().getPreStates(), vectorSelection.getNativeMinimum())
+                    );
+
+                    player.getActionManager().add(action);
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been pasted");
                 } else if (slot == 12) {
 
                 } else if (slot == 13) {
