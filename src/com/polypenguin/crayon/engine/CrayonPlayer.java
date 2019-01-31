@@ -2,6 +2,8 @@ package com.polypenguin.crayon.engine;
 
 import com.polypenguin.crayon.engine.manager.ActionManager;
 import com.polypenguin.crayon.engine.manager.SelectionManager;
+
+import com.polypenguin.crayon.engine.operation.CrayonOperation;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -25,6 +27,7 @@ public class CrayonPlayer {
 
     private SelectionMode selectionMode;
     private Clipboard clipboard;
+    private CrayonOperation operation;
 
     private ActionManager actionManager;
     private SelectionManager selectionManager;
@@ -87,6 +90,22 @@ public class CrayonPlayer {
      */
     public void setSelectionMode(SelectionMode selectionMode) {
         this.selectionMode = selectionMode;
+    }
+
+    /**
+     * Return the players' operation.
+     *
+     * @return The players' operation.
+     */
+    public CrayonOperation getOperation() {
+        return operation;
+    }
+
+    /**
+     * Set the players' operation.
+     */
+    public void setOperation(CrayonOperation operation) {
+        this.operation = operation;
     }
 
     /**

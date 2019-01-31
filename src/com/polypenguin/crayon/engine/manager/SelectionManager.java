@@ -51,7 +51,7 @@ public class SelectionManager {
      *  If the current selection is a CuboidSelection, 
      *  it will get updated to a VectorSelection.
      * 
-     * @param vector
+     * @param vector The vector that is to be added.
      */
     public void update(Vector vector) {
         if (vector == null) {
@@ -59,11 +59,17 @@ public class SelectionManager {
         }
 
         if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.SINGLE) {
+            System.out.println("Set new selection: Single");
+
             selection = new VectorSelection(vector);
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.DOUBLE) {
             if (selection.getNativeMaximum() != null) {
+                System.out.println("Set new selection: Double - Old");
+
                 selection.setNativeMaximum(vector);
             } else {
+                System.out.println("Set new selection: Double - New");
+
                 selection = new CuboidSelection(vector, null);
             }
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.MULTI) {

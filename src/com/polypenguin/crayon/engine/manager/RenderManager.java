@@ -2,6 +2,7 @@ package com.polypenguin.crayon.engine.manager;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.action.BlockChangeAction;
+import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.operation.*;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
@@ -62,11 +63,10 @@ public class RenderManager {
             render(new FillOperation(player, states));
         }
 
-        throw new IllegalStateException("[Crayon] [RenderManager.43] Critical render exception! Please contact a developer!");
+        throw new IllegalStateException("[Crayon] [RenderManager.66] Critical render exception! Please contact a developer!");
     }
 
-    //TODO: Return a PassiveChangeAction
-    public static void handle(TransformOperation operation) {
+    public static PassiveChangeAction handle(TransformOperation operation) {
         CrayonPlayer player = operation.getPlayer();
         World world = player.getPlayer().getWorld();
 
@@ -74,15 +74,35 @@ public class RenderManager {
             CopyOperation copyOperation = (CopyOperation) operation;
 
             player.getClipboard().update(copyOperation.getTransformations());
+
+            return new PassiveChangeAction(
+                    player,
+                    copyOperation,
+                    player.getActionManager().getNextID()
+            );
         } else if (operation instanceof FlipOperation) {
             FlipOperation flipOperation = (FlipOperation) operation;
 
             player.getClipboard().flip();
+
+            return new PassiveChangeAction(
+                    player,
+                    flipOperation,
+                    player.getActionManager().getNextID()
+            );
         } else if (operation instanceof RotateOperation) {
             RotateOperation rotateOperation = (RotateOperation) operation;
 
             player.getClipboard().rotate();
+
+            return new PassiveChangeAction(
+                    player,
+                    rotateOperation,
+                    player.getActionManager().getNextID()
+            );
         }
+
+        throw new IllegalStateException("[Crayon] [RenderManager.106] Critical render exception! Please contact a developer!");
     }
 
 }

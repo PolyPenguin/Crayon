@@ -149,4 +149,14 @@ public class VectorUtils {
         return selections;
     }
 
+    /*
+    public static ArrayList<Vector> flip(ArrayList<Vector> vectors) {
+
+    }
+
+    public static ArrayList<Vector> rotate(ArrayList<Vector> vectors) {
+
+    }
+    */
+
 }

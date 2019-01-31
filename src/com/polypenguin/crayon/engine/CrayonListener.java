@@ -5,6 +5,10 @@ import com.polypenguin.crayon.core.gui.CrayonInterface;
 import com.polypenguin.crayon.engine.event.CrayonInventoryEvent;
 import com.polypenguin.crayon.engine.event.CrayonItemEvent;
 import com.polypenguin.crayon.engine.geometry.Vector;
+import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
+import com.polypenguin.crayon.engine.geometry.selection.Selection;
+import com.polypenguin.crayon.engine.manager.RenderManager;
+import com.polypenguin.crayon.engine.operation.CopyOperation;
 import com.polypenguin.crayon.engine.utils.InterfaceUtils;
 import com.polypenguin.crayon.engine.utils.ItemUtils;
 import com.polypenguin.crayon.engine.utils.VectorUtils;
@@ -16,6 +20,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
+
+import java.util.ArrayList;
 
 public class CrayonListener implements Listener {
 
@@ -41,9 +47,9 @@ public class CrayonListener implements Listener {
                     player.getSelectionManager().update(target);
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Position set at " + VectorUtils.toString(target));
                 } else if (player.getSelectionMode() == CrayonPlayer.SelectionMode.DOUBLE) {
-                    //TODO: Fix this
+                    player.getSelectionManager().update(target);
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Position set at " + VectorUtils.toString(target));
                 }
-
             } else {
                 CrayonInterface.openInventory(player, InterfaceUtils.getWandMenu());
             }
@@ -62,9 +68,9 @@ public class CrayonListener implements Listener {
                     if (player.getPlayer().getInventory().firstEmpty() != -1) {
                         player.getPlayer().getInventory().addItem(ItemUtils.getWandItem());
                         player.getPlayer().closeInventory();
-                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon Wand.");
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon Wand");
                     } else {
-                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full!");
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full");
                     }
                 } else if (slot == 11) {
                     CrayonInterface.openInventory(player, InterfaceUtils.getPositionMenu());
@@ -93,11 +99,36 @@ public class CrayonListener implements Listener {
                 }
             } else if (inventory.getName().contains("Operations")) {
                 if (slot == 10) {
+                    Selection selection = player.getSelectionManager().getSelection();
+
+                    if ((selection == null) || (selection instanceof NullSelection)) {
+                        player.getPlayer().closeInventory();
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please make a selection first");
+                    }
+
+                    ArrayList<Vector> offsets = new ArrayList<>();
+
+                    try {
+                        for (Vector vector : selection.getVectors(true)) {
+                            offsets.add(VectorUtils.getOffset(selection.getNativeMinimum(), vector));
+                        }
+
+                        RenderManager.handle(new CopyOperation(player, offsets));
+
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
+                    } catch (NullPointerException ex) {
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Something has gone wrong");
+                    }
                 } else if (slot == 11) {
+
                 } else if (slot == 12) {
+
                 } else if (slot == 13) {
+
                 } else if (slot == 14) {
+
                 } else if (slot == 16) {
+
                     player.getPlayer().closeInventory();
                 }
             }
@@ -134,7 +165,7 @@ public class CrayonListener implements Listener {
             }
         }
 
-        //TODO: Add Operation Requests
+        //TODO: Add CrayonOperation Requests
         else if (inventory.getName().contains("Materials")) {
             if (inventory.getName().contains("Stone")) {
                 if ((slot < 45) && (!inventory.getItem(slot).getType().equals(Material.AIR))) {

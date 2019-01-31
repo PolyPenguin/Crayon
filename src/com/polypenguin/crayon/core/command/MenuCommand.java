@@ -13,9 +13,9 @@ public class MenuCommand extends CrayonCommand {
     public void onCommand(CrayonPlayer player, String[] args) {
         if (player.getPlayer().getInventory().firstEmpty() != -1) {
             player.getPlayer().getInventory().addItem(ItemUtils.getMenuItem());
-            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon menu.");
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "You received the Crayon menu");
         } else {
-            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full!");
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Seems like you inventory is full");
         }
     }
 
