@@ -6,7 +6,7 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
 
-public class PasteOperation implements StateOperation {
+public class PasteOperation extends StateOperation {
 
     private CrayonPlayer player;
     private ArrayList<CrayonPreState> transformations;

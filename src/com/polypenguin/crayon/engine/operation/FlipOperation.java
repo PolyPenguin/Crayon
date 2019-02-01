@@ -2,7 +2,7 @@ package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 
-public class FlipOperation implements TransformOperation {
+public class FlipOperation extends TransformOperation {
 
     private CrayonPlayer player;
 

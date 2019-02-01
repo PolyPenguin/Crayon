@@ -1,4 +1,4 @@
 package com.polypenguin.crayon.engine.operation;
 
-public interface CrayonOperation {
+public abstract interface CrayonOperation {
 }

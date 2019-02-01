@@ -2,8 +2,8 @@ package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 
-public interface TransformOperation {
+public abstract class TransformOperation implements CrayonOperation {
 
-    CrayonPlayer getPlayer();
+    public abstract CrayonPlayer getPlayer();
 
 }

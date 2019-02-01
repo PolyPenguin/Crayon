@@ -5,7 +5,7 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import java.util.ArrayList;
 
-public class ShapeOperation implements StateOperation {
+public class ShapeOperation extends StateOperation {
 
     private CrayonPlayer player;
     private FillOperation operation;

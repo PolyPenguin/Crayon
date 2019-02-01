@@ -1,14 +1,11 @@
 package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
-import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
-import java.util.ArrayList;
+public abstract class StateOperation implements CrayonOperation {
 
-public interface StateOperation {
+    public abstract CrayonPlayer getPlayer();
 
-    CrayonPlayer getPlayer();
-
-    void execute();
+    public abstract void execute();
 
 }

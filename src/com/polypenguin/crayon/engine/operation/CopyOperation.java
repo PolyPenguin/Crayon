@@ -2,7 +2,6 @@ package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.geometry.Vector;
-import com.polypenguin.crayon.engine.utils.VectorUtils;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * Special class!
  * Only sends copied states to the clipboard!
  */
-public class CopyOperation implements TransformOperation {
+public class CopyOperation extends TransformOperation {
 
     private CrayonPlayer player;
     private ArrayList<Vector> transformations;

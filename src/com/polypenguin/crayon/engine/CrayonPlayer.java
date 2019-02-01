@@ -109,6 +109,13 @@ public class CrayonPlayer {
     }
 
     /**
+     * See the setOperation() method.
+     */
+    public void resetOperation() {
+        setOperation(null);
+    }
+
+    /**
      * Return the player's action manager.
      *
      * @return The player's action manager.

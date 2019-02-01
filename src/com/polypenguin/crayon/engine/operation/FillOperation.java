@@ -5,7 +5,7 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import java.util.ArrayList;
 
-public class FillOperation implements StateOperation {
+public class FillOperation extends StateOperation {
 
     private CrayonPlayer player;
     private ArrayList<CrayonState> states;
@@ -17,6 +17,10 @@ public class FillOperation implements StateOperation {
 
     public ArrayList<CrayonState> getStates() {
         return states;
+    }
+
+    public void  setStates(ArrayList<CrayonState> states) {
+        this.states = states;
     }
 
     @Override
