@@ -41,8 +41,6 @@ public class BaseListener implements Listener {
                     target,
                     event.getItem()
             ));
-        } else {
-            return;
         }
     }
 

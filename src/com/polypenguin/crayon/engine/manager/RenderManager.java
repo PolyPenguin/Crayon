@@ -1,5 +1,6 @@
 package com.polypenguin.crayon.engine.manager;
 
+import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.PassiveChangeAction;
@@ -8,6 +9,7 @@ import com.polypenguin.crayon.engine.operation.*;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -36,6 +38,8 @@ public class RenderManager {
                 world.getBlockAt(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).setType(state.getUpdated());
             }
 
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Filled " + fillOperation.getStates().size() + " blocks");
+
             return new BlockChangeAction(
                     player,
                     ((FillOperation) operation).getStates(),
@@ -62,7 +66,7 @@ public class RenderManager {
             render(new FillOperation(player, states));
         }
 
-        throw new IllegalStateException("[Crayon] [RenderManager.65] Critical render exception! Please contact a developer!");
+        return null;
     }
 
     public static PassiveChangeAction handle(TransformOperation operation) {
@@ -109,7 +113,7 @@ public class RenderManager {
             );
         }
 
-        throw new IllegalStateException("[Crayon] [RenderManager.112] Critical render exception! Please contact a developer!");
+        return null;
     }
 
     public static void finalize(CrayonPlayer player, Material material) {
@@ -129,13 +133,9 @@ public class RenderManager {
 
                 player.resetOperation();
             } else if (player.getOperation() instanceof ShapeOperation) {
-
+                return;
             }
-
-            throw new IllegalStateException("[Crayon] [RenderManager.106] Critical render exception! Please contact a developer!");
         }
-
-        throw new IllegalStateException("[Crayon] [RenderManager.106] Critical render exception! Please contact a developer!");
     }
 
 }

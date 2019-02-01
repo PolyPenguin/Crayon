@@ -1,6 +1,5 @@
 package com.polypenguin.crayon.core.gui;
 
-import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.utils.ItemUtils;
 import org.bukkit.Bukkit;
@@ -61,12 +60,24 @@ public class CrayonInterface {
         return gui;
     }
 
+    /**
+     * Open the inventory of a player the easy way.
+     *
+     * @param player The player an inventory has to be opened for.
+     * @param inventory The inventory that has to be opened.
+     */
     public static void openInventory(CrayonPlayer player, Inventory inventory) {
         player.getPlayer().closeInventory();
         player.getPlayer().openInventory(inventory);
         player.getPlayer().updateInventory();
     }
 
+    /**
+     * Check whether an inventory is Crayon-related or not.
+     *
+     * @param inventory The inventory that has to be checked.
+     * @return True if the inventory is Crayon-related.
+     */
     public static boolean isCrayonInventory(Inventory inventory) {
         return inventory.getName().contains("Crayon");
     }

@@ -7,6 +7,11 @@ import com.polypenguin.crayon.engine.utils.ItemUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.permissions.Permission;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Command which handles requests for the Crayon menu.
+ */
 public class MenuCommand extends CrayonCommand {
 
     @Override

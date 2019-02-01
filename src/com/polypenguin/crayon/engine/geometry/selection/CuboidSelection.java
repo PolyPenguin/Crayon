@@ -8,15 +8,10 @@ import java.util.ArrayList;
 public class CuboidSelection implements Selection {
 
     private Vector min, max;
-    private ArrayList<Vector> filled, unfilled;
 
     public CuboidSelection(Vector min, Vector max) {
         this.min = min;
         this.max = max;
-
-        //Get the vectors for the cuboid to keep down memory usage as much as possible.
-        this.filled = VectorUtils.getCuboid(this, true);
-        this.unfilled = VectorUtils.getTrueVectors(VectorUtils.getCuboidWalls(this));
     }
 
     @Override
@@ -76,7 +71,7 @@ public class CuboidSelection implements Selection {
 
     @Override
     public ArrayList<Vector> getVectors(boolean filled) {
-        return (filled) ? this.filled : unfilled;
+        return VectorUtils.getCuboid(this, filled);
     }
 
     @Override

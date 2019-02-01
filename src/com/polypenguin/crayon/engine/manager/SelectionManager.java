@@ -50,32 +50,45 @@ public class SelectionManager {
      * 
      *  If the current selection is a CuboidSelection, 
      *  it will get updated to a VectorSelection.
+     *
+     *  TODO: Recode this method. It's a bit dull.
      * 
      * @param vector The vector that is to be added.
+     * @return Which number of position has been updated.
      */
-    public void update(Vector vector) {
+    public int update(Vector vector) {
         if (vector == null) {
             selection = new NullSelection();
+
+            return 1;
         }
 
         if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.SINGLE) {
-            System.out.println("Set new selection: Single");
-
             selection = new VectorSelection(vector);
+
+            return 1;
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.DOUBLE) {
-            if (selection.getNativeMaximum() != null) {
-                System.out.println("Set new selection: Double - Old");
-
-                selection.setNativeMaximum(vector);
-            } else {
-                System.out.println("Set new selection: Double - New");
-
+            if (selection == null) {
                 selection = new CuboidSelection(vector, null);
+
+                return 1;
+            } else if (selection.getNativeMaximum() != null) {
+                selection = new CuboidSelection(vector, null);
+
+                return 1;
+            } else if (selection.getNativeMinimum() != null) {
+                selection.setNativeMaximum(vector);
+
+                return 2;
             }
         } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.MULTI) {
             /**
              * @// FIXME: 26/01/2019
              */
+
+            return 0;
         }
+
+        return 0;
     }
 }
