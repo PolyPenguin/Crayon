@@ -1,6 +1,5 @@
 package com.polypenguin.crayon.engine;
 
-import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;

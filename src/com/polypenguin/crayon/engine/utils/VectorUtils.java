@@ -2,14 +2,9 @@ package com.polypenguin.crayon.engine.utils;
 
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
-import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 
-import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
-import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
 
 import java.util.ArrayList;
 
@@ -33,12 +28,15 @@ public class VectorUtils {
                 vector.getBlockZ() + ChatColor.DARK_GRAY + "]";
     }
 
+    /**
+     * Calculate the offset of one vector to another.
+     *
+     * @param vector The vector the offset needs to be calculated to.
+     * @param target The vector the offset needs to be calculated off.
+     * @return A vector containing the offset coordinates.
+     */
     public static Vector getOffset(Vector vector, Vector target) {
-        return new Vector(
-                target.getX() - vector.getX(),
-                target.getY() - vector.getY(),
-                target.getZ() - vector.getZ()
-        );
+        return target.subtract(vector);
     }
 
     /**
@@ -49,7 +47,7 @@ public class VectorUtils {
      * @return An ArrayList of vectors that make up the cuboid.
      */
     public static ArrayList<Vector> getCuboid(CuboidSelection selection, boolean isFilled) {
-        return isFilled ? getCuboidFilled(selection) : getCuboidUnfilled(selection);
+        return getCuboidFilled(selection);
     }
 
     /**
@@ -74,6 +72,7 @@ public class VectorUtils {
      *
      * @param selection Contains the two vectors which should be used as a reference.
      * @return An ArrayList of vectors that make up the cuboid.
+     *
      */
     private static ArrayList<Vector> getCuboidFilled(CuboidSelection selection) {
         Vector min = selection.getNativeMinimum();

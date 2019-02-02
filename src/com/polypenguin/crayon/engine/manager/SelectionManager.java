@@ -6,6 +6,7 @@ import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
+import com.polypenguin.crayon.engine.utils.VectorUtils;
 
 public class SelectionManager {
 

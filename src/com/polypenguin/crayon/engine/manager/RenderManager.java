@@ -6,6 +6,7 @@ import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.operation.*;
+import com.polypenguin.crayon.engine.utils.VectorUtils;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
@@ -51,15 +52,20 @@ public class RenderManager {
         } else if (operation instanceof PasteOperation) {
             PasteOperation pasteOperation = (PasteOperation) operation;
             Vector target = pasteOperation.getTarget();
-
             ArrayList<CrayonState> states = new ArrayList<>();
 
             for (CrayonPreState state : pasteOperation.getTransformations()) {
-                Vector offset = target.add(state.getOffset());
+                Vector offset = new Vector(
+                        (target.getBlockX() + state.getOffset().getBlockX()),
+                        (target.getBlockY() + state.getOffset().getBlockY()),
+                        (target.getBlockZ() + state.getOffset().getBlockZ())
+                );
+
+                Material material = state.getMaterial();
 
                 states.add(new CrayonState(offset,
                         world.getBlockAt(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ()).getType(),
-                        state.getMaterial())
+                        material)
                 );
             }
 
@@ -75,16 +81,8 @@ public class RenderManager {
 
         if (operation instanceof CopyOperation) {
             CopyOperation copyOperation = (CopyOperation) operation;
-            ArrayList<CrayonPreState> preStates = new ArrayList<>();
 
-            for (Vector vector : copyOperation.getTransformations()) {
-                Vector target = copyOperation.getOrigin().add(vector);
-
-                preStates.add(new CrayonPreState(
-                        vector, world.getBlockAt(target.getBlockX(), target.getBlockY(), target.getBlockZ()).getType()));
-            }
-
-            player.getClipboard().update(preStates);
+            player.getClipboard().update(copyOperation.getTransformations());
 
             return new PassiveChangeAction(
                     player,

@@ -209,9 +209,9 @@ public class Vector {
      */
     public Vector subtract(double x, double y, double z) {
         return new Vector(
-                this.x += x,
-                this.y += y,
-                this.z += z
+                this.x -= x,
+                this.y -= y,
+                this.z -= z
         );
     }
 
@@ -223,9 +223,9 @@ public class Vector {
      */
     public Vector subtract(double unit) {
         return new Vector(
-                this.x += unit,
-                this.y += unit,
-                this.z += unit
+                this.x -= unit,
+                this.y -= unit,
+                this.z -= unit
         );
     }
 
@@ -237,9 +237,9 @@ public class Vector {
      */
     public Vector subtract(Vector... vectors) {
         for (Vector v : vectors) {
-            this.x += v.x;
-            this.y += v.y;
-            this.z += v.z;
+            this.x -= v.x;
+            this.y -= v.y;
+            this.z -= v.z;
         }
 
         return new Vector(x, y, z);
@@ -255,9 +255,9 @@ public class Vector {
      */
     public Vector multiply(double x, double y, double z) {
         return new Vector(
-                this.x += x,
-                this.y += y,
-                this.z += z
+                this.x *= x,
+                this.y *= y,
+                this.z *= z
         );
     }
 
@@ -269,9 +269,9 @@ public class Vector {
      */
     public Vector multiply(double unit) {
         return new Vector(
-                this.x += unit,
-                this.y += unit,
-                this.z += unit
+                this.x *= unit,
+                this.y *= unit,
+                this.z *= unit
         );
     }
 
@@ -283,9 +283,9 @@ public class Vector {
      */
     public Vector multiply(Vector... vectors) {
         for (Vector v : vectors) {
-            this.x += v.x;
-            this.y += v.y;
-            this.z += v.z;
+            this.x *= v.x;
+            this.y *= v.y;
+            this.z *= v.z;
         }
 
         return new Vector(x, y, z);
@@ -301,9 +301,9 @@ public class Vector {
      */
     public Vector divide(double x, double y, double z) {
         return new Vector(
-                this.x += x,
-                this.y += y,
-                this.z += z
+                this.x /= x,
+                this.y /= y,
+                this.z /= z
         );
     }
 
@@ -315,9 +315,9 @@ public class Vector {
      */
     public Vector divide(double unit) {
         return new Vector(
-                this.x += unit,
-                this.y += unit,
-                this.z += unit
+                this.x /= unit,
+                this.y /= unit,
+                this.z /= unit
         );
     }
 
@@ -329,9 +329,9 @@ public class Vector {
      */
     public Vector divide(Vector... vectors) {
         for (Vector v : vectors) {
-            this.x += v.x;
-            this.y += v.y;
-            this.z += v.z;
+            this.x /= v.x;
+            this.y /= v.y;
+            this.z /= v.z;
         }
 
         return new Vector(x, y, z);

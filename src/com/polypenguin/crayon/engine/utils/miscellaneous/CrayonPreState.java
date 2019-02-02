@@ -1,6 +1,7 @@
 package com.polypenguin.crayon.engine.utils.miscellaneous;
 
 import com.polypenguin.crayon.engine.geometry.Vector;
+
 import org.bukkit.Material;
 
 public class CrayonPreState {

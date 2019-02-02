@@ -17,6 +17,7 @@ import com.polypenguin.crayon.engine.operation.PasteOperation;
 import com.polypenguin.crayon.engine.utils.InterfaceUtils;
 import com.polypenguin.crayon.engine.utils.ItemUtils;
 import com.polypenguin.crayon.engine.utils.VectorUtils;
+import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import org.bukkit.ChatColor;
@@ -132,14 +133,20 @@ public class CrayonListener implements Listener {
                     }
 
                     //The origin will always be the minimum of the selection!
-                    ArrayList<Vector> offsets = new ArrayList<>();
+                    ArrayList<CrayonPreState> preStates = new ArrayList<>();
+                    ArrayList<Vector> positions = selection.getVectors(true);
                     Vector origin = selection.getNativeMinimum();
 
-                    for (Vector vector : selection.getVectors(true)) {
-                        offsets.add(VectorUtils.getOffset(selection.getNativeMinimum(), vector));
+                    for (Vector vector : positions) {
+                        Material material = player.getPlayer().getWorld().getBlockAt(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).getType();
+
+                        preStates.add(new CrayonPreState(
+                                VectorUtils.getOffset(selection.getNativeMinimum(), vector),
+                                material
+                        ));
                     }
 
-                    PassiveChangeAction action = RenderManager.handle(new CopyOperation(player, offsets, origin));
+                    PassiveChangeAction action = RenderManager.handle(new CopyOperation(player, preStates, origin));
 
                     player.getActionManager().add(action);
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
@@ -183,28 +190,28 @@ public class CrayonListener implements Listener {
                 if (slot == 10) {
                     player.setSelectionMode(CrayonPlayer.SelectionMode.SINGLE);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Single!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Single");
                 } else if (slot == 11) {
                     player.setSelectionMode(CrayonPlayer.SelectionMode.DOUBLE);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Double!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Double");
                 } else if (slot == 12) {
                     player.setSelectionMode(CrayonPlayer.SelectionMode.MULTI);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Multi!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been set to Multi");
                 } else if (slot == 13) {
                     player.setSelectionMode(CrayonPlayer.SelectionMode.NA);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been reset!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode has been reset");
                 } else if (slot == 14) {
                     player.getSelectionManager().update(null);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selected positions has been reset!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selected positions has been reset");
                 } else if (slot == 15) {
                     player.setSelectionMode(CrayonPlayer.SelectionMode.NA);
                     player.getSelectionManager().update(null);
                     player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode and selected positions have been reset!");
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Selection mode and selected positions have been reset");
                 } else if (slot == 16) {
                     player.getPlayer().closeInventory();
                 }
@@ -312,7 +319,11 @@ public class CrayonListener implements Listener {
                 }
             } else if (inventory.getName().contains("Random")) {
                 if ((slot < 45) && (!inventory.getItem(slot).getType().equals(Material.AIR))) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    if (inventory.getItem(slot).getType().equals(Material.COBWEB)) {
+                        RenderManager.finalize(player, Material.AIR);
+                    } else {
+                        RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    }
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
