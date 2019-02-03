@@ -28,8 +28,4 @@ public class FillOperation extends StateOperation {
         return player;
     }
 
-    public void execute() {
-        //TODO: Send to render engine
-    }
-
 }

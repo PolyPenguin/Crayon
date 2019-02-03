@@ -6,6 +6,4 @@ public abstract class StateOperation implements CrayonOperation {
 
     public abstract CrayonPlayer getPlayer();
 
-    public abstract void execute();
-
 }
