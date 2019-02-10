@@ -71,7 +71,7 @@ public class CuboidSelection implements Selection {
 
     @Override
     public ArrayList<Vector> getVectors(boolean filled) {
-        return VectorUtils.getCuboid(this, filled);
+        return VectorUtils.getCuboid(this);
     }
 
     @Override

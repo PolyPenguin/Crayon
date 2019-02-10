@@ -6,7 +6,6 @@ import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.operation.*;
-import com.polypenguin.crayon.engine.utils.VectorUtils;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
@@ -45,10 +44,6 @@ public class RenderManager {
                     player,
                     ((FillOperation) operation).getStates(),
                     player.getActionManager().getNextID());
-        } else if (operation instanceof ShapeOperation) {
-            ShapeOperation shapeOperation = (ShapeOperation) operation;
-
-            render(shapeOperation.getOperation());
         } else if (operation instanceof PasteOperation) {
             PasteOperation pasteOperation = (PasteOperation) operation;
             Vector target = pasteOperation.getTarget();
@@ -130,10 +125,7 @@ public class RenderManager {
                 render(new FillOperation(player, states));
 
                 player.resetOperation();
-            } else if (player.getOperation() instanceof ShapeOperation) {
-                return;
             }
         }
     }
-
 }

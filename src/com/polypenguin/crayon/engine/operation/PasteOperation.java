@@ -30,9 +30,4 @@ public class PasteOperation extends StateOperation {
     public CrayonPlayer getPlayer() {
         return player;
     }
-
-    @Override
-    public void execute() {
-
-    }
 }

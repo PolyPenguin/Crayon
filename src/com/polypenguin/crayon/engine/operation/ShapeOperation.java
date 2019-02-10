@@ -1,9 +1,18 @@
 package com.polypenguin.crayon.engine.operation;
 
+import com.polypenguin.crayon.Crayon;
+import com.polypenguin.crayon.core.gui.CrayonInterface;
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.geometry.Vector;
+import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
+import com.polypenguin.crayon.engine.geometry.selection.Selection;
+import com.polypenguin.crayon.engine.utils.VectorUtils;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonParameter;
+import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
+import org.bukkit.Material;
+
+import java.util.ArrayList;
 
 public class ShapeOperation extends StateOperation {
 
@@ -11,16 +20,12 @@ public class ShapeOperation extends StateOperation {
     private ShapeType type;
     private Vector origin;
     private CrayonParameter parameter;
-    private FillOperation operation;
 
     public ShapeOperation(CrayonPlayer player, ShapeType type, Vector origin) {
         this.player = player;
         this.type = type;
+        this.origin = origin;
         this.parameter = new CrayonParameter();
-    }
-
-    public FillOperation getOperation() {
-        return operation;
     }
 
     public ShapeType getType() {
@@ -35,8 +40,33 @@ public class ShapeOperation extends StateOperation {
         return parameter;
     }
 
-    public void finalize() {
-        //TODO: Calculate vectors -> set as a fill operation
+    public void finalizeOperation() {
+        Selection selection = null;
+
+        if (type == ShapeType.CUBE || type == ShapeType.CUBOID) {
+            Vector cubeMin = origin;
+            Vector cubeMax = new Vector(
+                    origin.getBlockX() + parameter.getParamOne(),
+                    origin.getBlockY() + parameter.getParamTwo(),
+                    origin.getBlockZ() + parameter.getParamThree()
+            );
+
+            selection = new CuboidSelection(cubeMin, cubeMax);
+        }
+
+        ArrayList<CrayonState> states = new ArrayList<>();
+
+        for (Vector vector : selection.getVectors(true)) {
+            states.add(new CrayonState(
+                    vector,
+                    player.getPlayer().getWorld().getBlockAt(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).getType(),
+                    null
+            ));
+        }
+
+        player.setOperation(new FillOperation(player, states));
+
+        CrayonInterface.openInventory(player, Crayon.getMaterialSet().getStone());
     }
 
     @Override

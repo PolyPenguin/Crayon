@@ -4,11 +4,7 @@ public class CrayonParameter {
 
     private int x, y, z;
 
-    public CrayonParameter() {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
+    public CrayonParameter() { }
 
     public int getParamOne() {
         return x;

@@ -106,7 +106,7 @@ public class InterfaceUtils {
 
     public static Inventory getCuboidDimensionMenu(int scaleX, int scaleY, int scaleZ) {
         Inventory gui = CrayonInterface.createCrayonInterface(
-                Crayon.getPrefix() + ChatColor.GREEN + "Cube Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+                Crayon.getPrefix() + ChatColor.GREEN + "Cuboid Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
 
         gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
         gui.setItem(19, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale X = " + scaleX));

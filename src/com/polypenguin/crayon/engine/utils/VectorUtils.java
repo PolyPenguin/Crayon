@@ -43,10 +43,9 @@ public class VectorUtils {
      * Get the vectors for a cuboid created by two given vectors.
      *
      * @param selection Contains the two vectors which should be used.
-     * @param isFilled Whether or not the cuboid should be filled or not.
      * @return An ArrayList of vectors that make up the cuboid.
      */
-    public static ArrayList<Vector> getCuboid(CuboidSelection selection, boolean isFilled) {
+    public static ArrayList<Vector> getCuboid(CuboidSelection selection) {
         return getCuboidFilled(selection);
     }
 
@@ -92,27 +91,12 @@ public class VectorUtils {
     }
 
     /**
-     * Algorithm for an unfilled cuboid.
-     *
-     * @param selection Contains the two vectors which should be used as a reference.
-     * @return An ArrayList of vectors that make up the cuboid.
-     */
-    private static ArrayList<Vector> getCuboidUnfilled(CuboidSelection selection) {
-        ArrayList<Vector> vectors = new ArrayList<>();
-
-        for (Selection sub : getCuboidWalls(selection)) {
-            vectors.addAll(sub.getVectors(false));
-        }
-
-        return vectors;
-    }
-
-    /**
      * Get the walls of a cuboid selection in different selections.
      *
      * @param selection The cuboid selection walls need to be made for.
      * @return The walls in an ArrayList.
      */
+    /*
     public static ArrayList<Selection> getCuboidWalls(CuboidSelection selection) {
         Vector min = selection.getNativeMinimum();
         Vector max = selection.getNativeMaximum();
@@ -128,6 +112,7 @@ public class VectorUtils {
 
         return selections;
     }
+    */
 
     /*
     public static ArrayList<Vector> flip(ArrayList<Vector> vectors) {

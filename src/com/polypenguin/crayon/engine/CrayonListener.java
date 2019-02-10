@@ -67,6 +67,7 @@ public class CrayonListener implements Listener {
         }
     }
 
+    //TODO: Fix shape generation
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onInventory(CrayonInventoryEvent event) {
         CrayonPlayer player = event.getPlayer();
@@ -260,17 +261,11 @@ public class CrayonListener implements Listener {
 
                     ShapeOperation shapeOperation = (ShapeOperation) player.getOperation();
 
-                    shapeOperation.getParameter().setParamOne(scale);
-                    shapeOperation.getParameter().setParamOne(scale);
-                    shapeOperation.getParameter().setParamOne(scale);
+                    shapeOperation.getParameter().setParamOne(scale - 1);
+                    shapeOperation.getParameter().setParamTwo(scale - 1);
+                    shapeOperation.getParameter().setParamThree(scale - 1);
 
-                    player.setOperation(shapeOperation);
-
-                    CrayonInterface.openInventory(player, Crayon.getMaterialSet().getStone());
-                } else {
-                    player.getPlayer().closeInventory();
-
-                    //TODO: Delete all previous settings for the operation
+                    shapeOperation.finalizeOperation();
                 }
             } else if (slot == 49) {
                 player.getPlayer().closeInventory();
@@ -346,13 +341,11 @@ public class CrayonListener implements Listener {
 
                     ShapeOperation shapeOperation = (ShapeOperation) player.getOperation();
 
-                    shapeOperation.getParameter().setParamOne(scaleX);
-                    shapeOperation.getParameter().setParamOne(scaleY);
-                    shapeOperation.getParameter().setParamOne(scaleZ);
+                    shapeOperation.getParameter().setParamOne(scaleX - 1);
+                    shapeOperation.getParameter().setParamTwo(scaleY - 1);
+                    shapeOperation.getParameter().setParamThree(scaleZ - 1);
 
-                    player.setOperation(shapeOperation);
-
-                    CrayonInterface.openInventory(player, Crayon.getMaterialSet().getStone());
+                    shapeOperation.finalizeOperation();
                 } else {
                     player.getPlayer().closeInventory();
 
