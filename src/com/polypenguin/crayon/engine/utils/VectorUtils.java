@@ -4,6 +4,7 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 
+import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -113,6 +114,135 @@ public class VectorUtils {
         return selections;
     }
     */
+
+    public static ArrayList<Vector> getEllipsoidFilled(VectorSelection selection, int scaleX, int scaleY, int scaleZ) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+        Vector origin = selection.getNativeMinimum();
+
+        double radiusX = (double) scaleX;
+        double radiusY = (double) scaleY;
+        double radiusZ = (double) scaleZ;
+
+        double invRadiusX = 1.0D / radiusX;
+        double invRadiusY = 1.0D / radiusY;
+        double invRadiusZ = 1.0D / radiusZ;
+
+        int ceilRadiusX = (int) Math.ceil(radiusX);
+        int ceilRadiusY = (int) Math.ceil(radiusY);
+        int ceilRadiusZ = (int) Math.ceil(radiusZ);
+
+        double nextXn = 0.0D;
+
+        ForX:
+        for (int x = 0; x <= ceilRadiusX; ++x) {
+            double xn = nextXn;
+            nextXn = (double) (x + 1) * invRadiusX;
+            double nextYn = 0.0D;
+
+            for (int y = 0; y <= ceilRadiusY; ++y) {
+                double yn = nextYn;
+                nextYn = (double) (y + 1) * invRadiusY;
+                double nextZn = 0.0D;
+
+                for (int z = 0; z <= ceilRadiusZ; ++z) {
+                    double zn = nextZn;
+                    nextZn = (double) (z + 1) * invRadiusZ;
+                    double distanceSq = xn * xn + yn * yn + zn * zn;
+                    if (distanceSq > 1.0D) {
+                        if (z == 0) {
+                            if (y == 0) {
+                                break ForX;
+                            }
+                            continue ForX;
+                        }
+                        break;
+                    }
+
+                    if (nextXn * nextXn + yn * yn + zn * zn > 1.0D || xn * xn + nextYn * nextYn + zn * zn > 1.0D || xn * xn + yn * yn + nextZn * nextZn > 1.0D) {
+                        vectors.add(new Vector(origin.add(x, y, z)));
+                        vectors.add(new Vector(origin.add(-x, y, z)));
+                        vectors.add(new Vector(origin.add(x, -y, z)));
+                        vectors.add(new Vector(origin.add(x, y, -z)));
+                        vectors.add(new Vector(origin.add(-x, -y, z)));
+                        vectors.add(new Vector(origin.add(x, -y, -z)));
+                        vectors.add(new Vector(origin.add(-x, y, -z)));
+                        vectors.add(new Vector(origin.add(-x, -y, -z)));
+                    }
+                }
+            }
+        }
+
+        vectors.add(origin);
+
+        return vectors;
+    }
+
+    public static ArrayList<Vector> getCylinderFilled(VectorSelection selection, int scaleX, int scaleY, int scaleZ) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+        Vector origin = selection.getNativeMinimum();
+
+        double radiusX = (double) scaleX;
+        double height = (double) scaleY;
+        double radiusZ = (double) scaleZ;
+
+        radiusX += 0.5D;
+        radiusZ += 0.5D;
+
+        if (height == 0.0D) {
+            return null;
+        } else {
+            if (height < 0.0D) {
+                height = -height;
+                origin = origin.subtract(0.0D, height, 0.0D);
+            }
+
+            if (origin.getBlockY() < 0) {
+                origin = new Vector(origin.getBlockX(), 0, origin.getBlockZ());
+            } else if ((double) origin.getBlockY() + height - 1.0D > 256.0D) {
+                height = (double) (256 - origin.getBlockY() + 1);
+            }
+
+            double invRadiusX = 1.0D / radiusX;
+            double invRadiusZ = 1.0D / radiusZ;
+
+            int ceilRadiusX = (int)Math.ceil(radiusX);
+            int ceilRadiusZ = (int)Math.ceil(radiusZ);
+
+            double nextXn = 0.0D;
+
+            ForX:
+            for (int x = 0; x <= ceilRadiusX; ++x) {
+                double xn = nextXn;
+                nextXn = (double)(x + 1) * invRadiusX;
+                double nextZn = 0.0D;
+
+                for (int z = 0; z <= ceilRadiusZ; ++z) {
+                    double zn = nextZn;
+                    nextZn = (double)(z + 1) * invRadiusZ;
+                    double distanceSq = xn * xn + zn * zn;
+                    if (distanceSq > 1.0D) {
+                        if (z == 0) {
+                            break ForX;
+                        }
+                        break;
+                    }
+
+                    if (nextXn * nextXn + (double)(z * z) > 1.0D || (double)(x * x) + nextZn * nextZn > 1.0D) {
+                        for(int y = 0; (double)y < height; ++y) {
+                            vectors.add(new Vector(origin.add(x, y, z)));
+                            vectors.add(new Vector(origin.add(-x, y, z)));
+                            vectors.add(new Vector(origin.add(x, y, -z)));
+                            vectors.add(new Vector(origin.add(-x, y, -z)));
+                        }
+                    }
+                }
+            }
+
+            vectors.add(origin);
+
+            return vectors;
+        }
+    }
 
     /*
     public static ArrayList<Vector> flip(ArrayList<Vector> vectors) {

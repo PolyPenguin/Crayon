@@ -2,8 +2,8 @@ package com.polypenguin.crayon.engine.utils;
 
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.gui.CrayonInterface;
-
 import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -16,6 +16,7 @@ public class InterfaceUtils {
 
         gui.setItem(10, ItemUtils.getWandItem());
         gui.setItem(11, ItemUtils.getSkullItem(1, "flashlight", ChatColor.AQUA + "Position Selection"));
+        gui.setItem(12, ItemUtils.getItem(Material.WRITABLE_BOOK, 1, ChatColor.AQUA + "History"));
 
         return gui;
     }
@@ -69,6 +70,18 @@ public class InterfaceUtils {
         return gui;
     }
 
+    public static Inventory getHistoryMenu() {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "History Menu", CrayonInterface.SupportedInterfaceSize.MEDIUM, true, true);
+
+        gui.setItem(10, ItemUtils.getLatestUndo());
+        gui.setItem(11, ItemUtils.getLatestRedo());
+        gui.setItem(13, ItemUtils.getItem(Material.BOOKSHELF, 1, ChatColor.AQUA + "Timeline"));
+        gui.setItem(14, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "History Settings"));
+
+        return gui;
+    }
+
     public static Inventory getCuboidShapesMenu() {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "Cuboid Shapes", CrayonInterface.SupportedInterfaceSize.MEDIUM, true, true);
@@ -107,6 +120,40 @@ public class InterfaceUtils {
     public static Inventory getCuboidDimensionMenu(int scaleX, int scaleY, int scaleZ) {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "Cuboid Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(19, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale X = " + scaleX));
+        gui.setItem(28, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale Y = " + scaleY));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(25, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale Z = " + scaleZ));
+        gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getSphereDimensionMenu(int scale) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Sphere Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale = " + scale));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getEllipsoidDimensionMenu(int scaleX, int scaleY, int scaleZ) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Ellipsoid Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
 
         gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
         gui.setItem(19, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale X = " + scaleX));

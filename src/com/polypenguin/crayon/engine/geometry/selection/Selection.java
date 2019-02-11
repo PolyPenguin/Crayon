@@ -12,9 +12,9 @@ public abstract interface Selection {
     public enum SelectionType {
         SINGLE,
         DOUBLE,
-        MULTI
+        MULTI,
+        SHAPE
     }
-
 
     Vector getNativeMinimum();
 

@@ -64,7 +64,7 @@ public class RenderManager {
                 );
             }
 
-            render(new FillOperation(player, states));
+            return render(new FillOperation(player, states));
         }
 
         return null;
@@ -122,8 +122,9 @@ public class RenderManager {
                     ));
                 }
 
-                render(new FillOperation(player, states));
+                BlockChangeAction action = render(new FillOperation(player, states));
 
+                player.getActionManager().add(action);
                 player.resetOperation();
             }
         }

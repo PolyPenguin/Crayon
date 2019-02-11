@@ -23,6 +23,8 @@ public class ActionManager {
      * @param action The action that is to be added.
      */
     public void add(CrayonAction action) {
+        System.out.println("Added Action");
+
         actions.addFirst(action);
     }
 

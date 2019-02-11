@@ -136,12 +136,12 @@ public class ItemUtils {
         return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo", new String[0]);
     }
 
-    public static ItemStack getUndoPreviousItem() {
-        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo the previous action", new String[0]);
+    public static ItemStack getLatestUndo() {
+        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo latest action", new String[0]);
     }
 
-    public static ItemStack getRedoPreviousItem() {
-        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo the previous action", new String[0]);
+    public static ItemStack getLatestRedo() {
+        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo latest action", new String[0]);
     }
 
     public static ItemStack getMenuItem() {
