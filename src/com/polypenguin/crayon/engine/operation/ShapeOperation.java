@@ -6,11 +6,10 @@ import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
-import com.polypenguin.crayon.engine.utils.VectorUtils;
+import com.polypenguin.crayon.engine.geometry.selection.ShapeSelection;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonParameter;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
-import org.bukkit.Material;
 
 import java.util.ArrayList;
 
@@ -52,6 +51,14 @@ public class ShapeOperation extends StateOperation {
             );
 
             selection = new CuboidSelection(cubeMin, cubeMax);
+        } else if (type == ShapeType.SPHERE) {
+            Vector shapeMin = origin;
+
+            selection = new ShapeSelection(shapeMin, new Vector(parameter.getParamOne(), parameter.getParamTwo(), parameter.getParamThree()), ShapeType.SPHERE);
+        } else if (type == ShapeType.ELLIPSOID) {
+            Vector shapeMin = origin;
+
+            selection = new ShapeSelection(shapeMin, new Vector(parameter.getParamOne(), parameter.getParamTwo(), parameter.getParamThree()), ShapeType.ELLIPSOID);
         }
 
         ArrayList<CrayonState> states = new ArrayList<>();

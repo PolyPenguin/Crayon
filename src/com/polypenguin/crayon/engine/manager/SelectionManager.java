@@ -6,8 +6,14 @@ import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
 import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
-import com.polypenguin.crayon.engine.utils.VectorUtils;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Manager that manages all the selections for
+ * a specific player. Each player has it's
+ * own SelectionManager.
+ */
 public class SelectionManager {
 
     private CrayonPlayer owner;
@@ -17,18 +23,32 @@ public class SelectionManager {
         this.owner = owner;
     }
 
+    /**
+     * @return Get the owner.
+     */
     public CrayonPlayer getOwner() {
         return owner;
     }
 
+    /**
+     * @return Get the current selection.
+     */
     public Selection getSelection() {
         return selection;
     }
 
+    /**
+     * @return True if a selection is present.
+     */
     public boolean hasSelection() {
         return selection != null;
     }
 
+    /**
+     * @return Get the current type of selection.
+     *
+     * @see com.polypenguin.crayon.engine.geometry.selection.Selection.SelectionType
+     */
     public Selection.SelectionType getCurrentType() {
         if (hasSelection()) {
             if (selection instanceof VectorSelection) {

@@ -17,8 +17,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Listener that listens for basic player interaction
+ * and passes it to Crayon as a Crayon-related event.
+ */
 public class BaseListener implements Listener {
 
+    /**
+     * Listens for basic player interaction.
+     */
     @EventHandler (priority = EventPriority.LOW)
     public void onBasicInteraction(PlayerInteractEvent event) {
         if (event.getItem() == null) {
@@ -44,6 +53,9 @@ public class BaseListener implements Listener {
         }
     }
 
+    /**
+     * Listens for basic player inventory action.
+     */
     @EventHandler (priority = EventPriority.LOW)
     public void onBasicInventory(InventoryClickEvent event) {
         if (CrayonInterface.isCrayonInventory(event.getClickedInventory())) {

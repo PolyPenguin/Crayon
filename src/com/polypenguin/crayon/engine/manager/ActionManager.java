@@ -5,6 +5,15 @@ import com.polypenguin.crayon.engine.action.CrayonAction;
 
 import java.util.LinkedList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Manager that manages all the actions for
+ * a specific player. Each player has it's
+ * own ActionManager.
+ *
+ * @see CrayonPlayer
+ */
 public class ActionManager {
 
     private CrayonPlayer owner;
@@ -41,6 +50,12 @@ public class ActionManager {
         return actions.getFirst();
     }
 
+    /**
+     * Getting an action with a fixed ID.
+     *
+     * @param ID The ID that has to be searched.
+     * @return The action with the given ID if found.
+     */
     public CrayonAction get(int ID) {
         for (CrayonAction action : actions) {
             if (action.getID() == ID) {
@@ -49,6 +64,13 @@ public class ActionManager {
         }
 
         return null;
+    }
+
+    /**
+     * Clears all actions from this manager.
+     */
+    public void flush() {
+        actions.clear();
     }
 
 }

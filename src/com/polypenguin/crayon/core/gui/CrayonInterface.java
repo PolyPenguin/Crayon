@@ -15,7 +15,7 @@ public class CrayonInterface {
     /**
      * Supported UI sizes for Crayon GUIs.
      */
-    public static enum SupportedInterfaceSize {
+    public enum SupportedInterfaceSize {
         SMALL(9),  MEDIUM(27),  LARGE(45),  HUGE(54);
 
         int size;

@@ -4,6 +4,11 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Selection used for null, when no selection is present.
+ */
 public class NullSelection implements Selection {
 
     @Override

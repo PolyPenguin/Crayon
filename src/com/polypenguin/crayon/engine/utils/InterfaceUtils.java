@@ -74,8 +74,8 @@ public class InterfaceUtils {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "History Menu", CrayonInterface.SupportedInterfaceSize.MEDIUM, true, true);
 
-        gui.setItem(10, ItemUtils.getLatestUndo());
-        gui.setItem(11, ItemUtils.getLatestRedo());
+        gui.setItem(10, ItemUtils.getLatestRedo());
+        gui.setItem(11, ItemUtils.getLatestUndo());
         gui.setItem(13, ItemUtils.getItem(Material.BOOKSHELF, 1, ChatColor.AQUA + "Timeline"));
         gui.setItem(14, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "History Settings"));
 

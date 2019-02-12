@@ -6,6 +6,11 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Selection used for shapes.
+ */
 public class ShapeSelection implements Selection {
 
     private Vector min, scale;
@@ -37,14 +42,25 @@ public class ShapeSelection implements Selection {
         this.min = max;
     }
 
+    /**
+     * @return The scales in X, Y and Z direction as a vector.
+     */
     public Vector getScale() {
         return scale;
     }
 
+    /**
+     * Set the scales in X, Y and Z directions.
+     *
+     * @param scale The scales in X, Y and Z directions as a vector.
+     */
     public void setScale(Vector scale) {
         this.scale = scale;
     }
 
+    /**
+     * @return The type of shape.
+     */
     public ShapeType getType() {
         return type;
     }
@@ -87,9 +103,9 @@ public class ShapeSelection implements Selection {
     @Override
     public ArrayList<Vector> getVectors(boolean filled) {
         if (type == ShapeType.SPHERE || type == ShapeType.ELLIPSOID) {
-            return VectorUtils.getEllipsoidFilled(new VectorSelection(min), scale.getBlockX(), scale.getBlockY(), scale.getBlockZ());
+            return VectorUtils.getEllipsoidFilled(new VectorSelection(min), scale);
         } else if (type == ShapeType.CYLINDER) {
-            return VectorUtils.getCylinderFilled(new VectorSelection(min), scale.getBlockX(), scale.getBlockY(), scale.getBlockZ());
+            return VectorUtils.getCylinderFilled(new VectorSelection(min), scale);
         }
 
         return null;

@@ -18,13 +18,21 @@ import java.util.ArrayList;
 /**
  * @author Matthias Kovacic
  *
- * The RenderManager will take in operations
+ * Manager that will manager operations
  * and execute them accordingly, returning
  * actions for each player.
  */
 public class RenderManager {
 
-
+    /**
+     * Renders a StateOperation into the world.
+     *
+     * @param operation The operation that has to be rendered.
+     * @return A BlockChangeAction to add to the performer's ActionManager.
+     *
+     * @see StateOperation
+     * @see BlockChangeAction
+     */
     public static BlockChangeAction render(StateOperation operation) {
         CrayonPlayer player = operation.getPlayer();
         World world = player.getPlayer().getWorld();
@@ -70,6 +78,15 @@ public class RenderManager {
         return null;
     }
 
+    /**
+     * Handles operations that don't have to be rendered instantly.
+     *
+     * @param operation The operation that has to be handled.
+     * @return A PassiveChangeAction to add to the performer's ActionManager.
+     *
+     * @see TransformOperation
+     * @see PassiveChangeAction
+     */
     public static PassiveChangeAction handle(TransformOperation operation) {
         CrayonPlayer player = operation.getPlayer();
         World world = player.getPlayer().getWorld();
@@ -109,6 +126,12 @@ public class RenderManager {
         return null;
     }
 
+    /**
+     * Finalize certain operations for a player.
+     *
+     * @param player The player who's operation should be finalized.
+     * @param material Optional material that has to be added to the operation states.
+     */
     public static void finalize(CrayonPlayer player, Material material) {
         if (player.getOperation() instanceof StateOperation) {
             if (player.getOperation() instanceof FillOperation) {

@@ -5,6 +5,11 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Selection used for single-vector selections.
+ */
 public class VectorSelection implements Selection {
 
     private Vector min;

@@ -5,6 +5,12 @@ import com.polypenguin.crayon.engine.utils.VectorUtils;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Selection used for Cuboids.
+ * Can also be used to store two vectors.
+ */
 public class CuboidSelection implements Selection {
 
     private Vector min, max;

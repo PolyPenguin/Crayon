@@ -23,9 +23,11 @@ public class CommandService implements CommandExecutor {
 
     private ArrayList<CrayonCommand> commands;
 
+    /**
+     * Constructor that adds all Crayon commands in the game.
+     */
     public CommandService() {
         commands = new ArrayList<>();
-
         commands.add(new MenuCommand());
     }
 
