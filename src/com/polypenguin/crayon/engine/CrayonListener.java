@@ -23,6 +23,7 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
 
+import io.netty.util.internal.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -181,25 +182,29 @@ public class CrayonListener implements Listener {
                 }
             } else if (inventory.getName().contains("History")) {
                 if (slot == 10) {
-                     if (player.getActionManager().getLast() != null) {
-                         player.getActionManager().getLast().undo();
-                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been undone");
-                     } else {
-                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "No actions left to undo");
-                     }
-                } else if (slot == 11) {
                     if (player.getActionManager().getLast() != null) {
                         player.getActionManager().getLast().redo();
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been redone");
+                        player.getPlayer().closeInventory();
                     } else {
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "No actions left to redo");
+                        player.getPlayer().closeInventory();
+                    }
+                } else if (slot == 11) {
+                    if (player.getActionManager().getLast() != null && player.getActionManager().getLast().canUndo()) {
+                        player.getActionManager().getLast().undo();
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been undone");
+                        player.getPlayer().closeInventory();
+                    } else {
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "No actions left to undo");
+                        player.getPlayer().closeInventory();
                     }
                 } else if (slot == 13) {
-                    player.getPlayer().closeInventory();
-                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
+                    CrayonInterface.openInventory(player, InterfaceUtils.getHistoryTimeline(player));
                 } else if (slot == 14) {
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "History has been cleared! (Cleared " + player.getActionManager().getSize() + " actions)");
                     player.getActionManager().flush();
+                    player.getPlayer().closeInventory();
                 } else if (slot == 15) {
                     player.getPlayer().closeInventory();
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
@@ -270,7 +275,46 @@ public class CrayonListener implements Listener {
                     player.getPlayer().closeInventory();
                 }
             }
-        } else if (inventory.getName().contains("Cube") && inventory.getName().contains("Scale")) {
+        }
+
+        else if (inventory.getName().contains("Timeline")) {
+            if (slot < 45) {
+                if (ItemUtils.hasActionAssigned(inventory.getItem(slot))) {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getActionInventory(player, inventory.getItem(slot)));
+                }
+            }
+
+            if (slot == 49) {
+                player.getPlayer().closeInventory();
+            }
+        }
+
+        //TODO: Fix this
+        else if (inventory.getName().contains("Action")) {
+            int ID = -1;
+
+            for (String str : inventory.getItem(13).getItemMeta().getLore()) {
+                if (str.contains("ID")) {
+                    ID = StringUtils.extractNumber(str);
+                }
+            }
+
+            if (slot == 10) {
+                player.getActionManager().get(ID).redo();
+                player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Action has been redone");
+            } else if (slot == 11) {
+                if (player.getActionManager().get(ID).canUndo()) {
+                    player.getActionManager().get(ID).undo();
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Action has been undone");
+                }
+            } else if(slot == 15) {
+                CrayonInterface.openInventory(player, InterfaceUtils.getHistoryTimeline(player));
+            } else if (slot == 16) {
+                player.getPlayer().closeInventory();
+            }
+        }
+
+        else if (inventory.getName().contains("Cube") && inventory.getName().contains("Scale")) {
             if (slot == 13) {
                 player.getPlayer().closeInventory();
 

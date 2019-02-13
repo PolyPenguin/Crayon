@@ -10,6 +10,7 @@ import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -122,11 +123,15 @@ public class ItemUtils {
         } else if (action instanceof PassiveChangeAction) {
             stack = getItem(Material.PAPER, 1, ChatColor.AQUA + "Passive Action",
                     ChatColor.WHITE + "ID: " + action.getID(),
-                    ChatColor.WHITE + "Operation Type " + ((PassiveChangeAction) action).getOperation().toString(),
+                    ChatColor.WHITE + "Operation Type: " + ((PassiveChangeAction) action).getOperation().toString(),
                     ChatColor.WHITE + "Undoable: " + action.canUndo());
         }
 
         return stack;
+    }
+
+    public static ItemStack getNoActionsItem() {
+        return getItem(Material.PAPER, 1, ChatColor.AQUA + "You have no actions listed");
     }
 
     public static ItemStack getExitItem() {
@@ -193,6 +198,10 @@ public class ItemUtils {
             return false;
         }
         return false;
+    }
+
+    public static boolean hasActionAssigned(ItemStack stack) {
+        return (stack != getFillItem() && stack != getExitItem());
     }
 
 }

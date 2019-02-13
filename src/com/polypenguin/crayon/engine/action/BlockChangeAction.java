@@ -1,6 +1,7 @@
 package com.polypenguin.crayon.engine.action;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
+import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class BlockChangeAction implements CrayonAction {
     private ArrayList<CrayonState> states;
     private int ID;
 
+    private boolean isUndo;
+
     /**
      * Constructor that takes in parameters needed
      * to undo/redo the action if necessary.
@@ -28,21 +31,41 @@ public class BlockChangeAction implements CrayonAction {
         this.player = player;
         this.states = states;
         this.ID = ID;
+
+        this.isUndo = true;
     }
 
     @Override
     public boolean canUndo() {
-        return false;
+        return isUndo;
     }
 
     @Override
     public void undo() {
+        if (isUndo) {
+            isUndo = false;
 
+            for (CrayonState state : states) {
+                Vector vector = state.getVector();
+
+                player.getPlayer().getWorld().getBlockAt(
+                        vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).setType(state.getOutdated());
+            }
+        }
     }
 
     @Override
     public void redo() {
+        if (!isUndo) {
+            for (CrayonState state : states) {
+                Vector vector = state.getVector();
 
+                player.getPlayer().getWorld().getBlockAt(
+                        vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()).setType(state.getUpdated());
+            }
+
+            isUndo = true;
+        }
     }
 
     /**

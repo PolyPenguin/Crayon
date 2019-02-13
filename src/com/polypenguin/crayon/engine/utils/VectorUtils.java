@@ -143,6 +143,84 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
         Vector origin = selection.getNativeMinimum();
 
+        boolean filled = true;
+
+        double radiusX = scale.getX();
+        double radiusY = scale.getY();
+        double radiusZ = scale.getZ();
+
+        radiusX += 0.5D;
+        radiusY += 0.5D;
+        radiusZ += 0.5D;
+
+        double invRadiusX = 1.0D / radiusX;
+        double invRadiusY = 1.0D / radiusY;
+        double invRadiusZ = 1.0D / radiusZ;
+
+        int ceilRadiusX = (int) Math.ceil(radiusX);
+        int ceilRadiusY = (int) Math.ceil(radiusY);
+        int ceilRadiusZ = (int) Math.ceil(radiusZ);
+        double nextXn = 0.0D;
+
+        ForX:
+        for (int x = 0; x <= ceilRadiusX; ++x) {
+            double xn = nextXn;
+            nextXn = (double)(x + 1) * invRadiusX;
+            double nextYn = 0.0D;
+
+            for (int y = 0; y <= ceilRadiusY; ++y) {
+                double yn = nextYn;
+                nextYn = (double)(y + 1) * invRadiusY;
+                double nextZn = 0.0D;
+
+                for (int z = 0; z <= ceilRadiusZ; ++z) {
+                    double zn = nextZn;
+                    nextZn = (double)(z + 1) * invRadiusZ;
+                    double distanceSq = lengthSq(xn, yn, zn);
+
+                    if (distanceSq > 1.0D) {
+                        if (z == 0) {
+                            if (y == 0) {
+                                break;
+                            }
+
+                            continue ForX;
+                        }
+
+                        break;
+                    }
+
+                    if (filled || lengthSq(nextXn, yn, zn) > 1.0D || lengthSq(xn, nextYn, zn) > 1.0D || lengthSq(xn, yn, nextZn) > 1.0D) {
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() - y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() - y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() - y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() - y), (origin.getBlockZ() - z)));
+                    }
+                }
+            }
+        }
+
+        vectors.add(origin);
+
+        return vectors;
+    }
+
+    /**
+     * Algorithm for a unfilled sphere/ellipsoid.
+     *
+     * @param selection Contains the origin vector which should be used as a reference.
+     * @param scale Contains the scales in X, Y and Z directions.
+     * @return An ArrayList of vectors that make up the sphere/ellipsoid.
+     *
+     */
+    public static ArrayList<Vector> getEllipsoidUnfilled(VectorSelection selection, Vector scale) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+        Vector origin = selection.getNativeMinimum();
+
         double radiusX = scale.getX();
         double radiusY = scale.getY();
         double radiusZ = scale.getZ();

@@ -6,9 +6,13 @@ import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.action.CrayonAction;
 import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
 
+import io.netty.util.internal.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class InterfaceUtils {
 
@@ -179,16 +183,45 @@ public class InterfaceUtils {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "History Timeline", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
 
+        if (player.getActionManager().getActions().size() == 0) {
+            gui.setItem(0, ItemUtils.getNoActionsItem());
+
+            return gui;
+        }
+
         int slot = 0;
         for (CrayonAction action : player.getActionManager().getActions()) {
-            while (slot < 45) {
-                slot++;
+            gui.setItem(slot, ItemUtils.getActionItem(action));
 
-                gui.setItem(slot, ItemUtils.getActionItem(action));
-            }
+            slot++;
         }
 
         return gui;
+    }
+
+    public static Inventory getActionInventory(CrayonPlayer player, ItemStack stack) {
+        if (stack.hasItemMeta()) {
+            List<String> lore = stack.getItemMeta().getLore();
+
+            for (String str : lore) {
+                if (str.contains("ID:")) {
+                    int ID = StringUtils.extractNumber(str);
+
+                    CrayonAction action = player.getActionManager().get(ID);
+                    Inventory gui = CrayonInterface.createCrayonInterface(
+                            Crayon.getPrefix() + ChatColor.GREEN + "Action " + ID, CrayonInterface.SupportedInterfaceSize.MEDIUM, true, true);
+
+                    gui.setItem(10, ItemUtils.getRedoItem());
+                    gui.setItem(11, ItemUtils.getUndoItem());
+                    gui.setItem(13, ItemUtils.getActionItem(action));
+                    gui.setItem(15, ItemUtils.getBackItem());
+
+                    return gui;
+                }
+            }
+        }
+
+        return null;
     }
 
     public static MaterialSet getMaterialsInterface() {
