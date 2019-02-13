@@ -6,6 +6,11 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Operation that pastes a copied selection.
+ */
 public class PasteOperation extends StateOperation {
 
     private CrayonPlayer player;

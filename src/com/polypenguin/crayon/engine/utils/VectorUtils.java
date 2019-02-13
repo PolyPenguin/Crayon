@@ -143,63 +143,61 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
         Vector origin = selection.getNativeMinimum();
 
-        double radiusX = scale.getBlockX();
-        double radiusY = scale.getBlockY();
-        double radiusZ = scale.getBlockZ();
+        double radiusX = scale.getX();
+        double radiusY = scale.getY();
+        double radiusZ = scale.getZ();
 
-        final double invRadiusX = 1 / radiusX;
-        final double invRadiusY = 1 / radiusY;
-        final double invRadiusZ = 1 / radiusZ;
+        radiusX += 0.5D;
+        radiusY += 0.5D;
+        radiusZ += 0.5D;
 
-        final int ceilRadiusX = (int) Math.ceil(radiusX);
-        final int ceilRadiusY = (int) Math.ceil(radiusY);
-        final int ceilRadiusZ = (int) Math.ceil(radiusZ);
+        double invRadiusX = 1.0D / radiusX;
+        double invRadiusY = 1.0D / radiusY;
+        double invRadiusZ = 1.0D / radiusZ;
 
-        double nextXn = 0;
-        forX:
+        int ceilRadiusX = (int) Math.ceil(radiusX);
+        int ceilRadiusY = (int) Math.ceil(radiusY);
+        int ceilRadiusZ = (int) Math.ceil(radiusZ);
+        double nextXn = 0.0D;
+
+        ForX:
         for (int x = 0; x <= ceilRadiusX; ++x) {
-            final double xn = nextXn;
-            nextXn = (x + 1) * invRadiusX;
-            double nextYn = 0;
+            double xn = nextXn;
+            nextXn = (double)(x + 1) * invRadiusX;
+            double nextYn = 0.0D;
 
-            forY:
             for (int y = 0; y <= ceilRadiusY; ++y) {
-                final double yn = nextYn;
-                nextYn = (y + 1) * invRadiusY;
-                double nextZn = 0;
+                double yn = nextYn;
+                nextYn = (double)(y + 1) * invRadiusY;
+                double nextZn = 0.0D;
 
-                forZ:
                 for (int z = 0; z <= ceilRadiusZ; ++z) {
-                    final double zn = nextZn;
-                    nextZn = (z + 1) * invRadiusZ;
+                    double zn = nextZn;
+                    nextZn = (double)(z + 1) * invRadiusZ;
+                    double distanceSq = lengthSq(xn, yn, zn);
 
-                    double distanceSq = (xn * xn) + (yn * yn) + (zn * zn);
-                    if (distanceSq > 1) {
+                    if (distanceSq > 1.0D) {
                         if (z == 0) {
                             if (y == 0) {
-                                break forX;
+                                break;
                             }
-                            break forY;
+
+                            continue ForX;
                         }
-                        break forZ;
+
+                        break;
                     }
 
-                    /*
-                    if (!filled) {
-                        if ((nextXn * nextXn) + (yn * yn) + (zn * zn) <= 1 && (xn * xn) + (nextYn * nextYn) + (zn * zn) <= 1 && (xn * xn) + (yn * yn) + (nextZn * nextZn) <= 1) {
-                            continue;
-                        }
+                    if (lengthSq(nextXn, yn, zn) > 1.0D || lengthSq(xn, nextYn, zn) > 1.0D || lengthSq(xn, yn, nextZn) > 1.0D) {
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() - y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() - y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() - y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() - y), (origin.getBlockZ() - z)));
                     }
-                    */
-
-                    vectors.add(new Vector(origin.add(x, y, z)));
-                    vectors.add(new Vector(origin.add(-x, y, z)));
-                    vectors.add(new Vector(origin.add(x, -y, z)));
-                    vectors.add(new Vector(origin.add(x, y, -z)));
-                    vectors.add(new Vector(origin.add(-x, -y, z)));
-                    vectors.add(new Vector(origin.add(x, -y, -z)));
-                    vectors.add(new Vector(origin.add(-x, y, -z)));
-                    vectors.add(new Vector(origin.add(-x, -y, -z)));
                 }
             }
         }
@@ -284,6 +282,10 @@ public class VectorUtils {
         vectors.add(origin);
 
         return vectors;
+    }
+
+    private static double lengthSq(double x, double y, double z) {
+        return x * x + y * y + z * z;
     }
 
     /*

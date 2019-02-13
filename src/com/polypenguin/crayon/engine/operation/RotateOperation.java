@@ -15,4 +15,8 @@ public class RotateOperation extends TransformOperation {
         return player;
     }
 
+    @Override
+    public String toString() {
+        return "Rotate";
+    }
 }

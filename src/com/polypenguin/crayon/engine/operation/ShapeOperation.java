@@ -13,6 +13,11 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Operation that is used for rendering shapes.
+ */
 public class ShapeOperation extends StateOperation {
 
     private CrayonPlayer player;

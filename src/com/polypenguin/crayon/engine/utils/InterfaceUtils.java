@@ -2,6 +2,8 @@ package com.polypenguin.crayon.engine.utils;
 
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.core.gui.CrayonInterface;
+import com.polypenguin.crayon.engine.CrayonPlayer;
+import com.polypenguin.crayon.engine.action.CrayonAction;
 import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
 
 import org.bukkit.ChatColor;
@@ -77,7 +79,8 @@ public class InterfaceUtils {
         gui.setItem(10, ItemUtils.getLatestRedo());
         gui.setItem(11, ItemUtils.getLatestUndo());
         gui.setItem(13, ItemUtils.getItem(Material.BOOKSHELF, 1, ChatColor.AQUA + "Timeline"));
-        gui.setItem(14, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "History Settings"));
+        gui.setItem(14, ItemUtils.getItem(Material.SHEARS, 1, ChatColor.AQUA + "Clear History"));
+        gui.setItem(15, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "History Settings"));
 
         return gui;
     }
@@ -168,6 +171,22 @@ public class InterfaceUtils {
         gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
 
         gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getHistoryTimeline(CrayonPlayer player) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "History Timeline", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        int slot = 0;
+        for (CrayonAction action : player.getActionManager().getActions()) {
+            while (slot < 45) {
+                slot++;
+
+                gui.setItem(slot, ItemUtils.getActionItem(action));
+            }
+        }
 
         return gui;
     }

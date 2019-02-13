@@ -14,4 +14,9 @@ public class FlipOperation extends TransformOperation {
     public CrayonPlayer getPlayer() {
         return player;
     }
+
+    @Override
+    public String toString() {
+        return "Flip";
+    }
 }

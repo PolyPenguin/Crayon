@@ -29,10 +29,14 @@ public class ActionManager {
      * A LinkedList automatically allows for a
      * flipped action tree!
      *
+     * Automatically limit amount of actions to be 45!
+     *
      * @param action The action that is to be added.
      */
     public void add(CrayonAction action) {
-        System.out.println("Added Action");
+        if (getSize() == 45) {
+            actions.removeLast();
+        }
 
         actions.addFirst(action);
     }
@@ -48,6 +52,13 @@ public class ActionManager {
      */
     public CrayonAction getLast() {
         return actions.getFirst();
+    }
+
+    /**
+     * @return Get a list with all the actions
+     */
+    public LinkedList<CrayonAction> getActions() {
+        return actions;
     }
 
     /**
@@ -71,6 +82,13 @@ public class ActionManager {
      */
     public void flush() {
         actions.clear();
+    }
+
+    /**
+     * @return The amount of actions performed.
+     */
+    public int getSize() {
+        return actions.size();
     }
 
 }

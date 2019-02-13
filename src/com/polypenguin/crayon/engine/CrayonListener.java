@@ -198,6 +198,9 @@ public class CrayonListener implements Listener {
                     player.getPlayer().closeInventory();
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 14) {
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "History has been cleared! (Cleared " + player.getActionManager().getSize() + " actions)");
+                    player.getActionManager().flush();
+                } else if (slot == 15) {
                     player.getPlayer().closeInventory();
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 16) {

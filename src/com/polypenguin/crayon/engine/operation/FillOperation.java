@@ -5,6 +5,11 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Operation that fills certain blocks.
+ */
 public class FillOperation extends StateOperation {
 
     private CrayonPlayer player;

@@ -4,6 +4,9 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.polypenguin.crayon.Crayon;
 
+import com.polypenguin.crayon.engine.action.BlockChangeAction;
+import com.polypenguin.crayon.engine.action.CrayonAction;
+import com.polypenguin.crayon.engine.action.PassiveChangeAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -106,6 +109,24 @@ public class ItemUtils {
         item.setAmount(newAmount);
 
         return item;
+    }
+
+    public static ItemStack getActionItem(CrayonAction action) {
+        ItemStack stack = null;
+
+        if (action instanceof BlockChangeAction) {
+            stack = getSkullItem(1, "flashlight", ChatColor.AQUA + "Block Change Action",
+                    ChatColor.WHITE + "ID: " + action.getID(),
+                    ChatColor.WHITE + "Amount: " + ((BlockChangeAction) action).getStates().size(),
+                    ChatColor.WHITE + "Undoable: " + action.canUndo());
+        } else if (action instanceof PassiveChangeAction) {
+            stack = getItem(Material.PAPER, 1, ChatColor.AQUA + "Passive Action",
+                    ChatColor.WHITE + "ID: " + action.getID(),
+                    ChatColor.WHITE + "Operation Type " + ((PassiveChangeAction) action).getOperation().toString(),
+                    ChatColor.WHITE + "Undoable: " + action.canUndo());
+        }
+
+        return stack;
     }
 
     public static ItemStack getExitItem() {

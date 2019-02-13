@@ -9,8 +9,7 @@ import java.util.ArrayList;
 /**
  * @author Matthias Kovacic
  *
- * Special class!
- * Only sends copied states to the clipboard!
+ * Operation that copies a selection to a clipboard.
  */
 public class CopyOperation extends TransformOperation {
 
@@ -40,5 +39,10 @@ public class CopyOperation extends TransformOperation {
 
     public void execute() {
         //TODO: Send to clipboard
+    }
+
+    @Override
+    public String toString() {
+        return "Copy";
     }
 }
