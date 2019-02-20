@@ -102,29 +102,8 @@ public class Renderer {
                     player.getActionManager().getNextID()
             );
         } else if (operation instanceof FlipOperation) {
-            FlipOperation flipOperation = (FlipOperation) operation;
-
-            player.getClipboard().flip();
-
-            return new PassiveChangeAction(
-                    player,
-                    flipOperation,
-                    player.getActionManager().getNextID()
-            );
         } else if (operation instanceof RotateOperation) {
-            RotateOperation rotateOperation = (RotateOperation) operation;
 
-            player.getClipboard().rotate(
-                    (double) rotateOperation.getParameter().getParamOne(),
-                    (double) rotateOperation.getParameter().getParamTwo(),
-                    (double) rotateOperation.getParameter().getParamThree()
-            );
-
-            return new PassiveChangeAction(
-                    player,
-                    rotateOperation,
-                    player.getActionManager().getNextID()
-            );
         }
 
         return null;

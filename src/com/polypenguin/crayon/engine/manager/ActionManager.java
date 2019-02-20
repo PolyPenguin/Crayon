@@ -93,4 +93,8 @@ public class ActionManager {
         return actions.size();
     }
 
+    public boolean hasAction() {
+        return actions.size() != 0;
+    }
+
 }

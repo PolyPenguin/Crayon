@@ -102,12 +102,6 @@ public class SelectionManager {
 
                 return 2;
             }
-        } else if (owner.getSelectionMode() == CrayonPlayer.SelectionMode.MULTI) {
-            /**
-             * @// FIXME: 26/01/2019
-             */
-
-            return 0;
         }
 
         return 0;

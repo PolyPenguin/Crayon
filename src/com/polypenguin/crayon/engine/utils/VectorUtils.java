@@ -366,6 +366,42 @@ public class VectorUtils {
         return vectors;
     }
 
+    /**
+     * Algorithm for a filled pyramid.
+     *
+     * @param selection Contains the origin vector which should be used as a reference.
+     * @param scale Contains the scales in X, Y and Z directions.
+     * @return An ArrayList of vectors that make up the cylinder.
+     *
+     */
+    public static ArrayList<Vector> getPyramidFilled(VectorSelection selection, Vector scale) {
+        ArrayList<Vector> vectors = new ArrayList<>();
+        Vector origin = selection.getNativeMinimum();
+
+        int size = scale.getBlockY();
+        int height = size;
+
+        for (int y = 0; y <= height; ++y) {
+            size--;
+
+            for (int x = 0; x <= size; ++x) {
+                for (int z = 0; z <= size; ++z) {
+
+                    if ((z <= size && x <= size) || z == size || x == size) {
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                        vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                        vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                    }
+                }
+            }
+        }
+
+        vectors.add(origin);
+
+        return vectors;
+    }
+
     private static double lengthSq(double x, double z) {
         return x * x + z * z;
     }

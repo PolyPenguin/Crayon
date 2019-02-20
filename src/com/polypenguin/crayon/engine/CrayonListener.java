@@ -198,6 +198,13 @@ public class CrayonListener implements Listener {
                         player.getPlayer().closeInventory();
                     }
 
+                    if ((!player.getActionManager().hasAction()) || (player.getActionManager().getLast() == null)) {
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "No action to redo");
+                        player.getPlayer().closeInventory();
+
+                        return;
+                    }
+
                     if (player.getActionManager().getLast() != null) {
                         player.getActionManager().getLast().redo();
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been redone");
@@ -209,6 +216,13 @@ public class CrayonListener implements Listener {
                 } else if (slot == 11) {
                     if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getUndoPermission())) {
                         player.getPlayer().closeInventory();
+                    }
+
+                    if ((!player.getActionManager().hasAction()) || (player.getActionManager().getLast() == null)) {
+                        player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "No action to undo");
+                        player.getPlayer().closeInventory();
+
+                        return;
                     }
 
                     if (player.getActionManager().getLast() != null && player.getActionManager().getLast().canUndo()) {
@@ -364,6 +378,40 @@ public class CrayonListener implements Listener {
                     CrayonInterface.openInventory(player, InterfaceUtils.getCubeDimensionMenu((scale)));
                 } else {
                     CrayonInterface.openInventory(player, InterfaceUtils.getCubeDimensionMenu((scale - 1)));
+                }
+            } else if (slot == 26) {
+                if (player.getOperation() instanceof ShapeOperation) {
+                    int scale = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+
+                    ShapeOperation shapeOperation = (ShapeOperation) player.getOperation();
+
+                    shapeOperation.getParameter().setParamOne(scale - 1);
+                    shapeOperation.getParameter().setParamTwo(scale - 1);
+                    shapeOperation.getParameter().setParamThree(scale - 1);
+
+                    shapeOperation.finalizeOperation();
+                }
+            } else if (slot == 49) {
+                player.getPlayer().closeInventory();
+
+                //TODO: Delete all previous settings for the operation
+            }
+        } else if (inventory.getName().contains("Pyramid") && inventory.getName().contains("Scale")) {
+            if (slot == 13) {
+                player.getPlayer().closeInventory();
+
+                int scale = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+
+                CrayonInterface.openInventory(player, InterfaceUtils.getPyramidDimensionMenu((scale + 1)));
+            } else if (slot == 31) {
+                player.getPlayer().closeInventory();
+
+                int scale = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+
+                if (scale == 1) {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getPyramidDimensionMenu((scale)));
+                } else {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getPyramidDimensionMenu((scale - 1)));
                 }
             } else if (slot == 26) {
                 if (player.getOperation() instanceof ShapeOperation) {

@@ -128,6 +128,19 @@ public class InterfaceUtils {
         return gui;
     }
 
+    public static Inventory getPyramidDimensionMenu(int scale) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Pyramid Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale = " + scale));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
     public static Inventory getCuboidDimensionMenu(int scaleX, int scaleY, int scaleZ) {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "Cuboid Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);

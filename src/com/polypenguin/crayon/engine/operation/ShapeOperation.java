@@ -64,6 +64,10 @@ public class ShapeOperation extends StateOperation {
             Vector shapeMin = origin;
 
             selection = new ShapeSelection(shapeMin, new Vector(parameter.getParamOne(), parameter.getParamTwo(), parameter.getParamThree()), ShapeType.ELLIPSOID);
+        } else if (type == ShapeType.CYLINDER) {
+            Vector shapeMin = origin;
+
+            selection = new ShapeSelection(shapeMin, new Vector(parameter.getParamOne(), parameter.getParamTwo(), parameter.getParamThree()), ShapeType.CYLINDER);
         }
 
         ArrayList<CrayonState> states = new ArrayList<>();
