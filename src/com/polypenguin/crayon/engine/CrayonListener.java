@@ -10,11 +10,8 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.geometry.selection.NullSelection;
 import com.polypenguin.crayon.engine.geometry.selection.Selection;
 import com.polypenguin.crayon.engine.geometry.selection.VectorSelection;
-import com.polypenguin.crayon.engine.manager.RenderManager;
-import com.polypenguin.crayon.engine.operation.CopyOperation;
-import com.polypenguin.crayon.engine.operation.FillOperation;
-import com.polypenguin.crayon.engine.operation.PasteOperation;
-import com.polypenguin.crayon.engine.operation.ShapeOperation;
+import com.polypenguin.crayon.engine.render.Renderer;
+import com.polypenguin.crayon.engine.operation.*;
 import com.polypenguin.crayon.engine.utils.InterfaceUtils;
 import com.polypenguin.crayon.engine.utils.ItemUtils;
 import com.polypenguin.crayon.engine.utils.StringUtils;
@@ -23,7 +20,6 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonState;
 import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
 
-import io.netty.util.internal.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -102,6 +98,10 @@ public class CrayonListener implements Listener {
                     player.getPlayer().closeInventory();
                 }
             } else if (inventory.getName().contains("Generate")) {
+                if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getGenerationPermission())) {
+                    player.getPlayer().closeInventory();
+                }
+
                 if (slot == 10) {
                     CrayonInterface.openInventory(player, InterfaceUtils.getCuboidShapesMenu());
                 } else if (slot == 11) {
@@ -131,6 +131,10 @@ public class CrayonListener implements Listener {
                     player.getPlayer().closeInventory();
                 }
             } else if (inventory.getName().contains("Operations")) {
+                if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getOperationPermission())) {
+                    player.getPlayer().closeInventory();
+                }
+
                 if (slot == 10) {
                     Selection selection = player.getSelectionManager().getSelection();
 
@@ -153,7 +157,7 @@ public class CrayonListener implements Listener {
                         ));
                     }
 
-                    PassiveChangeAction action = RenderManager.handle(new CopyOperation(player, preStates, origin));
+                    PassiveChangeAction action = Renderer.handle(new CopyOperation(player, preStates, origin));
 
                     player.getActionManager().add(action);
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
@@ -164,7 +168,7 @@ public class CrayonListener implements Listener {
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.RED + "Please copy a selection first");
                     }
 
-                    BlockChangeAction action = RenderManager.render(
+                    BlockChangeAction action = Renderer.render(
                             new PasteOperation(player, player.getClipboard().getPreStates(), getOrigin(player))
                     );
 
@@ -172,16 +176,23 @@ public class CrayonListener implements Listener {
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Your selection has been pasted");
                     player.getPlayer().closeInventory();
                 } else if (slot == 12) {
-
+                    player.getPlayer().closeInventory();
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 13) {
-
+                    player.getPlayer().closeInventory();
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 14) {
-
+                    player.getPlayer().closeInventory();
+                    player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 16) {
                     player.getPlayer().closeInventory();
                 }
             } else if (inventory.getName().contains("History")) {
                 if (slot == 10) {
+                    if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getUndoPermission())) {
+                        player.getPlayer().closeInventory();
+                    }
+
                     if (player.getActionManager().getLast() != null) {
                         player.getActionManager().getLast().redo();
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been redone");
@@ -191,6 +202,10 @@ public class CrayonListener implements Listener {
                         player.getPlayer().closeInventory();
                     }
                 } else if (slot == 11) {
+                    if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getUndoPermission())) {
+                        player.getPlayer().closeInventory();
+                    }
+
                     if (player.getActionManager().getLast() != null && player.getActionManager().getLast().canUndo()) {
                         player.getActionManager().getLast().undo();
                         player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Last action has been undone");
@@ -271,6 +286,8 @@ public class CrayonListener implements Listener {
                     CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(1, 1, 1));
                 } else if (slot == 12) {
                     player.setOperation(new ShapeOperation(player, ShapeType.CYLINDER, getOrigin(player)));
+
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(1, 1, 1));
                 } else if (slot == 16) {
                     player.getPlayer().closeInventory();
                 }
@@ -287,10 +304,7 @@ public class CrayonListener implements Listener {
             if (slot == 49) {
                 player.getPlayer().closeInventory();
             }
-        }
-
-        //TODO: Fix this
-        else if (inventory.getName().contains("Action")) {
+        } else if (inventory.getName().contains("Action")) {
             int ID = -1;
 
             for (String str : inventory.getItem(13).getItemMeta().getLore()) {
@@ -300,9 +314,17 @@ public class CrayonListener implements Listener {
             }
 
             if (slot == 10) {
+                if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getRedoPermission())) {
+                    player.getPlayer().closeInventory();
+                }
+
                 player.getActionManager().get(ID).redo();
                 player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Action has been redone");
             } else if (slot == 11) {
+                if (!Crayon.getPermissionService().hasPermission(player, Crayon.getPermissionService().getUndoPermission())) {
+                    player.getPlayer().closeInventory();
+                }
+
                 if (player.getActionManager().get(ID).canUndo()) {
                     player.getActionManager().get(ID).undo();
                     player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "Action has been undone");
@@ -312,6 +334,13 @@ public class CrayonListener implements Listener {
             } else if (slot == 16) {
                 player.getPlayer().closeInventory();
             }
+        }
+
+        else if (inventory.getName().contains("Angle")) {
+            //TODO: Recode
+
+            player.getPlayer().closeInventory();
+            player.getPlayer().sendMessage(Crayon.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
         }
 
         else if (inventory.getName().contains("Cube") && inventory.getName().contains("Scale")) {
@@ -474,7 +503,7 @@ public class CrayonListener implements Listener {
                 int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
-                CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu((scaleX + 1), scaleY, scaleZ));
+                CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu((scaleX + 1), scaleY, scaleZ));
             } else if (slot == 13) {
                 player.getPlayer().closeInventory();
 
@@ -482,7 +511,7 @@ public class CrayonListener implements Listener {
                 int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
-                CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, (scaleY + 1), scaleZ));
+                CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, (scaleY + 1), scaleZ));
             } else if (slot == 16) {
                 player.getPlayer().closeInventory();
 
@@ -490,7 +519,7 @@ public class CrayonListener implements Listener {
                 int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
-                CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, scaleY, (scaleZ + 1)));
+                CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, scaleY, (scaleZ + 1)));
             } else if (slot == 28) {
                 player.getPlayer().closeInventory();
 
@@ -499,9 +528,9 @@ public class CrayonListener implements Listener {
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
                 if (scaleX == 1) {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, scaleY, scaleZ));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, scaleY, scaleZ));
                 } else {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu((scaleX - 1), scaleY, scaleZ));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu((scaleX - 1), scaleY, scaleZ));
                 }
             } else if (slot == 31) {
                 player.getPlayer().closeInventory();
@@ -511,9 +540,9 @@ public class CrayonListener implements Listener {
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
                 if (scaleY == 1) {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, scaleY, scaleZ));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, scaleY, scaleZ));
                 } else {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, (scaleY - 1), scaleZ));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, (scaleY - 1), scaleZ));
                 }
             } else if (slot == 34) {
                 player.getPlayer().closeInventory();
@@ -523,9 +552,93 @@ public class CrayonListener implements Listener {
                 int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
 
                 if (scaleZ == 1) {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, scaleY, scaleZ));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, scaleY, scaleZ));
                 } else {
-                    CrayonInterface.openInventory(player, InterfaceUtils.getCuboidDimensionMenu(scaleX, scaleY, (scaleZ - 1)));
+                    CrayonInterface.openInventory(player, InterfaceUtils.getEllipsoidDimensionMenu(scaleX, scaleY, (scaleZ - 1)));
+                }
+            } else if (slot == 26) {
+                if (player.getOperation() instanceof ShapeOperation) {
+                    int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                    int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                    int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                    ShapeOperation shapeOperation = (ShapeOperation) player.getOperation();
+
+                    shapeOperation.getParameter().setParamOne(scaleX - 1);
+                    shapeOperation.getParameter().setParamTwo(scaleY - 1);
+                    shapeOperation.getParameter().setParamThree(scaleZ - 1);
+
+                    shapeOperation.finalizeOperation();
+                } else {
+                    player.getPlayer().closeInventory();
+
+                    //TODO: Delete all previous settings for the operation
+                }
+            } else if (slot == 49) {
+                player.getPlayer().closeInventory();
+
+                //TODO: Delete all previous settings for the operation
+            }
+        } else if (inventory.getName().contains("Cylinder") && inventory.getName().contains("Scale")) {
+            if (slot == 10) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu((scaleX + 1), scaleY, scaleZ));
+            } else if (slot == 13) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, (scaleY + 1), scaleZ));
+            } else if (slot == 16) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, scaleY, (scaleZ + 1)));
+            } else if (slot == 28) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                if (scaleX == 1) {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, scaleY, scaleZ));
+                } else {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu((scaleX - 1), scaleY, scaleZ));
+                }
+            } else if (slot == 31) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                if (scaleY == 1) {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, scaleY, scaleZ));
+                } else {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, (scaleY - 1), scaleZ));
+                }
+            } else if (slot == 34) {
+                player.getPlayer().closeInventory();
+
+                int scaleX = StringUtils.extractNumber(inventory.getItem(19).getItemMeta().getDisplayName());
+                int scaleY = StringUtils.extractNumber(inventory.getItem(22).getItemMeta().getDisplayName());
+                int scaleZ = StringUtils.extractNumber(inventory.getItem(25).getItemMeta().getDisplayName());
+
+                if (scaleZ == 1) {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, scaleY, scaleZ));
+                } else {
+                    CrayonInterface.openInventory(player, InterfaceUtils.getCylinderDimensionMenu(scaleX, scaleY, (scaleZ - 1)));
                 }
             } else if (slot == 26) {
                 if (player.getOperation() instanceof ShapeOperation) {
@@ -560,7 +673,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -575,7 +688,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -590,7 +703,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -605,7 +718,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -620,7 +733,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -635,7 +748,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -647,14 +760,14 @@ public class CrayonListener implements Listener {
                 }
             } else if (inventory.getName().contains("Colored Materials 3")) {
                 if (slot == 37) {
-                    RenderManager.finalize(player, Material.GRAY_STAINED_GLASS_PANE);
+                    Renderer.finalize(player, Material.GRAY_STAINED_GLASS_PANE);
 
                     player.getPlayer().closeInventory();
                 } else if ((slot < 45)
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -669,7 +782,7 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.AIR))
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
-                    RenderManager.finalize(player, inventory.getItem(slot).getType());
+                    Renderer.finalize(player, inventory.getItem(slot).getType());
 
                     player.getPlayer().closeInventory();
                 } else if (slot == 45) {
@@ -685,9 +798,9 @@ public class CrayonListener implements Listener {
                         && (!inventory.getItem(slot).getType().equals(Material.GRAY_STAINED_GLASS_PANE))
                         ) {
                     if (inventory.getItem(slot).getType().equals(Material.COBWEB)) {
-                        RenderManager.finalize(player, Material.AIR);
+                        Renderer.finalize(player, Material.AIR);
                     } else {
-                        RenderManager.finalize(player, inventory.getItem(slot).getType());
+                        Renderer.finalize(player, inventory.getItem(slot).getType());
                     }
 
                     player.getPlayer().closeInventory();

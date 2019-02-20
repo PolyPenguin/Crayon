@@ -18,6 +18,10 @@ public class CrayonPreState {
         return offset;
     }
 
+    public void setOffset(Vector offset) {
+        this.offset = offset;
+    }
+
     public Material getMaterial() {
         return material;
     }

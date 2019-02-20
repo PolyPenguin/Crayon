@@ -6,7 +6,6 @@ import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.action.CrayonAction;
 import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
 
-import io.netty.util.internal.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -173,6 +172,102 @@ public class InterfaceUtils {
         gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
         gui.setItem(25, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale Z = " + scaleZ));
         gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getCylinderDimensionMenu(int scaleX, int scaleY, int scaleZ) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Cylinder Scale", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(19, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale X = " + scaleX));
+        gui.setItem(28, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale Y = " + scaleY));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1"));
+        gui.setItem(25, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Scale Z = " + scaleZ));
+        gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getRotationXAxisMenu(int angle) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Angle X", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1°"));
+        gui.setItem(11, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 5°"));
+        gui.setItem(12, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 30°"));
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 45°"));
+        gui.setItem(14, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 90°"));
+        gui.setItem(15, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 135°"));
+        gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 180°"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Angle X = " + angle + "°"));
+        gui.setItem(28, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1°"));
+        gui.setItem(29, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 5°"));
+        gui.setItem(30, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 30°"));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 45°"));
+        gui.setItem(32, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 90°"));
+        gui.setItem(33, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 135°"));
+        gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 180°"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getRotationYAxisMenu(int angle) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Angle Y", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1°"));
+        gui.setItem(11, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 5°"));
+        gui.setItem(12, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 30°"));
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 45°"));
+        gui.setItem(14, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 90°"));
+        gui.setItem(15, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 135°"));
+        gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 180°"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Angle Y = " + angle + "°"));
+        gui.setItem(28, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1°"));
+        gui.setItem(29, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 5°"));
+        gui.setItem(30, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 30°"));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 45°"));
+        gui.setItem(32, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 90°"));
+        gui.setItem(33, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 135°"));
+        gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 180°"));
+
+        gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
+
+        return gui;
+    }
+
+    public static Inventory getRotationZAxisMenu(int angle) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Angle Z", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
+
+        gui.setItem(10, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 1°"));
+        gui.setItem(11, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 5°"));
+        gui.setItem(12, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 30°"));
+        gui.setItem(13, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 45°"));
+        gui.setItem(14, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 90°"));
+        gui.setItem(15, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 135°"));
+        gui.setItem(16, ItemUtils.getSkullItem(1, "MHF_ArrowUp", ChatColor.AQUA + "+ 180°"));
+        gui.setItem(22, ItemUtils.getItem(Material.PAPER, 1, ChatColor.AQUA + "Angle Z = " + angle + "°"));
+        gui.setItem(28, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 1°"));
+        gui.setItem(29, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 5°"));
+        gui.setItem(30, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 30°"));
+        gui.setItem(31, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 45°"));
+        gui.setItem(32, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 90°"));
+        gui.setItem(33, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 135°"));
+        gui.setItem(34, ItemUtils.getSkullItem(1, "MHF_ArrowDown", ChatColor.AQUA + "- 180°"));
 
         gui.setItem(26, ItemUtils.getSkullItem(1, "MHF_ArrowRight", ChatColor.AQUA + "Next"));
 

@@ -4,11 +4,11 @@ import com.polypenguin.crayon.core.CommandService;
 import com.polypenguin.crayon.core.service.ListenerService;
 import com.polypenguin.crayon.core.service.PermissionService;
 import com.polypenguin.crayon.core.service.PlayerService;
-
+import com.polypenguin.crayon.core.settings.Settings;
 import com.polypenguin.crayon.engine.CrayonListener;
-import com.polypenguin.crayon.engine.manager.RenderManager;
 import com.polypenguin.crayon.engine.utils.InterfaceUtils;
 import com.polypenguin.crayon.engine.utils.miscellaneous.MaterialSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -40,16 +40,19 @@ public class Crayon extends JavaPlugin {
 
         System.out.println("[Crayon] Loading Crayon");
 
+        checkConfig();
+
         listenerService = new ListenerService();
         permissionService = new PermissionService();
         playerService = new PlayerService();
 
         getCommand("crayon").setExecutor(new CommandService());
 
+        if (Settings.getConfig().<Boolean>get("settings.metrics")) {
+            metrics = new Metrics(getCrayon());
+        }
+
         listenerService.registerEvents(new CrayonListener());
-
-        metrics = new Metrics(getCrayon());
-
         materialSet = InterfaceUtils.getMaterialsInterface();
     }
 
@@ -94,4 +97,10 @@ public class Crayon extends JavaPlugin {
     }
 
     public static MaterialSet getMaterialSet() { return materialSet; }
+
+    private void checkConfig() {
+        if (Settings.getConfig().get("settings") == null) {
+            Settings.getConfig().set("settings.metrics", true);
+        }
+    }
 }

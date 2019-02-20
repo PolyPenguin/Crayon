@@ -1,4 +1,4 @@
-package com.polypenguin.crayon.engine.manager;
+package com.polypenguin.crayon.engine.render;
 
 import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.engine.CrayonPlayer;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * and execute them accordingly, returning
  * actions for each player.
  */
-public class RenderManager {
+public class Renderer {
 
     /**
      * Renders a StateOperation into the world.
@@ -114,7 +114,11 @@ public class RenderManager {
         } else if (operation instanceof RotateOperation) {
             RotateOperation rotateOperation = (RotateOperation) operation;
 
-            player.getClipboard().rotate();
+            player.getClipboard().rotate(
+                    (double) rotateOperation.getParameter().getParamOne(),
+                    (double) rotateOperation.getParameter().getParamTwo(),
+                    (double) rotateOperation.getParameter().getParamThree()
+            );
 
             return new PassiveChangeAction(
                     player,

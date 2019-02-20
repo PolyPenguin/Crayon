@@ -12,5 +12,5 @@ Feature Ideas
 -Comment Code (pre-Release)
 -Multiple actions at once - This would require another interface implementation!
 -Sequenced actions through scripting
-
-IMPORTANT: Recode the whole operations thing...
+-Quick bind
+-Filled/Unfilled setting

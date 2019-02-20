@@ -14,6 +14,10 @@ import org.bukkit.permissions.Permission;
 public class PermissionService {
 
     private Permission menu_Perm = new Permission("crayon.guest.menu");
+    private Permission generation_Perm = new Permission("crayon.guest.generate");
+    private Permission operation_Perm = new Permission("crayon.guest.operation");
+    private Permission undo_Perm = new Permission("crayon.guest.undo");
+    private Permission redo_Perm = new Permission("crayon.guest.redo");
 
     /**
      * Quick check to check a permission for a player.
@@ -34,5 +38,21 @@ public class PermissionService {
 
     public Permission getMenuPermission() {
         return menu_Perm;
+    }
+
+    public Permission getGenerationPermission() {
+        return generation_Perm;
+    }
+
+    public Permission getOperationPermission() {
+        return operation_Perm;
+    }
+
+    public Permission getUndoPermission() {
+         return undo_Perm;
+    }
+
+    public Permission getRedoPermission() {
+        return redo_Perm;
     }
 }

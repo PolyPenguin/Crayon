@@ -1,6 +1,8 @@
 package com.polypenguin.crayon.engine.manager;
 
+import com.polypenguin.crayon.Crayon;
 import com.polypenguin.crayon.engine.CrayonPlayer;
+import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.CrayonAction;
 
 import java.util.LinkedList;

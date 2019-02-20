@@ -297,15 +297,15 @@ public class VectorUtils {
         ArrayList<Vector> vectors = new ArrayList<>();
         Vector origin = selection.getNativeMinimum();
 
-        double radiusX = scale.getBlockX();
         double height = scale.getBlockY();
-        double radiusZ = scale.getBlockZ();
+        double radiusX = scale.getX();
+        double radiusZ = scale.getZ();
 
         radiusX += 0.5;
         radiusZ += 0.5;
 
         if (height == 0) {
-            return null;
+            return vectors;
         } else if (height < 0) {
             height = -height;
             origin = origin.subtract(0, height, 0);
@@ -324,35 +324,39 @@ public class VectorUtils {
         final int ceilRadiusZ = (int) Math.ceil(radiusZ);
 
         double nextXn = 0;
-        forX: for (int x = 0; x <= ceilRadiusX; ++x) {
+        forX:
+        for (int x = 0; x <= ceilRadiusX; ++x) {
             final double xn = nextXn;
             nextXn = (x + 1) * invRadiusX;
             double nextZn = 0;
-            forZ: for (int z = 0; z <= ceilRadiusZ; ++z) {
+
+            forZ:
+            for (int z = 0; z <= ceilRadiusZ; ++z) {
                 final double zn = nextZn;
                 nextZn = (z + 1) * invRadiusZ;
 
-                double distanceSq = (xn * xn) + (zn * zn);
+                double distanceSq = lengthSq(xn, zn);
                 if (distanceSq > 1) {
                     if (z == 0) {
                         break forX;
                     }
+
                     break forZ;
                 }
 
                 /*
                 if (!filled) {
-                    if ((nextXn * nextXn) + (z * z) <= 1 && (x * x) + (nextZn * nextZn) <= 1) {
+                    if (lengthSq(nextXn, zn) <= 1 && lengthSq(xn, nextZn) <= 1) {
                         continue;
                     }
                 }
                 */
 
                 for (int y = 0; y < height; ++y) {
-                    vectors.add(new Vector(origin.add(x, y, z)));
-                    vectors.add(new Vector(origin.add(-x, y, z)));
-                    vectors.add(new Vector(origin.add(x, y, -z)));
-                    vectors.add(new Vector(origin.add(-x, y, -z)));
+                    vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                    vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() + z)));
+                    vectors.add(new Vector((origin.getBlockX() + x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
+                    vectors.add(new Vector((origin.getBlockX() - x), (origin.getBlockY() + y), (origin.getBlockZ() - z)));
                 }
             }
         }
@@ -362,108 +366,12 @@ public class VectorUtils {
         return vectors;
     }
 
+    private static double lengthSq(double x, double z) {
+        return x * x + z * z;
+    }
+
     private static double lengthSq(double x, double y, double z) {
         return x * x + y * y + z * z;
-    }
-
-    /*
-    public static ArrayList<Vector> flip(ArrayList<Vector> vectors) {
-
-    }
-
-    public static ArrayList<Vector> rotate(ArrayList<Vector> vectors) {
-
-    }
-    */
-
-    public static Vector getCenter(CuboidSelection selection) {
-        Vector min = selection.getNativeMinimum();
-        Vector max = selection.getNativeMaximum();
-
-        return new Vector(
-                (min.getX() + max.getX()) / 2,
-                (min.getY() + max.getY()) / 2,
-                (min.getZ() + max.getZ()) / 2
-        );
-    }
-
-    public static CuboidSelection rotate(CuboidSelection selection, double rotX, double rotY, double rotZ) {
-        Vector center = getCenter(selection);
-
-        for (Vector vector : selection.getVectors(true)) {
-            vector = rotate(vector, center, rotX, rotY, rotZ);
-        }
-
-        //TODO: Return an array selection!
-        return null;
-    }
-
-    private static Vector rotate(Vector vector, Vector origin, double rotX, double rotY, double rotZ) {
-        vector = getRotatedVectorX(vector, origin, rotX);
-        vector = getRotatedVectorY(vector, origin, rotY);
-        vector = getRotatedVectorZ(vector, origin, rotZ);
-
-        return vector;
-    }
-
-    //TODO: Optimize & Shorten
-    private static Vector getRotatedVectorX(Vector vector, Vector origin, double theta) {
-        double cos = Math.cos(theta);
-        double sin = Math.sin(theta);
-
-        //translate point back to origin
-        vector.setY(vector.getY() - origin.getY());
-        vector.setZ(vector.getZ() - origin.getZ());
-
-        // rotate point
-        double yNew = vector.getY() * cos - vector.getZ() * sin;
-        double zNew = vector.getY() * sin + vector.getZ() * cos;
-
-        //translate point back
-        vector.setY(yNew + origin.getY());
-        vector.setZ(zNew + origin.getZ());
-
-        return vector;
-    }
-
-    //TODO: Optimize & Shorten
-    private static Vector getRotatedVectorY(Vector vector, Vector origin, double theta) {
-        double cos = Math.cos(theta);
-        double sin = Math.sin(theta);
-
-        //translate point back to origin
-        vector.setX(vector.getX() - origin.getX());
-        vector.setZ(vector.getZ() - origin.getZ());
-
-        // rotate point
-        double xNew = vector.getX() * cos - vector.getZ() * sin;
-        double zNew = vector.getX() * sin + vector.getZ() * cos;
-
-        //translate point back
-        vector.setX(xNew + origin.getX());
-        vector.setZ(zNew + origin.getZ());
-
-        return vector;
-    }
-
-    //TODO: Optimize & Shorten
-    private static Vector getRotatedVectorZ(Vector vector, Vector origin, double theta) {
-        double cos = Math.cos(theta);
-        double sin = Math.sin(theta);
-
-        //translate point back to origin
-        vector.setX(vector.getX() - origin.getX());
-        vector.setY(vector.getY() - origin.getY());
-
-        // rotate point
-        double xNew = vector.getX() * cos - vector.getY() * sin;
-        double yNew = vector.getX() * sin + vector.getY() * cos;
-
-        //translate point back
-        vector.setX(xNew + origin.getX());
-        vector.setY(yNew + origin.getY());
-
-        return vector;
     }
 
 }

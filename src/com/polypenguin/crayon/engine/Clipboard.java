@@ -31,15 +31,11 @@ public class Clipboard {
         return preStates;
     }
 
-    public void paste() {
-
-    }
-
     public void flip() {
-
+        rotate(0.0D, 180.0D, 0.0D);
     }
 
-    public void rotate() {
-        //TODO: Find a way?
+    public void rotate(Double rotX, Double rotY, Double rotZ) {
+
     }
 }

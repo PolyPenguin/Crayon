@@ -32,7 +32,6 @@ public class CrayonPlayer {
     private ActionManager actionManager;
     private SelectionManager selectionManager;
 
-
     /**
      * Constructor that retrieves basic info to be used by Crayon.
      *
