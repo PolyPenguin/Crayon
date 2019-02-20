@@ -13,6 +13,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Different Interfaces.
+ */
 public class InterfaceUtils {
 
     public static Inventory getCrayonMenu() {

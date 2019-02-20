@@ -14,3 +14,4 @@ Feature Ideas
 -Sequenced actions through scripting
 -Quick bind
 -Filled/Unfilled setting
+-Visualization of the clipboard!

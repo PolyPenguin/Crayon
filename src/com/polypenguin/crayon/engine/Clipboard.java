@@ -4,6 +4,12 @@ import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * The clipboard handles cached selections
+ * for CrayonPlayers.
+ */
 public class Clipboard {
 
     private CrayonPlayer owner;
@@ -29,13 +35,5 @@ public class Clipboard {
 
     public ArrayList<CrayonPreState> getPreStates() {
         return preStates;
-    }
-
-    public void flip() {
-        rotate(0.0D, 180.0D, 0.0D);
-    }
-
-    public void rotate(Double rotX, Double rotY, Double rotZ) {
-
     }
 }

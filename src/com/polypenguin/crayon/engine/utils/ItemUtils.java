@@ -24,7 +24,7 @@ import java.util.UUID;
 /**
  * @author Matthias Kovacic
  *
- * Utilities that handle item related stuff.
+ * Utilities that handle item-creation related stuff.
  */
 public class ItemUtils {
 

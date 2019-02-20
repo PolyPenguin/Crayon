@@ -1,7 +1,17 @@
 package com.polypenguin.crayon.engine.utils;
 
+/**
+ * @author Matthias Kovacic
+ */
 public class StringUtils {
 
+    /**
+     * Extract and return the first spaced number
+     * within a string.
+     *
+     * @param str The string to be checked.
+     * @return The first number found.
+     */
     public static int extractNumber(final String str) {
         if (str == null || str.isEmpty())  {
             return -1;

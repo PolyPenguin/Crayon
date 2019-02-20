@@ -30,6 +30,11 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Listener that handles all Crayon-related events.
+ */
 public class CrayonListener implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST)

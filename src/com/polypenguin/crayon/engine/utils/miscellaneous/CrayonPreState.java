@@ -4,6 +4,12 @@ import com.polypenguin.crayon.engine.geometry.Vector;
 
 import org.bukkit.Material;
 
+/**
+ * @author Matthias Kovacic
+ *
+ * Crayon Pre-States are a special kind of Crayon States.
+ * They only save the outdated material.
+ */
 public class CrayonPreState {
 
     private Vector offset;
