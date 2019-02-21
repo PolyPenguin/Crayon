@@ -4,9 +4,12 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.polypenguin.crayon.Crayon;
 
+import com.polypenguin.crayon.engine.Clipboard;
 import com.polypenguin.crayon.engine.action.BlockChangeAction;
 import com.polypenguin.crayon.engine.action.CrayonAction;
 import com.polypenguin.crayon.engine.action.PassiveChangeAction;
+import com.polypenguin.crayon.engine.geometry.selection.CuboidSelection;
+import com.polypenguin.crayon.engine.geometry.selection.ShapeSelection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -118,7 +121,7 @@ public class ItemUtils {
         if (action instanceof BlockChangeAction) {
             stack = getSkullItem(1, "flashlight", ChatColor.AQUA + "Block Change Action",
                     ChatColor.WHITE + "ID: " + action.getID(),
-                    ChatColor.WHITE + "Amount: " + ((BlockChangeAction) action).getStates().size(),
+                    ChatColor.WHITE + "Size: " + ((BlockChangeAction) action).getStates().size(),
                     ChatColor.WHITE + "Undoable: " + action.canUndo());
         } else if (action instanceof PassiveChangeAction) {
             stack = getItem(Material.PAPER, 1, ChatColor.AQUA + "Passive Action",
@@ -130,7 +133,37 @@ public class ItemUtils {
         return stack;
     }
 
+    public static ItemStack getClipboardItem(Clipboard clipboard) {
+        ItemStack stack = null;
+
+        if (clipboard.getSelection() instanceof CuboidSelection) {
+            CuboidSelection cuboidSelection = (CuboidSelection) clipboard.getSelection();
+
+            stack = getItem(Material.PAPER, 1, ChatColor.AQUA + "Clipboard",
+                    ChatColor.WHITE + "Owner: " + clipboard.getOwner().getPlayer().getName(),
+                    ChatColor.WHITE + "Selection Type: " + clipboard.getSelection().getSelectionType(),
+                    ChatColor.WHITE + "Minimum Vector: " + VectorUtils.toString(cuboidSelection.getNativeMinimum()),
+                    ChatColor.WHITE + "Maximum Vector: " + VectorUtils.toString(cuboidSelection.getNativeMaximum()),
+                    ChatColor.WHITE + "Size: " + clipboard.getPreStates().size());
+        } else if (clipboard.getSelection() instanceof ShapeSelection) {
+            ShapeSelection shapeSelection = (ShapeSelection) clipboard.getSelection();
+
+            stack = getItem(Material.PAPER, 1, ChatColor.AQUA + "Clipboard",
+                    ChatColor.WHITE + "Owner: " + clipboard.getOwner().getPlayer().getName(),
+                    ChatColor.WHITE + "Selection Type: " + clipboard.getSelection().getSelectionType(),
+                    ChatColor.WHITE + "Shape Type: " + shapeSelection.getType().getName(),
+                    ChatColor.WHITE + "Shape Scale: " + VectorUtils.toString(shapeSelection.getScale()),
+                    ChatColor.WHITE + "Size: " + clipboard.getPreStates().size());
+        }
+
+        return stack;
+    }
+
     public static ItemStack getNoActionsItem() {
+        return getItem(Material.PAPER, 1, ChatColor.AQUA + "You have no actions listed");
+    }
+
+    public static ItemStack getNoClipboardItem() {
         return getItem(Material.PAPER, 1, ChatColor.AQUA + "You have no actions listed");
     }
 

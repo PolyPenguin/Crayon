@@ -2,6 +2,7 @@ package com.polypenguin.crayon.engine.operation;
 
 import com.polypenguin.crayon.engine.CrayonPlayer;
 import com.polypenguin.crayon.engine.geometry.Vector;
+import com.polypenguin.crayon.engine.geometry.selection.Selection;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
@@ -14,17 +15,23 @@ import java.util.ArrayList;
 public class CopyOperation extends TransformOperation {
 
     private CrayonPlayer player;
+    private Selection preSelection;
     private ArrayList<CrayonPreState> transformations;
     private Vector origin;
 
-    public CopyOperation(CrayonPlayer player, ArrayList<CrayonPreState> transformations, Vector origin) {
+    public CopyOperation(CrayonPlayer player, Selection preSelection, ArrayList<CrayonPreState> transformations, Vector origin) {
         this.player = player;
+        this.preSelection = preSelection;
         this.transformations = transformations;
         this.origin = origin;
     }
 
     public Vector getOrigin() {
         return origin;
+    }
+
+    public Selection getPreSelection() {
+        return preSelection;
     }
 
     public ArrayList<CrayonPreState> getTransformations() {

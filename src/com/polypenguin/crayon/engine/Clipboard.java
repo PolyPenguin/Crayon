@@ -1,5 +1,6 @@
 package com.polypenguin.crayon.engine;
 
+import com.polypenguin.crayon.engine.geometry.selection.Selection;
 import com.polypenguin.crayon.engine.utils.miscellaneous.CrayonPreState;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class Clipboard {
 
     private CrayonPlayer owner;
+    private Selection selection;
     private ArrayList<CrayonPreState> preStates;
 
     public Clipboard(CrayonPlayer owner) {
@@ -25,7 +27,8 @@ public class Clipboard {
      *
      * @param preStates The offsets to be updated.
      */
-    public void update(ArrayList<CrayonPreState> preStates) {
+    public void update(Selection selection, ArrayList<CrayonPreState> preStates) {
+        this.selection = selection;
         this.preStates = preStates;
     }
 
@@ -33,7 +36,20 @@ public class Clipboard {
         return owner;
     }
 
+    public Selection getSelection() {
+        return selection;
+    }
+
     public ArrayList<CrayonPreState> getPreStates() {
         return preStates;
+    }
+
+    public boolean hasCache() {
+        return preStates.size() != 0;
+    }
+
+    public void flush() {
+        selection = null;
+        preStates.clear();
     }
 }

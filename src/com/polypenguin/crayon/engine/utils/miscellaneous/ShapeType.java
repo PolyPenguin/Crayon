@@ -7,12 +7,21 @@ package com.polypenguin.crayon.engine.utils.miscellaneous;
  */
 public enum ShapeType {
 
-    CUBE,
-    CUBOID,
-    PYRAMID,
-    PRISM,
-    SPHERE,
-    ELLIPSOID,
-    CYLINDER
+    CUBE("Cube"),
+    CUBOID("Cube"),
+    PYRAMID("Cube"),
+    PRISM("Cube"),
+    SPHERE("Cube"),
+    ELLIPSOID("Cube"),
+    CYLINDER("Cube");
 
+    private String name;
+
+    ShapeType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

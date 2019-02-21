@@ -27,6 +27,7 @@ public class InterfaceUtils {
         gui.setItem(10, ItemUtils.getWandItem());
         gui.setItem(11, ItemUtils.getSkullItem(1, "flashlight", ChatColor.AQUA + "Position Selection"));
         gui.setItem(12, ItemUtils.getItem(Material.WRITABLE_BOOK, 1, ChatColor.AQUA + "History"));
+        gui.setItem(13, ItemUtils.getItem(Material.DIAMOND_SHOVEL, 1, ChatColor.AQUA + "Clipboard"));
 
         return gui;
     }
@@ -296,7 +297,7 @@ public class InterfaceUtils {
         Inventory gui = CrayonInterface.createCrayonInterface(
                 Crayon.getPrefix() + ChatColor.GREEN + "History Timeline", CrayonInterface.SupportedInterfaceSize.HUGE, true, true);
 
-        if (player.getActionManager().getActions().size() == 0) {
+        if (!player.getActionManager().hasAction()) {
             gui.setItem(0, ItemUtils.getNoActionsItem());
 
             return gui;
@@ -335,6 +336,21 @@ public class InterfaceUtils {
         }
 
         return null;
+    }
+
+    public static Inventory getClipboardView(CrayonPlayer player) {
+        Inventory gui = CrayonInterface.createCrayonInterface(
+                Crayon.getPrefix() + ChatColor.GREEN + "Clipboard", CrayonInterface.SupportedInterfaceSize.MEDIUM, true, true);
+
+        if (player.getClipboard().hasCache()) {
+            gui.setItem(10, ItemUtils.getClipboardItem(player.getClipboard()));
+            gui.setItem(12, ItemUtils.getItem(Material.SHEARS, 1, ChatColor.AQUA + "Operations"));
+            gui.setItem(15, ItemUtils.getItem(Material.BONE_MEAL, 1, ChatColor.AQUA + "Clear clipboard"));
+        } else {
+            gui.setItem(10, ItemUtils.getNoClipboardItem());
+        }
+
+        return gui;
     }
 
     public static MaterialSet getMaterialsInterface() {

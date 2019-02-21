@@ -3,6 +3,7 @@ package com.polypenguin.crayon.engine.geometry.selection;
 import com.polypenguin.crayon.engine.geometry.Vector;
 import com.polypenguin.crayon.engine.utils.VectorUtils;
 import com.polypenguin.crayon.engine.utils.miscellaneous.ShapeType;
+import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.ArrayList;
 
@@ -106,6 +107,8 @@ public class ShapeSelection implements Selection {
             return VectorUtils.getEllipsoidFilled(new VectorSelection(min), scale);
         } else if (type == ShapeType.CYLINDER) {
             return VectorUtils.getCylinderFilled(new VectorSelection(min), scale);
+        } else if (type == ShapeType.PYRAMID) {
+            return VectorUtils.getPyramidFilled(new VectorSelection(min), scale);
         }
 
         return null;

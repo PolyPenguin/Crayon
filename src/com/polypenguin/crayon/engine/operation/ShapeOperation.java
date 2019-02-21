@@ -56,6 +56,10 @@ public class ShapeOperation extends StateOperation {
             );
 
             selection = new CuboidSelection(cubeMin, cubeMax);
+        } else if (type == ShapeType.PYRAMID) {
+            Vector shapeMin = origin;
+
+            selection = new ShapeSelection(shapeMin, new Vector(parameter.getParamOne(), parameter.getParamTwo(), parameter.getParamThree()), ShapeType.PYRAMID);
         } else if (type == ShapeType.SPHERE) {
             Vector shapeMin = origin;
 

@@ -94,7 +94,7 @@ public class Renderer {
         if (operation instanceof CopyOperation) {
             CopyOperation copyOperation = (CopyOperation) operation;
 
-            player.getClipboard().update(copyOperation.getTransformations());
+            player.getClipboard().update(copyOperation.getPreSelection(), copyOperation.getTransformations());
 
             return new PassiveChangeAction(
                     player,
