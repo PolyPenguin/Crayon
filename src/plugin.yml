@@ -1,10 +1,10 @@
-name: Crayon
-main: com.polypenguin.crayon.Crayon
+name: Pencil
+main: com.polypenguin.pencil.Pencil
 version: 0.0.2.7
 api-version: 1.13
 description: Next generation Voxel Editing for Minecraft.
 author: [Matthias Kovacic]
 
 commands:
-  crayon:
-    description: The main crayon command!
+  pencil:
+    description: The main pencil command!

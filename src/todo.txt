@@ -13,3 +13,4 @@ Feature Ideas
 -Quick bind
 -Filled/Unfilled setting
 -Visualization of the clipboard!
+-Texturing in Go-Paint style
