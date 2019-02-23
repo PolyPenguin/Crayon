@@ -16,10 +16,12 @@ public class Clipboard {
     private PencilPlayer owner;
     private Selection selection;
     private ArrayList<PencilPreState> preStates;
+    private boolean hasCache;
 
     public Clipboard(PencilPlayer owner) {
         this.owner = owner;
         this.preStates = new ArrayList<>();
+        this.hasCache = false;
     }
 
     /**
@@ -30,6 +32,8 @@ public class Clipboard {
     public void update(Selection selection, ArrayList<PencilPreState> preStates) {
         this.selection = selection;
         this.preStates = preStates;
+
+        this.hasCache = true;
     }
 
     public PencilPlayer getOwner() {
@@ -45,11 +49,12 @@ public class Clipboard {
     }
 
     public boolean hasCache() {
-        return preStates.size() != 0;
+        return hasCache;
     }
 
     public void flush() {
         selection = null;
         preStates.clear();
+        hasCache = false;
     }
 }

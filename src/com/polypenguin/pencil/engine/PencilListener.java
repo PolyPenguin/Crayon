@@ -188,7 +188,7 @@ public class PencilListener implements Listener {
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your selection has been copied to your Clipboard");
                     player.getPlayer().closeInventory();
                 } else if (slot == 11) {
-                    if (player.getClipboard().getPreStates() == null) {
+                    if (player.getClipboard().hasCache()) {
                         player.getPlayer().closeInventory();
                         player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.RED + "Please copy a selection first");
                     }
@@ -207,6 +207,15 @@ public class PencilListener implements Listener {
                     player.getPlayer().closeInventory();
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "This feature will be available in a future update");
                 } else if (slot == 14) {
+                    if (!player.getClipboard().hasCache()) {
+                        player.getPlayer().closeInventory();
+                        player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.RED + "Please copy a selection first");
+
+                        return;
+                    }
+
+                    hasBlueprint.add(player);
+
                     player.getPlayer().closeInventory();
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Please type the name of the file you want to save your blueprint to");
                 } else if (slot == 16) {

@@ -23,13 +23,13 @@ public class PencilBlueprintFile {
      * @param saveAir Whether or not AIR should be contained within the save (Reduced memory?).
      */
     public static void createBlueprint(String name, PencilPlayer player, boolean saveAir) {
-        File directory = new File(Pencil.getPencil().getDataFolder() + "/blueprints/");
+        File directory = new File(Pencil.getPencil().getDataFolder() + "/blueprints");
 
         if (!directory.exists()) {
             directory.mkdir();
         }
 
-        File blueprint = new File(directory + name + ".yml");
+        File blueprint = new File(directory + System.getProperty("file.separator") + name + ".yml");
 
         if (!blueprint.exists()) {
             try {
@@ -72,7 +72,9 @@ public class PencilBlueprintFile {
             ex.printStackTrace();
         }
 
-        boolean isRenamed = blueprint.renameTo(new File(directory + name + ".pbf"));
+        boolean isRenamed = blueprint.renameTo(new File(directory + System.getProperty("file.separator") + name + ".pbf"));
+
+        player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your clipboard has been saved to a blueprint as \"" + name + "\"");
 
         if (isRenamed) {
             player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your clipboard has been saved to a blueprint as \"" + name + "\"");
