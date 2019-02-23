@@ -75,11 +75,17 @@ public class PencilInterface {
     /**
      * Check whether an inventory is Pencil-related or not.
      *
+     * TODO: Fix NPE
+     *
      * @param inventory The inventory that has to be checked.
      * @return True if the inventory is Pencil-related.
      */
     public static boolean isCrayonInventory(Inventory inventory) {
-        return inventory.getName().contains("Pencil");
+        if ((inventory != null) && (inventory.getName() != null)) {
+            return inventory.getName().contains("Pencil");
+        }
+
+        return false;
     }
 
 }

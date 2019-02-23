@@ -1,6 +1,7 @@
 package com.polypenguin.pencil;
 
 import com.polypenguin.pencil.core.CommandService;
+import com.polypenguin.pencil.core.lang.Translator;
 import com.polypenguin.pencil.core.service.ListenerService;
 import com.polypenguin.pencil.core.service.PermissionService;
 import com.polypenguin.pencil.core.service.PlayerService;
@@ -101,6 +102,7 @@ public class Pencil extends JavaPlugin {
     private void checkConfig() {
         if (Settings.getConfig().get("settings") == null) {
             Settings.getConfig().set("settings.metrics", "true");
+            Settings.getConfig().set("settings.language", Translator.PluginLanguage.ENGLISH.getName());
         }
     }
 }

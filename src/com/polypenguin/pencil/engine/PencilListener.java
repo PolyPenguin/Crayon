@@ -939,7 +939,7 @@ public class PencilListener implements Listener {
         if (selection == null) {
             player.getPlayer().closeInventory();
             player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.RED + "Please make a selection first");
-        } else if (!(selection instanceof VectorSelection)) {
+        } else if (!(selection.getSelectionType() == Selection.SelectionType.SINGLE)) {
             player.getPlayer().closeInventory();
             player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.RED + "Please make a single-point selection first");
         }

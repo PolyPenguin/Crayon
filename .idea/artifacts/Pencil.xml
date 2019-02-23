@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Pencil</output-path>
     <root id="archive" name="Pencil.jar">
       <element id="module-output" name="Pencil" />
+      <element id="library" level="project" name="google-api-translate-java-0.97" />
     </root>
   </artifact>
 </component>

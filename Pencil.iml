@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="spigot-1.13" level="project" />
+    <orderEntry type="library" name="google-api-translate-java-0.97" level="project" />
   </component>
 </module>

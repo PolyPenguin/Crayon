@@ -14,3 +14,4 @@ Feature Ideas
 -Filled/Unfilled setting
 -Visualization of the clipboard!
 -Texturing in Go-Paint style
+-Custom Language System
