@@ -55,4 +55,8 @@ public class PermissionService {
     public Permission getRedoPermission() {
         return redo_Perm;
     }
+
+    public void setGeneration_Perm(Permission generation_Perm) {
+        this.generation_Perm = generation_Perm;
+    }
 }
