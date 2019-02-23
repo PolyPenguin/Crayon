@@ -4,6 +4,7 @@ import com.polypenguin.pencil.engine.manager.ActionManager;
 import com.polypenguin.pencil.engine.manager.SelectionManager;
 
 import com.polypenguin.pencil.engine.operation.CrayonOperation;
+import com.polypenguin.pencil.engine.utils.miscellaneous.PencilInventory;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -30,6 +31,7 @@ public class PencilPlayer {
 
     private Player player;
     private UUID playerID;
+    private PencilInventory inventory;
 
     private SelectionMode selectionMode;
     private PlayerMode playerMode;
@@ -47,6 +49,7 @@ public class PencilPlayer {
     public PencilPlayer(Player player) {
         this.player = player;
         this.playerID = player.getUniqueId();
+        this.inventory = new PencilInventory(this);
 
         this.selectionMode = SelectionMode.NA;
         this.playerMode = PlayerMode.GENERAL;
@@ -72,6 +75,15 @@ public class PencilPlayer {
      */
     public UUID getPlayerID() {
         return playerID;
+    }
+
+    /**
+     * Return the players' custom Inventory.
+     *
+     * @return The players' custom Inventory.
+     */
+    public PencilInventory getInventory() {
+        return inventory;
     }
 
     /**

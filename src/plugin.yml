@@ -1,4 +1,4 @@
-name: Pencil
+name: PencilEditor
 main: com.polypenguin.pencil.Pencil
 version: 0.0.2.7
 api-version: 1.13

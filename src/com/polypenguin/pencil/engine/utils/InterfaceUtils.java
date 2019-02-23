@@ -137,6 +137,12 @@ public class InterfaceUtils {
         return gui;
     }
 
+    /*
+    public static Inventory getTexturesMenu() {
+
+    }
+    */
+
     public static Inventory getCubeDimensionMenu(int scale) {
         Inventory gui = PencilInterface.createPencilInterface(
                 Pencil.getPrefix() + ChatColor.GREEN + "Cube Scale", PencilInterface.SupportedInterfaceSize.HUGE, true, true);

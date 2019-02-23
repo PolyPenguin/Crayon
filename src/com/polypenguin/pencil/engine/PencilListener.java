@@ -7,16 +7,13 @@ import com.polypenguin.pencil.engine.action.PassiveChangeAction;
 import com.polypenguin.pencil.engine.event.PencilInventoryEvent;
 import com.polypenguin.pencil.engine.event.PencilItemEvent;
 import com.polypenguin.pencil.engine.geometry.Vector;
-import com.polypenguin.pencil.engine.geometry.blueprint.PencilBlueprintFile;
+import com.polypenguin.pencil.core.file.PencilFile;
 import com.polypenguin.pencil.engine.geometry.selection.NullSelection;
 import com.polypenguin.pencil.engine.geometry.selection.Selection;
 import com.polypenguin.pencil.engine.geometry.selection.VectorSelection;
 import com.polypenguin.pencil.engine.render.Renderer;
 import com.polypenguin.pencil.engine.operation.*;
-import com.polypenguin.pencil.engine.utils.InterfaceUtils;
-import com.polypenguin.pencil.engine.utils.ItemUtils;
-import com.polypenguin.pencil.engine.utils.StringUtils;
-import com.polypenguin.pencil.engine.utils.VectorUtils;
+import com.polypenguin.pencil.engine.utils.*;
 import com.polypenguin.pencil.engine.utils.miscellaneous.PencilPreState;
 import com.polypenguin.pencil.engine.utils.miscellaneous.PencilState;
 import com.polypenguin.pencil.engine.utils.miscellaneous.ShapeType;
@@ -31,6 +28,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Matthias Kovacic
@@ -40,6 +38,7 @@ import java.util.ArrayList;
 public class PencilListener implements Listener {
 
     private ArrayList<PencilPlayer> hasBlueprint = new ArrayList<>();
+    private HashMap<PencilPlayer, Selection> hasTexture = new HashMap<>();
 
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onInteract(PencilItemEvent event) {
@@ -49,6 +48,33 @@ public class PencilListener implements Listener {
 
         if (event.getItem().equals(ItemUtils.getMenuItem())) {
             PencilInterface.openInventory(event.getPlayer(), InterfaceUtils.getCrayonMenu());
+        }
+
+        if (player.getPlayerMode() != PencilPlayer.PlayerMode.GENERAL) {
+            if (player.getPlayerMode() == PencilPlayer.PlayerMode.TEXTURING) {
+                if (event.getItem().equals(ItemUtils.getItem(Material.IRON_SHOVEL, 1, Pencil.getPrefix() + ChatColor.AQUA + "Texture"))) {
+
+                } else if (event.getItem().equals(ItemUtils.getItem(Material.MAGMA_CREAM, 1, Pencil.getPrefix() + ChatColor.AQUA + "Texture Mask"))) {
+
+                } else if (event.getItem().equals(ItemUtils.getItem(Material.BOOK, 1, Pencil.getPrefix() + ChatColor.AQUA + "Load Texture"))) {
+
+                } else if (event.getItem().equals(ItemUtils.getItem(Material.PAPER, 1, Pencil.getPrefix() + ChatColor.AQUA + "Safe Texture"))) {
+                    if (!player.getSelectionManager().hasSelection()) {
+                        player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.RED + "Please make a selection fist");
+
+                        return;
+                    }
+
+                    hasTexture.put(player, player.getSelectionManager().getSelection());
+                    player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Please type the name of the file you want to save your blueprint to");
+                } else if (event.getItem().equals(ItemUtils.getItem(Material.BARRIER, 1, Pencil.getPrefix() + ChatColor.AQUA + "Exit Mode"))) {
+                    InventoryUtils.setGeneralMode(player);
+
+                    player.setPlayerMode(PencilPlayer.PlayerMode.GENERAL);
+                    player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your mode has been set to General");
+                    player.getPlayer().closeInventory();
+                }
+            }
         }
 
         if (event.getItem().equals(ItemUtils.getWandItem())) {
@@ -82,7 +108,16 @@ public class PencilListener implements Listener {
             event.setCancelled(true);
 
             String name = StringUtils.getFirstString(event.getMessage());
-            PencilBlueprintFile.createBlueprint(name, player, false);
+            PencilFile.createPencilFile(name, player, false, null);
+        } else if (hasTexture.containsKey(player)) {
+            Selection selection = hasTexture.get(player);
+
+            hasTexture.remove(player);
+
+            event.setCancelled(true);
+
+            String name = StringUtils.getFirstString(event.getMessage());
+            PencilFile.createPencilFile(name, player, false, selection);
         }
     }
 
@@ -286,6 +321,8 @@ public class PencilListener implements Listener {
         } else if (inventory.getName().contains("Player")) {
             if (inventory.getName().contains("Modes")) {
                 if (slot == 10) {
+                    InventoryUtils.setGeneralMode(player);
+
                     player.setPlayerMode(PencilPlayer.PlayerMode.GENERAL);
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your mode has been set to General");
                     player.getPlayer().closeInventory();
@@ -294,6 +331,8 @@ public class PencilListener implements Listener {
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your mode has been set to Sculpting");
                     player.getPlayer().closeInventory();
                 } else if (slot == 12) {
+                    InventoryUtils.setTexturingMode(player);
+
                     player.setPlayerMode(PencilPlayer.PlayerMode.TEXTURING);
                     player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your mode has been set to Texturing");
                     player.getPlayer().closeInventory();
