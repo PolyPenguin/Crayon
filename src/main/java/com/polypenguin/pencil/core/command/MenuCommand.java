@@ -16,6 +16,8 @@ public class MenuCommand extends PencilCommand {
 
     @Override
     public void onCommand(PencilPlayer player, String[] args) {
+
+        //TODO: add a class that manages all the messages
         if (player.getPlayer().getInventory().firstEmpty() != -1) {
             player.getPlayer().getInventory().addItem(ItemUtils.getMenuItem());
             player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "You received the Pencil menu");
