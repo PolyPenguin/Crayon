@@ -1,0 +1,10 @@
+name: PencilEditor
+main: com.polypenguin.pencil.Pencil
+version: ${version}
+api-version: 1.13
+description: Next generation Voxel Editing for Minecraft.
+authors: ['Matthias Kovacic']
+
+commands:
+  pencil:
+    description: The main pencil command!

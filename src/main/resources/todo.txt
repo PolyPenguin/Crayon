@@ -1,0 +1,20 @@
+Feature Ideas
+=============
+
+-Toolbar save when quit/join
+-Cross-Server support
+-Multi-Selection set-operation (Fill multiple selections at once for efficiency)
+-Use priority in settings to prioritize Crayon when building intensively
+|-> Also send a message to ops/permitted players when Crayon notices an increase in activity in the server
+|-> Add an automation feature for this!
+-Analytics
+-Multiple actions at once - This would require another interface implementation!
+-Sequenced actions through scripting
+-Quick bind
+-Filled/Unfilled setting
+-Visualization of the clipboard!
+-Texturing in Go-Paint style
+-Custom Language System
+-Fix Missed classes
+-Cross platform (Sponge and maybe Forge)
+-Bypass Bukkit API (With NMS)
