@@ -6,7 +6,7 @@
 
     <groupId>com.polypenguin.pencil</groupId>
     <artifactId>Pencil</artifactId>
-    <version>0.0.2.83</version>
+    <version>0.0.2.85</version>
 
     <repositories>
         <!-- This repository is very large and contains a lot of dependency that we can add -->
@@ -36,5 +36,22 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/plugin.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 </project>
