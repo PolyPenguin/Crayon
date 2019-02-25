@@ -6,7 +6,11 @@
 
     <groupId>com.polypenguin.pencil</groupId>
     <artifactId>Pencil</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.2.85</version>
+    <modules>
+        <module>pencil-core</module>
+    </modules>
 
     <repositories>
         <!-- This repository is very large and contains a lot of dependency that we can add -->
