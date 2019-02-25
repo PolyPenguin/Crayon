@@ -14,7 +14,7 @@ public abstract interface Selection {
     /**
      * Types of selections.
      */
-    public enum SelectionType {
+    enum SelectionType {
         SINGLE,
         DOUBLE,
         MULTI,

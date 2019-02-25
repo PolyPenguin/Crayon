@@ -39,7 +39,7 @@ public class ItemUtils {
 
         meta.setDisplayName(name);
         meta.setLore(Arrays.asList(lore));
-        meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         item.setItemMeta(meta);
 
@@ -53,7 +53,7 @@ public class ItemUtils {
         meta.setDisplayName(name);
         meta.setLore(Arrays.asList(lore));
         meta.setUnbreakable(true);
-        meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE });
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
 
         item.setItemMeta(meta);
 
@@ -77,11 +77,13 @@ public class ItemUtils {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount, (short)0);
         SkullMeta meta = (SkullMeta)item.getItemMeta();
 
+        //TODO: GameProfile doesn't exist
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
         byte[] data = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", new Object[] { base })
                 .getBytes());
 
+        //TODO: Property class doesn't exist
         profile.getProperties().put("textures", new Property("textures", new String(data)));
 
         try {
@@ -172,63 +174,60 @@ public class ItemUtils {
     }
 
     public static ItemStack getBackItem() {
-        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Back", new String[0]);
+        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Back");
     }
 
     public static ItemStack getFillItem() {
-        return getItem(Material.GRAY_STAINED_GLASS_PANE, 1, "", new String[0]);
+        return getItem(Material.GRAY_STAINED_GLASS_PANE, 1, "");
     }
 
     public static ItemStack getNextPageItem() {
-        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Next Page", new String[0]);
+        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Next Page");
     }
 
     public static ItemStack getPreviousPageItem() {
-        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Previous Page", new String[0]);
+        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Previous Page");
     }
 
     public static ItemStack getUndoItem() {
-        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo", new String[0]);
+        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo");
     }
 
     public static ItemStack getRedoItem() {
-        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo", new String[0]);
+        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo");
     }
 
     public static ItemStack getLatestUndo() {
-        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo latest action", new String[0]);
+        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Undo latest action");
     }
 
     public static ItemStack getLatestRedo() {
-        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo latest action", new String[0]);
+        return getSkullItem(1, "MHF_ArrowLeft", ChatColor.GREEN + "Redo latest action");
     }
 
     public static ItemStack getMenuItem() {
-        return getItem(Material.COMPASS, 1, Pencil.getPrefix() + ChatColor.AQUA + "Menu", new String[0]);
+        return getItem(Material.COMPASS, 1, Pencil.getPrefix() + ChatColor.AQUA + "Menu");
     }
 
     public static ItemStack getWandItem() {
-        return getItem(Material.DIAMOND_AXE, 1, Pencil.getPrefix() + ChatColor.AQUA + "Pencil Wand", new String[0]);
+        return getItem(Material.DIAMOND_AXE, 1, Pencil.getPrefix() + ChatColor.AQUA + "Pencil Wand");
     }
 
     public static ItemStack getConfirmItem() {
-        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Confirm", new String[0]);
+        return getSkullItem(1, "MHF_ArrowRight", ChatColor.GREEN + "Confirm");
     }
 
     public static ItemStack getYesItem() {
-        return getItem(Material.GREEN_STAINED_GLASS_PANE, 1, ChatColor.GREEN + "Yes", new String[0]);
+        return getItem(Material.GREEN_STAINED_GLASS_PANE, 1, ChatColor.GREEN + "Yes");
     }
 
     public static ItemStack getNoItem() {
-        return getItem(Material.RED_STAINED_GLASS_PANE, 1, ChatColor.RED + "No", new String[0]);
+        return getItem(Material.RED_STAINED_GLASS_PANE, 1, ChatColor.RED + "No");
     }
 
     public static boolean isCrayonItem(ItemStack item) {
         if (item.hasItemMeta()) {
-            if (item.getItemMeta().getDisplayName().contains("Pencil")) {
-                return true;
-            }
-            return false;
+            return item.getItemMeta().getDisplayName().contains("Pencil");
         }
         return false;
     }

@@ -18,6 +18,7 @@ public class UtilityListener implements Listener {
     /**
      * Register the joined player as a PencilPlayer.
      * //TODO: Only call this when Pencil is used (memory management)?
+     * //TODO: Maybe use some utility class to get TPS of the server
      *
      * @param event Called when the player joins.
      */

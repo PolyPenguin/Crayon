@@ -15,3 +15,6 @@ Feature Ideas
 -Visualization of the clipboard!
 -Texturing in Go-Paint style
 -Custom Language System
+-Fix Missed classes
+-Cross platform (Sponge and maybe Forge)
+-Bypass Bukkit API (With NMS)

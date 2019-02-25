@@ -2,6 +2,7 @@ package com.polypenguin.pencil.core.settings;
 
 import com.polypenguin.pencil.Pencil;
 
+import com.polypenguin.pencil.core.file.PencilFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -45,16 +46,10 @@ public class Settings {
             Pencil.getPencil().getDataFolder().mkdir();
         }
 
-        this.file = new File(Pencil.getPencil().getDataFolder(), fileName + ".yml");
+        this.file = PencilFile.createFile(
+                new File(Pencil.getPencil().getDataFolder(), fileName + ".yml")
+        );
 
-        if (!this.file.exists()) {
-            try {
-                this.file.createNewFile();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         this.config = YamlConfiguration.loadConfiguration(this.file);
     }
 
@@ -72,6 +67,7 @@ public class Settings {
      * @param <T> Type that is castable.
      * @return T.
      */
+    @SuppressWarnings("unchecked")
     public <T> T get(String path) {
         return (T)this.config.get(path);
     }

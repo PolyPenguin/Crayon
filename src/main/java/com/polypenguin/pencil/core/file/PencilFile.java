@@ -16,6 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class PencilFile {
 
     /**
@@ -26,6 +28,7 @@ public class PencilFile {
      * @param player The player from which the clipboard should be saved.
      * @param saveAir Whether or not AIR should be contained within the save (Reduced memory?).
      */
+    @SuppressWarnings({"unused"})
     private static void createBlueprint(String name, PencilPlayer player, boolean saveAir) {
         File directory = new File(Pencil.getPencil().getDataFolder() + "/blueprints");
 
@@ -33,15 +36,9 @@ public class PencilFile {
             directory.mkdir();
         }
 
-        File blueprint = new File(directory + System.getProperty("file.separator") + name + ".yml");
-
-        if (!blueprint.exists()) {
-            try {
-                blueprint.createNewFile();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        File blueprint = createFile(
+                new File(directory + System.getProperty("file.separator") + name + ".yml")
+        );
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(blueprint);
         Clipboard clipboard = player.getClipboard();
@@ -98,15 +95,9 @@ public class PencilFile {
             directory.mkdir();
         }
 
-        File texture = new File(directory + System.getProperty("file.separator") + name + ".yml");
-
-        if (!texture.exists()) {
-            try {
-                texture.createNewFile();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        File texture = createFile(
+                new File(directory + System.getProperty("file.separator") + name + ".yml")
+        );
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(texture);
         World world = player.getPlayer().getWorld();
@@ -143,6 +134,25 @@ public class PencilFile {
 
         if (isRenamed) {
             player.getPlayer().sendMessage(Pencil.getPrefix() + ChatColor.GREEN + "Your selection has been saved to a texture as \"" + name + "\"");
+        }
+    }
+
+    public static File createFile(File file) {
+        checkNotNull(file);
+        try
+        {
+            if (file.createNewFile())
+            {
+                Pencil.getPencil().getLogger().fine(file.toString() + " created.");
+            } else
+            {
+                Pencil.getPencil().getLogger().fine(file.toString() + " already exists.");
+            }
+            return file;
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return file;
         }
     }
 
